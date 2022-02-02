@@ -1,7 +1,9 @@
 const App = () => {
-  const xxx = 'xxx';
-  console.log(xxx);
-  return <div>App</div>;
+  return (
+    <div>
+      
+    </div>
+  );
 };
 
 export default App;
