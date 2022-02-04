@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { Wrapper } from "./Statistics.styles";
 
-const Statistics = () => {
+const Statistics: FC = () => {
   return (
     <Wrapper>
       Statistics
