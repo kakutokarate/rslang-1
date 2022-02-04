@@ -1,6 +1,8 @@
+import { FC } from "react";
 import { Wrapper } from "./Textbook.styles";
 
-const Textbook = () => {
+
+const Textbook: FC = () => {
   return (
     <Wrapper>
       Textbook

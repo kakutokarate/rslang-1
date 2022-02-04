@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { Wrapper } from "./Home.styles";
 
-const Home = () => {
+const Home: FC = () => {
   return (
     <Wrapper>
       Home
