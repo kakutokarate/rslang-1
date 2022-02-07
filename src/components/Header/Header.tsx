@@ -1,8 +1,11 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { useTypedSelector } from "redux/hooks";
 import { Item, Wrapper } from "./Header.styles";
 
 const Header: FC = () => {
+  const { authUserData } = useTypedSelector(state => state.signInReducer)
+
   return (
     <Wrapper>
       <Link to='/'>
@@ -20,7 +23,14 @@ const Header: FC = () => {
       <Link to='/statistics'>
         <Item>Статистика</Item>
       </Link>
-
+      {authUserData
+        ? <>Привет, {authUserData.name}</>
+        : (
+          <Link to='/auth'>
+            <Item>Вход</Item>
+          </Link>
+        )
+      }
 
     </Wrapper>
   );
