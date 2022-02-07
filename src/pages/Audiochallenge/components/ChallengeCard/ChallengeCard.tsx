@@ -13,7 +13,7 @@ const ChallengeCard: FC = () => {
   const dispatch = useTypedDispatch();
 
   const dispatchSelectAnswer = (answerText: string) => {
-    // dispatch(selectAnswer(answerText));
+    dispatch(selectAnswer(answerText));
     console.log(answerText);
   }
   return (
@@ -25,7 +25,7 @@ const ChallengeCard: FC = () => {
             answerText={answer}
             correctAnswer={correctAnswer}
             currentAnswer={currentAnswer}
-            onSelectAnswer={dispatchSelectAnswer(answer)}
+            onSelectAnswer={() => dispatchSelectAnswer(answer)}
           />)}
       </StyledAnswersWrapper>
     </StyledChallengeCard>
