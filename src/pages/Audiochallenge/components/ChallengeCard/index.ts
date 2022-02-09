@@ -1,3 +1,3 @@
-import ChallengeCard from "./ChallengeCard";
+import ChallengeCard from './ChallengeCard';
 
 export default ChallengeCard;

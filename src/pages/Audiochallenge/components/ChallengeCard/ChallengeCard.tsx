@@ -1,23 +1,38 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTypedSelector, useTypedDispatch } from 'redux/hooks';
-import { selectAnswer } from 'redux/challengeSlice';
+import { selectAnswer } from 'redux/features/challengeSlice';
 import Answer from '../Answer';
-import { StyledAnswersWrapper, StyledChallengeCard } from './ChallengeCard.styles';
+import { ENDPOINT } from 'redux/thunks';
+
+import {
+  StyledAnswersWrapper,
+  StyledChallengeCard,
+  StyledButton
+} from './ChallengeCard.styles';
 
 const ChallengeCard: FC = () => {
-  const { currentQuestionsSet, currentQuestionIndex, currentAnswer, answers } = useTypedSelector(state => state.challenge);
-  const audio = new Audio(`https://rsschool-ll.herokuapp.com/${currentQuestionsSet[currentQuestionIndex].audio}`);
-  console.log(audio);
-  audio.play();
+  const {
+    currentQuestionsSet,
+    currentQuestionIndex,
+    currentAnswer,
+    answers
+  } = useTypedSelector(state => state.challenge);
+
+  const audio = new Audio(`${ENDPOINT}${currentQuestionsSet[currentQuestionIndex].audio}`);
+
+  useEffect(() => {
+    audio.play();
+  }, []);
+
   const correctAnswer = currentQuestionsSet[currentQuestionIndex].wordTranslate;
   const dispatch = useTypedDispatch();
 
   const dispatchSelectAnswer = (answerText: string) => {
     dispatch(selectAnswer(answerText));
-    console.log(answerText);
   }
   return (
-    <StyledChallengeCard><h2>Добавить иконку аудио</h2>
+    <StyledChallengeCard>
+      <h2>Добавить иконку аудио</h2>
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
@@ -28,6 +43,9 @@ const ChallengeCard: FC = () => {
             onSelectAnswer={() => dispatchSelectAnswer(answer)}
           />)}
       </StyledAnswersWrapper>
+      <StyledButton>
+        NEXT
+      </StyledButton>
     </StyledChallengeCard>
   );
 };

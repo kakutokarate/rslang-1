@@ -18,9 +18,11 @@ export const createUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось создать пользователя! Попробуйте еще раз.');
+      return thunkAPI.rejectWithValue(
+        'Не удалось создать пользователя! Попробуйте еще раз.'
+      );
     }
-  },
+  }
 );
 
 export const signIn = createAsyncThunk(
@@ -35,7 +37,9 @@ export const signIn = createAsyncThunk(
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось войти в учётную запись! Попробуйте еще раз.');
+      return thunkAPI.rejectWithValue(
+        'Не удалось войти в учётную запись! Попробуйте еще раз.'
+      );
     }
-  },
+  }
 );

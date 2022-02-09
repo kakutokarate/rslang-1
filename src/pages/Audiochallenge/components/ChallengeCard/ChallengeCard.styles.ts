@@ -14,3 +14,8 @@ export const StyledAnswersWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+export const StyledButton = styled.button`
+  margin: 0 auto;
+  cursor: pointer;
+`;
