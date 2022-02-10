@@ -43,3 +43,16 @@ export const signIn = createAsyncThunk(
     }
   }
 );
+
+export const fetchWordsByGroup = createAsyncThunk(
+  'thunks/fetchWordsByGroup',
+  async (level: string, thunkAPI) => {
+    try {
+      const response = await axios.get(`${ENDPOINT}words?group=${level}`);
+      return response.data;
+    } catch (e) {
+      if (e instanceof Error) console.error(e.message);
+      return thunkAPI.rejectWithValue('Не удалось получить слова');
+    }
+  }
+);

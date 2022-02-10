@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useTypedSelector, useTypedDispatch } from 'redux/hooks';
-import { selectAnswer } from 'redux/features/challengeSlice';
+import { selectAnswer, submitAnswer } from 'redux/features/challengeSlice';
 import Answer from '../Answer';
 import { ENDPOINT } from 'redux/thunks';
 
@@ -22,7 +22,7 @@ const ChallengeCard: FC = () => {
 
   useEffect(() => {
     audio.play();
-  }, []);
+  }, [audio]);
 
   const correctAnswer = currentQuestionsSet[currentQuestionIndex].wordTranslate;
   const dispatch = useTypedDispatch();
@@ -30,6 +30,11 @@ const ChallengeCard: FC = () => {
   const dispatchSelectAnswer = (answerText: string) => {
     dispatch(selectAnswer(answerText));
   }
+
+  const handleNextClick = () => {
+    dispatch(submitAnswer());
+  }
+
   return (
     <StyledChallengeCard>
       <h2>Добавить иконку аудио</h2>
@@ -43,9 +48,9 @@ const ChallengeCard: FC = () => {
             onSelectAnswer={() => dispatchSelectAnswer(answer)}
           />)}
       </StyledAnswersWrapper>
-      <StyledButton>
+      {currentAnswer && <StyledButton onClick={handleNextClick}>
         NEXT
-      </StyledButton>
+      </StyledButton>}
     </StyledChallengeCard>
   );
 };

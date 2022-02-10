@@ -1,6 +1,7 @@
 import { IWord } from 'model/IWord';
 
 export interface IChallengeState {
+  challengeLevel: string;
   currentQuestionsSet: Array<IWord>;
   currentQuestionIndex: number;
   answers: Array<string>;
@@ -9,4 +10,6 @@ export interface IChallengeState {
   wrongAnswers: Array<string>;
   showResult: boolean;
   isChallengeStarted: boolean;
+  isFetchingWords: boolean;
+  fetchWordsError: null | string;
 }
