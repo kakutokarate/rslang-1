@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from 'redux/features/authSlice/authSlice';
-import signInReducer from 'redux/features/signInSlice/signInSlice';
+import registration from 'redux/features/registrationSlice';
+import auth from 'redux/features/authSlice';
 
 const rootReducer = combineReducers({
-  authReducer,
-  signInReducer,
+  registration,
+  auth,
 });
 
 export const store = configureStore({

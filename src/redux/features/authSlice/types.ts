@@ -1,11 +1,8 @@
-export interface ICreatedUser {
-  id: string;
-  name: string;
-  email: string;
-}
+import { IAuth } from "model/IAuth";
 
 export interface IAuthState {
-  isCreatingUser: boolean;
-  userCreationError: string | null;
-  createdUsers: ICreatedUser[];
+  authUserData: null | IAuth;
+  isSigningIn: boolean;
+  signingInError: null | string;
+  enteringFlag: boolean;
 }
