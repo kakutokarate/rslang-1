@@ -4,15 +4,13 @@ import { AnswerProps } from './types';
 import { StyledAnswer } from './Answer.styles';
 
 const Answer: FC<AnswerProps> = ({ answerText, currentAnswer, correctAnswer, onSelectAnswer }) => {
-  const isCorrectAnswer = currentAnswer && answerText === correctAnswer;
-  const isWrongAnswer =
-    currentAnswer === answerText && currentAnswer !== correctAnswer;
-  const correctAnswerClass = isCorrectAnswer ? 'correct-answer' : '';
-  const wrongAnswerClass = isWrongAnswer ? 'wrong-answer' : '';
-  const disabledClass = currentAnswer ? 'disabled-answer' : '';
+  const isCorrect = Boolean(currentAnswer && answerText === correctAnswer);
+  const isWrong = Boolean(currentAnswer === answerText && currentAnswer !== correctAnswer);
+
   return (
     <StyledAnswer
-      className={`${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
+      isCorrectAnswer={isCorrect}
+      isWrongAnswer={isWrong}
       onClick={() => onSelectAnswer(answerText)}
     >
       {answerText}

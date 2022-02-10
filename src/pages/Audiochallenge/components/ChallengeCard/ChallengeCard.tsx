@@ -38,7 +38,9 @@ const ChallengeCard: FC = () => {
 
   return (
     <StyledChallengeCard>
-      <Audiotrack style={{ margin: 'auto', marginBottom: '2rem', fill: '#fff', cursor: 'pointer', }} />
+      <Audiotrack
+        style={{ margin: 'auto', marginBottom: '2rem', fill: '#fff', cursor: 'pointer', }}
+        onClick={() => audio.play()} />
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
