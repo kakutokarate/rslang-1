@@ -1,35 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createUser } from '../../thunks';
-import { IAuthState, ICreatedUser } from './types';
+import { IAuthState } from './types';
+import { signIn } from 'redux/thunks';
+import { IAuth } from 'model/IAuth';
 
 const initialState: IAuthState = {
-  isCreatingUser: false,
-  userCreationError: null,
-  createdUsers: [],
+  authUserData: null,
+  isSigningIn: false,
+  signingInError: null,
+  enteringFlag: false,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-
+    setAuthUserData(state, action: PayloadAction<IAuth | null>) {
+      state.authUserData = action.payload;
+    },
+    setSigningInError(state, action: PayloadAction<null>) {
+      state.signingInError = action.payload;
+    },
+    setEnteringFlag(state, action: PayloadAction<boolean>) {
+      state.enteringFlag = action.payload;
+    },
   },
   extraReducers: {
-    [createUser.pending.type]: (state) => {
-      state.isCreatingUser = true;
+    [signIn.pending.type]: (state) => {
+      state.isSigningIn = true;
     },
-
-    [createUser.fulfilled.type]: (state, action: PayloadAction<ICreatedUser>) => {
-      state.isCreatingUser = false;
-      state.userCreationError = null;
-      state.createdUsers = [...state.createdUsers, action.payload];
+    [signIn.fulfilled.type]: (state, action: PayloadAction<IAuth>) => {
+      state.isSigningIn = false;
+      state.signingInError = null;
+      state.authUserData = action.payload;
+      state.enteringFlag = true;
+      localStorage.setItem('authUserData-zm', JSON.stringify(action.payload));
     },
-
-    [createUser.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isCreatingUser = false;
-      state.userCreationError = action.payload;
+    [signIn.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.signingInError = action.payload;
+      state.isSigningIn = false;
+      state.enteringFlag = true;
+      console.log(action.payload);
     },
-  }
+  },
 });
+
+export const {
+  setAuthUserData,
+  setSigningInError,
+  setEnteringFlag,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -7,7 +7,7 @@ import Statistics from "pages/Statistics";
 import Textbook from "pages/Textbook";
 import { FC, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { setAuthUserData } from "redux/features/signInSlice";
+import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch } from "redux/hooks";
 
 const App: FC = () => {
