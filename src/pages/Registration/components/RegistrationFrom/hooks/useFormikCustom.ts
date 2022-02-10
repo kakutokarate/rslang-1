@@ -14,8 +14,8 @@ export function useFormikCustom() {
       changepassword: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await dispatch(createUser({
+    onSubmit: (values) => {
+      dispatch(createUser({
         name: values.username,
         email: values.email,
         password: values.password,

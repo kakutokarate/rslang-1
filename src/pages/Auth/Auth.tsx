@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Wrapper } from "./Auth.styles";
 import AuthForm from "./components/AuthForm";
 
-
 const Auth: FC = () => {
   return (
     <Wrapper>

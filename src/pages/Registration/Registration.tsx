@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import RegistrationForm from "./components/RegistrationFrom";
 import { Wrapper } from "./Registration.styles";
 
-
 const Registration: FC = () => {
   return (
     <Wrapper>
