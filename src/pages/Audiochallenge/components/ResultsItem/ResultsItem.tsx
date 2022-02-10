@@ -1,11 +1,8 @@
 import { FC } from 'react';
 import { useTypedSelector } from 'redux/hooks';
+import { ResultsItemProps } from './types';
 
 import { StyledResultsItem } from './ResultsItem.styles';
-
-interface ResultsItemProps {
-  index: string;
-}
 
 const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const questions = useTypedSelector(state => state.challenge.currentQuestionsSet);
