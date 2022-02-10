@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useTypedSelector, useTypedDispatch } from 'redux/hooks';
+import { Audiotrack } from '@mui/icons-material';
 import { selectAnswer, submitAnswer } from 'redux/features/challengeSlice';
 import Answer from '../Answer';
 import { ENDPOINT } from 'redux/thunks';
@@ -37,7 +38,7 @@ const ChallengeCard: FC = () => {
 
   return (
     <StyledChallengeCard>
-      <h2>Добавить иконку аудио</h2>
+      <Audiotrack style={{ margin: 'auto', marginBottom: '2rem', fill: '#fff', cursor: 'pointer', }} />
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer

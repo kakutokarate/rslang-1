@@ -3,6 +3,7 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchWordsByGroup } from 'redux/thunks';
 import { startChallenge } from 'redux/features/challengeSlice';
 import ChallengeCard from './components/ChallengeCard';
+import ResultsTable from './components/ResultsTable';
 
 import { Wrapper, StyledButtonsRow } from './Audiochallenge.styles';
 
@@ -28,7 +29,7 @@ const Audiochallenge: FC = () => {
         </StyledButtonsRow>
       }
       {isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
-      {showResult && <div>РЕЗУЛЬТАТЫ</div>}
+      {showResult && <ResultsTable />}
     </Wrapper>
   );
 };
