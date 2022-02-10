@@ -1,18 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
+import { getRandomValueFromArray, shuffleArray } from 'utils';
 import { IChallengeState } from './types';
 
-// const getAnswers = (
-//   arr: Array<IWord>,
-//   currentQuestionIndex: number
-// ): Array<string> => {};
+const NUM_OF_ANSWER_OPTIONS = 5;
+
+const getAnswers = (
+  arr: Array<IWord>,
+  currentQuestionIndex: number
+): Array<string> => {
+  let answers = [arr[currentQuestionIndex].wordTranslate];
+  while (answers.length < NUM_OF_ANSWER_OPTIONS) {
+    let randomAnswer = getRandomValueFromArray(
+      [...arr].map((el) => el.wordTranslate)
+    );
+    if (!answers.includes(randomAnswer)) {
+      answers.push(randomAnswer);
+    }
+  }
+  return shuffleArray(answers);
+};
 
 const initialState: IChallengeState = {
   challengeLevel: '',
   currentQuestionsSet: [],
   currentQuestionIndex: 0,
-  answers: ['осень', 'неблагоприятный', 'зима', 'лес', 'значение'],
+  answers: [],
   currentAnswer: '',
   rightAnswers: [],
   wrongAnswers: [],
@@ -27,10 +41,7 @@ const challengeSlice = createSlice({
   initialState,
   reducers: {
     startChallenge(state, action: PayloadAction<string>) {
-      // const questions = setQuestions(state.challengeLevel);
       state.challengeLevel = action.payload;
-      // state.currentQuestionsSet = questions;
-      state.isChallengeStarted = true;
     },
     selectAnswer(state, action: PayloadAction<string>) {
       action.payload ===
@@ -47,6 +58,10 @@ const challengeSlice = createSlice({
       if (state.currentQuestionIndex < state.currentQuestionsSet.length - 1) {
         state.currentAnswer = '';
         state.currentQuestionIndex++;
+        state.answers = getAnswers(
+          state.currentQuestionsSet,
+          state.currentQuestionIndex
+        );
       } else {
         state.currentAnswer = '';
         state.showResult = true;
@@ -64,7 +79,11 @@ const challengeSlice = createSlice({
       state.isFetchingWords = false;
       state.fetchWordsError = null;
       state.currentQuestionsSet = action.payload;
-      console.log(action.payload);
+      state.answers = getAnswers(
+        state.currentQuestionsSet,
+        state.currentQuestionIndex
+      );
+      state.isChallengeStarted = true;
     },
     [fetchWordsByGroup.rejected.type]: (
       state,

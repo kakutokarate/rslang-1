@@ -4,7 +4,7 @@ import { fetchWordsByGroup } from 'redux/thunks';
 import { startChallenge } from 'redux/features/challengeSlice';
 import ChallengeCard from './components/ChallengeCard';
 
-import { Wrapper } from './Audiochallenge.styles';
+import { Wrapper, StyledButtonsRow } from './Audiochallenge.styles';
 
 const Audiochallenge: FC = () => {
   const { isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
@@ -21,8 +21,12 @@ const Audiochallenge: FC = () => {
       {!isChallengeStarted && !showResult &&
         <div>Выберите сложность</div>}
       {!isChallengeStarted
-        && !showResult
-        && challengeLevels.map(el => <div key={el} onClick={() => onSubmitLevel(el)}>{el}</div>)}
+        && !showResult && <StyledButtonsRow>
+          {challengeLevels.map(el =>
+            <div key={Number(el) - 1} onClick={() => onSubmitLevel((Number(el) - 1).toString())}>{el}</div>
+          )}
+        </StyledButtonsRow>
+      }
       {isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
       {showResult && <div>РЕЗУЛЬТАТЫ</div>}
     </Wrapper>
