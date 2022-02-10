@@ -10,7 +10,7 @@ interface ResultsItemProps {
 const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const questions = useTypedSelector(state => state.challenge.currentQuestionsSet);
 
-  const item = questions.find(el => el.id == index.toString());
+  const item = questions.find(el => el.id === index.toString());
   const word = item!.word;
   const translation = item!.wordTranslate;
 

@@ -28,7 +28,7 @@ const App: FC = () => {
         <Route path='/statistics' element={<Statistics />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/registration' element={<Registration />} />
-        <Route path='/audiocall' element={<Audiochallenge />} />
+        <Route path='/audiochallenge' element={<Audiochallenge />} />
       </Routes>
       <Footer />
     </div>

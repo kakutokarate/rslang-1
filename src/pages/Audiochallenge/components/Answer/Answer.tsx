@@ -1,7 +1,14 @@
 import { FC } from 'react';
 import { StyledAnswer } from './Answer.styles';
 
-const Answer = ({ answerText, currentAnswer, correctAnswer, onSelectAnswer }: any) => {
+interface AnswerProps {
+  answerText: string;
+  currentAnswer: string;
+  correctAnswer: string;
+  onSelectAnswer: (answerText: string) => void;
+}
+
+const Answer: FC<AnswerProps> = ({ answerText, currentAnswer, correctAnswer, onSelectAnswer }) => {
   const isCorrectAnswer = currentAnswer && answerText === correctAnswer;
   const isWrongAnswer =
     currentAnswer === answerText && currentAnswer !== correctAnswer;

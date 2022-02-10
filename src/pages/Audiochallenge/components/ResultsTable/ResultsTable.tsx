@@ -5,7 +5,7 @@ import ResultsItem from '../ResultsItem';
 import { StyledResultsTable } from './ResultsTable.styles';
 
 const ResultsTable: FC = () => {
-  const { currentQuestionsSet, rightAnswers, wrongAnswers } = useTypedSelector(state => state.challenge);
+  const { rightAnswers, wrongAnswers } = useTypedSelector(state => state.challenge);
 
   return (
     <StyledResultsTable>

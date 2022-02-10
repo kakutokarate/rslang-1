@@ -3,7 +3,7 @@ import { useTypedSelector, useTypedDispatch } from 'redux/hooks';
 import { Audiotrack } from '@mui/icons-material';
 import { selectAnswer, submitAnswer } from 'redux/features/challengeSlice';
 import Answer from '../Answer';
-import { ENDPOINT } from 'redux/thunks';
+import { BASE_URL } from 'redux/thunks';
 
 import {
   StyledAnswersWrapper,
@@ -19,7 +19,7 @@ const ChallengeCard: FC = () => {
     answers
   } = useTypedSelector(state => state.challenge);
 
-  const audio = new Audio(`${ENDPOINT}${currentQuestionsSet[currentQuestionIndex].audio}`);
+  const audio = new Audio(`${BASE_URL}${currentQuestionsSet[currentQuestionIndex].audio}`);
 
   useEffect(() => {
     audio.play();
