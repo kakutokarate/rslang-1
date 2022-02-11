@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IUser } from 'model/IUser';
-import { ISignIn } from './types';
+import { ILoadingPageData, ISignIn } from './types';
 
 export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
 
@@ -57,9 +57,13 @@ export const fetchWordsByGroup = createAsyncThunk(
 
 export const fetchWords = createAsyncThunk(
   'words/fetchWords',
-  async (_, thunkAPI) => {
+  async (pageData: ILoadingPageData, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/words`);
+      const response = await fetch(
+        `${BASE_URL}/words?group=${pageData.groupNumber - 1}&page=${
+          pageData.pageNumber - 1
+        }`
+      );
 
       const data = await response.json();
 
