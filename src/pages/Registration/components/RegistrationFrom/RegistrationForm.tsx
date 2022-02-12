@@ -1,31 +1,14 @@
-import { FC, useEffect } from "react";
-import { useTypedDispatch, useTypedSelector } from "redux/hooks";
+import { FC } from "react";
+import { useTypedSelector } from "redux/hooks";
 import { Form } from "./RegistrationForm.styles";
 import { TextField } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { useFormikCustom } from "./hooks/useFormikCustom";
-import { useNavigate } from "react-router-dom";
-import { setRegisteringFlag, setUserCreationError } from "redux/features/registrationSlice";
+
 
 const RegistrationForm: FC = () => {
-  const {
-    isCreatingUser,
-    userCreationError,
-    registeringFlag,
-  } = useTypedSelector(state => state.registration);
+  const { isCreatingUser } = useTypedSelector(state => state.registration);
   const formik = useFormikCustom();
-  const navigate = useNavigate();
-  const dispatch = useTypedDispatch();
-
-  useEffect(() => {
-    if (!userCreationError && registeringFlag) {
-      navigate('/auth');
-      dispatch(setRegisteringFlag(false));
-    } else {
-      dispatch(setUserCreationError(null));
-      dispatch(setRegisteringFlag(false));
-    }
-  }, [userCreationError, registeringFlag]);
 
   return (
     <Form onSubmit={formik.handleSubmit}>

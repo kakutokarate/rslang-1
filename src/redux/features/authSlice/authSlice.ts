@@ -39,7 +39,7 @@ export const authSlice = createSlice({
       state.signingInError = action.payload;
       state.isSigningIn = false;
       state.enteringFlag = true;
-      console.log(action.payload);
+      console.error(action.payload);
     },
   },
 });

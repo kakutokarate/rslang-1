@@ -15,11 +15,19 @@ const AuthForm: FC = () => {
 
   useEffect(() => {
     if (!signingInError && enteringFlag) {
-      navigate('/');
-      dispatch(setEnteringFlag(false));
+      const delay = () => {
+        navigate('/');
+        dispatch(setEnteringFlag(false));
+      };
+      const timeoutID = setTimeout(delay, 3000);
+      return () => clearTimeout(timeoutID);
     } else {
-      dispatch(setSigningInError(null));
-      dispatch(setEnteringFlag(false));
+      const delay = () => {
+        dispatch(setEnteringFlag(false));
+        dispatch(setSigningInError(null));
+      };
+      const timeoutID = setTimeout(delay, 3000);
+      return () => clearTimeout(timeoutID);
     }
   }, [signingInError, enteringFlag]);
 
