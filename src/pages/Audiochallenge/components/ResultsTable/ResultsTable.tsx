@@ -10,9 +10,9 @@ const ResultsTable: FC = () => {
   return (
     <StyledResultsTable>
       <h2>РЕЗУЛЬТАТЫ АУДИОВЫЗОВА</h2>
-      <div>Ошибок - {wrongAnswers.length}</div>
+      <div>Ошибок - <span>{wrongAnswers.length}</span></div>
       {wrongAnswers.map(el => <ResultsItem key={el} index={el} />)}
-      <div>Знаю - {rightAnswers.length}</div>
+      <div>Знаю - <span>{rightAnswers.length}</span></div>
       {rightAnswers.map(el => <ResultsItem key={el} index={el} />)}
     </StyledResultsTable>
   )

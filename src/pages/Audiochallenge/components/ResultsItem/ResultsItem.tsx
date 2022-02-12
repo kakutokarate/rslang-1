@@ -4,6 +4,7 @@ import { ResultsItemProps } from './types';
 
 import { StyledResultsItem } from './ResultsItem.styles';
 import { StyledAudioIcon } from './ResultsItem.styles';
+import { BASE_URL } from 'redux/thunks';
 
 const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const questions = useTypedSelector(state => state.challenge.currentQuestionsSet);
@@ -11,11 +12,12 @@ const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const item = questions.find(el => el.id === index.toString());
   const word = item!.word;
   const translation = item!.wordTranslate;
+  const audio = new Audio(`${BASE_URL}${item!.audio}`);
 
   return (
     <StyledResultsItem>
       <>
-        <StyledAudioIcon />
+        <StyledAudioIcon onClick={() => audio.play()} />
         {<span>{word}</span>}  -  {<span>{translation}</span>}
       </>
     </StyledResultsItem>
