@@ -3,7 +3,7 @@ import axios from 'axios';
 import { IUser } from 'model/IUser';
 import { ISignIn } from './types';
 
-const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+export const BASE_URL = 'https://rsschool-ll.herokuapp.com/';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',
@@ -20,7 +20,7 @@ export const createUser = createAsyncThunk(
       if (e instanceof Error) console.error(e.message);
       return thunkAPI.rejectWithValue('Не удалось создать нового пользователя! Попробуйте еще раз.');
     }
-  },
+  }
 );
 
 export const signIn = createAsyncThunk(
@@ -35,7 +35,22 @@ export const signIn = createAsyncThunk(
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось войти в учётную запись! Попробуйте еще раз.');
+      return thunkAPI.rejectWithValue(
+        'Не удалось войти в учётную запись! Попробуйте еще раз.'
+      );
     }
-  },
+  }
+);
+
+export const fetchWordsByGroup = createAsyncThunk(
+  'thunks/fetchWordsByGroup',
+  async (level: string, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}words?group=${level}`);
+      return response.data;
+    } catch (e) {
+      if (e instanceof Error) console.error(e.message);
+      return thunkAPI.rejectWithValue('Не удалось получить слова');
+    }
+  }
 );

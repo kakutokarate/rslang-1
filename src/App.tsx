@@ -1,6 +1,7 @@
 import Footer from "components/Footer";
 import Header from "components/Header";
 import Auth from "pages/Auth";
+import Audiochallenge from "pages/Audiochallenge";
 import Home from "pages/Home";
 import Registration from "pages/Registration";
 import Statistics from "pages/Statistics";
@@ -27,6 +28,7 @@ const App: FC = () => {
         <Route path='/statistics' element={<Statistics />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/registration' element={<Registration />} />
+        <Route path='/audiochallenge' element={<Audiochallenge />} />
       </Routes>
       <Footer />
     </div>
