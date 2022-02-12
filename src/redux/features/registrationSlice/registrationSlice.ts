@@ -34,7 +34,7 @@ export const registrationSlice = createSlice({
       state.isCreatingUser = false;
       state.userCreationError = action.payload;
       state.registeringFlag = true;
-      console.log(action.payload);
+      console.error(action.payload);
     },
   }
 });

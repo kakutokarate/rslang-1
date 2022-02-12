@@ -18,9 +18,7 @@ export const createUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue(
-        'Не удалось создать пользователя! Попробуйте еще раз.'
-      );
+      return thunkAPI.rejectWithValue('Не удалось создать нового пользователя! Попробуйте еще раз.');
     }
   }
 );
