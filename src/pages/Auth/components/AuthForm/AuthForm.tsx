@@ -1,35 +1,13 @@
-import { FC, useEffect } from "react";
-import { useTypedDispatch, useTypedSelector } from "redux/hooks";
+import { FC } from "react";
+import { useTypedSelector } from "redux/hooks";
 import { Form } from "./AuthForm.styles";
-import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
-import { setEnteringFlag, setSigningInError } from "redux/features/authSlice";
 import { useFormikCustom } from "./hooks/useFormikCustom";
 
 const AuthForm: FC = () => {
-  const dispatch = useTypedDispatch();
-  const navigate = useNavigate();
-  const { isSigningIn, signingInError, enteringFlag } = useTypedSelector(state => state.auth);
+  const { isSigningIn } = useTypedSelector(state => state.auth);
   const formik = useFormikCustom();
-
-  useEffect(() => {
-    if (!signingInError && enteringFlag) {
-      const delay = () => {
-        navigate('/');
-        dispatch(setEnteringFlag(false));
-      };
-      const timeoutID = setTimeout(delay, 3000);
-      return () => clearTimeout(timeoutID);
-    } else {
-      const delay = () => {
-        dispatch(setEnteringFlag(false));
-        dispatch(setSigningInError(null));
-      };
-      const timeoutID = setTimeout(delay, 3000);
-      return () => clearTimeout(timeoutID);
-    }
-  }, [signingInError, enteringFlag]);
 
   return (
     <Form onSubmit={formik.handleSubmit}>
