@@ -1,26 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
-import { getRandomValueFromArray, shuffleArray } from 'utils';
 import { IChallengeState } from './types';
+import { getAnswers } from './utils';
 
-const NUM_OF_ANSWER_OPTIONS = 5;
-
-const getAnswers = (
-  arr: Array<IWord>,
-  currentQuestionIndex: number
-): Array<string> => {
-  let answers = [arr[currentQuestionIndex].wordTranslate];
-  while (answers.length < NUM_OF_ANSWER_OPTIONS) {
-    let randomAnswer = getRandomValueFromArray(
-      [...arr].map((el) => el.wordTranslate)
-    );
-    if (!answers.includes(randomAnswer)) {
-      answers.push(randomAnswer);
-    }
-  }
-  return shuffleArray(answers);
-};
+export const NUM_OF_ANSWER_OPTIONS = 5;
+export const NUM_OF_QUESTIONS = 10;
 
 const initialState: IChallengeState = {
   challengeLevel: '',
