@@ -3,6 +3,7 @@ import { useTypedSelector } from 'redux/hooks';
 import { ResultsItemProps } from './types';
 
 import { StyledResultsItem } from './ResultsItem.styles';
+import { StyledAudioIcon } from './ResultsItem.styles';
 
 const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const questions = useTypedSelector(state => state.challenge.currentQuestionsSet);
@@ -13,7 +14,10 @@ const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
 
   return (
     <StyledResultsItem>
-      {`${word} - ${translation}`}
+      <>
+        <StyledAudioIcon />
+        {<span>{word}</span>}  -  {<span>{translation}</span>}
+      </>
     </StyledResultsItem>
   )
 }

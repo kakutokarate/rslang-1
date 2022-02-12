@@ -8,7 +8,8 @@ import { BASE_URL } from 'redux/thunks';
 import {
   StyledAnswersWrapper,
   StyledChallengeCard,
-  StyledButton
+  StyledButton,
+  StyledAudioIcon
 } from './ChallengeCard.styles';
 
 const ChallengeCard: FC = () => {
@@ -38,9 +39,7 @@ const ChallengeCard: FC = () => {
 
   return (
     <StyledChallengeCard>
-      <Audiotrack
-        style={{ margin: 'auto', marginBottom: '2rem', fill: '#fff', cursor: 'pointer', }}
-        onClick={() => audio.play()} />
+      <StyledAudioIcon onClick={() => audio.play()} />
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
