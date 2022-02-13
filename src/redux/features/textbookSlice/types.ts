@@ -6,4 +6,5 @@ export interface ITextbookState {
   error: null;
   groupNumber: number;
   pageNumber: number;
+  mode: string;
 }

@@ -28,7 +28,10 @@ const WordCard: FC<IWordCardProps> = (props) => {
 
   const { player, makeDifficult } = props;
 
-  const { authUserData } = useTypedSelector((state) => state.auth);
+  const {
+    auth: { authUserData },
+    textbook: { mode },
+  } = useTypedSelector((state) => state);
 
   const onDifficultClick = () => {
     makeDifficult(id);
@@ -53,7 +56,7 @@ const WordCard: FC<IWordCardProps> = (props) => {
           textMeaning={textMeaning}
           textMeaningTranslate={textMeaningTranslate}
         />
-        {authUserData && <WordControl onDifficultClick={onDifficultClick} />}
+        {authUserData && <WordControl mode={mode} onDifficultClick={onDifficultClick} />}
       </WordContent>
     </StyledWordCard>
   );

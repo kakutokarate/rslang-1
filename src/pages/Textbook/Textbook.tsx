@@ -11,7 +11,7 @@ import { fetchWords } from 'redux/thunks';
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
 
-  const { groupNumber, pageNumber } = useTypedSelector(
+  const { groupNumber, pageNumber, mode } = useTypedSelector(
     (state) => state.textbook
   );
 
@@ -20,8 +20,8 @@ const Textbook: FC = () => {
   const savedGroupNumber = Number(localStorage.getItem('groupNumber-nsv')) || 1;
 
   useEffect(() => {
-    dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
-  }, [groupNumber, pageNumber]);
+    mode === 'textbook' && dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
+  }, [groupNumber, pageNumber, mode]);
   
   return (
     <Wrapper>

@@ -9,6 +9,7 @@ const initialState: ITextbookState = {
   error: null,
   groupNumber: 0,
   pageNumber: 0,
+  mode: 'textbook',
 }
 
 const textBookSlice = createSlice({
@@ -18,6 +19,7 @@ const textBookSlice = createSlice({
     changeGroupNumber(state, action) {
       state.groupNumber = action.payload.groupNumber;
       state.pageNumber = 1;
+      state.mode = 'textbook';
       localStorage.setItem('pageNumber-nsv', '1');
     },
     changePageNumber(state, action) {
@@ -47,6 +49,7 @@ const textBookSlice = createSlice({
     [getUserWords.pending.type]: (state) => {},
     [getUserWords.fulfilled.type]: (state, action) => {
       state.words = action.payload;
+      state.mode = 'dictionary';
     },
     [getUserWords.rejected.type]: (state, action) => {},
   }
