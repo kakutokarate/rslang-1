@@ -1,6 +1,7 @@
 import { CircularProgress, Pagination } from '@mui/material';
-import { FC } from 'react';import { changePageNumber } from 'redux/features/textbookSlice/textBookSlice';
+import { FC } from 'react';import { changePageNumber, makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
+import { createUserWord } from 'redux/thunks';
 import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
 
@@ -13,9 +14,28 @@ const CardsWrapper: FC = () => {
     dispatch(changePageNumber({ pageNumber: page }));
   }
 
+  const makeDifficult = (id: string) => {
+    dispatch(makeWordDifficult({id}));
+
+    const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
+
+    dispatch(createUserWord({
+      userId: authUser.userId,
+      wordId: id,
+      token: authUser.token,
+    }));
+  }
+
   const audio = new Audio();
 
-  const wordCards = words.map((w) => <WordCard key={w.id || w._id} player={audio} word={w} />);
+  const wordCards = words.map((w) => (
+    <WordCard
+      key={w.id || w._id}
+      player={audio}
+      word={w}
+      makeDifficult={makeDifficult}
+    />
+  ));
 
   // When the page is loaded for the first time and Local Storage is empty
   const currentPageNumber = Number(localStorage.getItem('pageNumber-nsv')) || 1;

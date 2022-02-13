@@ -7,9 +7,7 @@ import WordName from './components/WordName/WordName';
 import WordTranslation from './components/WordTranslation/WordTranslation';
 import { StyledWordCard } from './WordCard.styles';
 import WordControl from './components/WordControl';
-import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
-import { makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
-import { createUserWord } from 'redux/thunks';
+import { useTypedSelector } from 'redux/hooks';
 
 const WordCard: FC<IWordCardProps> = (props) => {
   const {
@@ -28,21 +26,12 @@ const WordCard: FC<IWordCardProps> = (props) => {
     word,
   } = props.word;
 
-  const { player } = props;
+  const { player, makeDifficult } = props;
 
   const { authUserData } = useTypedSelector((state) => state.auth);
-  const dispatch = useTypedDispatch();
 
-  const makeDifficult = () => {
-    dispatch(makeWordDifficult({id}));
-
-    const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
-
-    dispatch(createUserWord({
-      userId: authUser.userId,
-      wordId: id,
-      token: authUser.token,
-    }));
+  const onDifficultClick = () => {
+    makeDifficult(id);
   }
 
   return (
@@ -64,7 +53,7 @@ const WordCard: FC<IWordCardProps> = (props) => {
           textMeaning={textMeaning}
           textMeaningTranslate={textMeaningTranslate}
         />
-        {authUserData && <WordControl makeDifficult={makeDifficult} />}
+        {authUserData && <WordControl onDifficultClick={onDifficultClick} />}
       </WordContent>
     </StyledWordCard>
   );
