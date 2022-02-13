@@ -12,7 +12,7 @@ const ResultsItem: FC<ResultsItemProps> = ({ index }) => {
   const item = questions.find(el => el.id === index.toString());
   const word = item!.word;
   const translation = item!.wordTranslate;
-  const audio = new Audio(`${BASE_URL}${item!.audio}`);
+  const audio = new Audio(`${BASE_URL}/${item!.audio}`);
 
   return (
     <StyledResultsItem>

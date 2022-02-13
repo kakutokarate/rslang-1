@@ -20,7 +20,7 @@ const ChallengeCard: FC = () => {
     answers
   } = useTypedSelector(state => state.challenge);
 
-  const audio = new Audio(`${BASE_URL}${currentQuestionsSet[currentQuestionIndex].audio}`);
+  const audio = new Audio(`${BASE_URL}/${currentQuestionsSet[currentQuestionIndex].audio}`);
 
   useEffect(() => {
     audio.play();
