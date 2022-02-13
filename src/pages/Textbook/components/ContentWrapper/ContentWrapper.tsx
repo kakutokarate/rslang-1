@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import { StyledContentWrapper } from './ContentWrapper.styles';
 
-const ContentWrapper: FC = (props) => {
-  const { children } = props;
-
+const ContentWrapper: FC = ({ children }) => {
   return (
     <StyledContentWrapper>
       {children}

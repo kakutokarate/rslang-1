@@ -4,16 +4,14 @@ import { StyledWordTranslation } from './WordTranslation.styles';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { BASE_URL } from 'redux/thunks';
 
-const WordTranslation: FC<ITranslationProps> = (props) => {
-  const {
-    audio,
-    audioExample,
-    audioMeaning,
-    player,
-    transcription,
-    translation,
-  } = props;
-
+const WordTranslation: FC<ITranslationProps> = ({
+  audio,
+  audioExample,
+  audioMeaning,
+  player,
+  transcription,
+  translation,
+}) => {
   const playWordAudio = () => {
     player.pause();
     player.currentTime = 0;

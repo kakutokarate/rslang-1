@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import { StyledContainer } from './Container.styles';
 
-const Container: FC = (props) => {
-  const { children } = props;
-
+const Container: FC = ({ children }) => {
   return (
     <StyledContainer>
       {children}

@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import { StyledWordContent } from './WordContent.styles';
 
-const WordContent: FC = (props) => {
-  const { children } = props;
-
+const WordContent: FC = ({ children }) => {
   return (
     <StyledWordContent>
       {children}
