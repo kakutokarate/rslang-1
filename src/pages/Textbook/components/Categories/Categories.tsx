@@ -6,7 +6,6 @@ import { StyledCategories } from './Categories.styles';
 
 const Categories = () => {
   const { authUserData } = useTypedSelector((state) => state.auth);
-
   const dispatch = useTypedDispatch();
 
   const onGroupChange = (number: number) => {

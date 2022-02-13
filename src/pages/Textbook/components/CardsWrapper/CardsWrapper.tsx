@@ -6,7 +6,6 @@ import { StyledCardsWrapper } from './CardsWrapper.styles';
 
 const CardsWrapper: FC = () => {
   const { error, status, words } = useTypedSelector((state) => state.textbook);
-
   const dispatch = useTypedDispatch();
 
   const onPageChange = (page: number) => {

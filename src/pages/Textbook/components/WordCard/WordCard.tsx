@@ -31,7 +31,6 @@ const WordCard: FC<IWordProps> = (props) => {
   const { player } = props;
 
   const { authUserData } = useTypedSelector((state) => state.auth);
-
   const dispatch = useTypedDispatch();
 
   const makeDifficult = () => {
