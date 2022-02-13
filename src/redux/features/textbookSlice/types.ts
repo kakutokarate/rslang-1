@@ -7,4 +7,5 @@ export interface ITextbookState {
   groupNumber: number;
   pageNumber: number;
   mode: string;
+  isWordDeleted: boolean;
 }

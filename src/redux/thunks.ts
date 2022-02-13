@@ -165,3 +165,23 @@ export const createUserWord = createAsyncThunk(
     }
   }
 );
+
+export const deleteUserWord = createAsyncThunk(
+  'words/deleteUserWord',
+  async (userWord: ICreateUserWord, thunkAPI) => {
+    try {
+      await axios.delete(
+        `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userWord.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Не удалось удалить слово');
+    }
+  }
+);

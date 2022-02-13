@@ -1,12 +1,13 @@
 import { CircularProgress, Pagination } from '@mui/material';
-import { FC } from 'react';import { changePageNumber, makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
+import { FC, useEffect } from 'react';
+import { changePageNumber, makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
-import { createUserWord } from 'redux/thunks';
+import { createUserWord, deleteUserWord, getUserWords } from 'redux/thunks';
 import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
 
 const CardsWrapper: FC = () => {
-  const { error, status, words } = useTypedSelector((state) => state.textbook);
+  const { error, status, words, isWordDeleted } = useTypedSelector((state) => state.textbook);
   const dispatch = useTypedDispatch();
 
   const onPageChange = (page: number) => {
@@ -14,17 +15,34 @@ const CardsWrapper: FC = () => {
     dispatch(changePageNumber({ pageNumber: page }));
   }
 
+  const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
+
   const makeDifficult = (id: string) => {
     dispatch(makeWordDifficult({id}));
-
-    const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
-
     dispatch(createUserWord({
       userId: authUser.userId,
       wordId: id,
       token: authUser.token,
     }));
   }
+
+  const deleteWord = (id: string) => {
+    dispatch(deleteUserWord({
+      userId: authUser.userId,
+      wordId: id,
+      token: authUser.token,
+    }));
+  }
+
+  useEffect(() => {
+    isWordDeleted &&
+      dispatch(
+        getUserWords({
+          userId: authUser.userId,
+          token: authUser.token,
+        })
+      );
+  }, [isWordDeleted]);
 
   const audio = new Audio();
 
@@ -34,6 +52,7 @@ const CardsWrapper: FC = () => {
       player={audio}
       word={w}
       makeDifficult={makeDifficult}
+      deleteWord={deleteWord}
     />
   ));
 
@@ -45,7 +64,7 @@ const CardsWrapper: FC = () => {
       {status === "pending" && <CircularProgress color="info" />}
       {error && <h2>{error}</h2>}
       {status === "resolved" && wordCards}
-      {status === "resolved" && (
+      {status === "resolved" && Boolean(words.length) && (
         <Pagination
           sx={{ marginLeft: "auto", marginRight: "auto" }}
           color="primary"

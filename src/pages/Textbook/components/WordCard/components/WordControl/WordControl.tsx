@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { StyledWordControl } from './WordControl.styles';
 import { IWordControlProps } from './types';
 
-const WordControl: FC<IWordControlProps> = ({ mode, onDifficultClick }) => {
+const WordControl: FC<IWordControlProps> = ({ mode, onDifficultClick, onDeleteWord }) => {
   return (
     <StyledWordControl>
       {mode === 'textbook' && (
@@ -11,7 +11,7 @@ const WordControl: FC<IWordControlProps> = ({ mode, onDifficultClick }) => {
           <button>Изученное слово</button>
         </>
       )}
-      {mode === 'dictionary' && <button>Удалить слово</button>}
+      {mode === 'dictionary' && <button onClick={onDeleteWord}>Удалить слово</button>}
     </StyledWordControl>
   );
 }

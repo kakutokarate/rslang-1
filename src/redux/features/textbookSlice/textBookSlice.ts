@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
-import { fetchWords, getUserWords } from 'redux/thunks';
+import { deleteUserWord, fetchWords, getUserWords } from 'redux/thunks';
 import { ITextbookState } from './types';
 
 const initialState: ITextbookState = {
@@ -10,6 +10,7 @@ const initialState: ITextbookState = {
   groupNumber: 0,
   pageNumber: 0,
   mode: 'textbook',
+  isWordDeleted: false,
 }
 
 const textBookSlice = createSlice({
@@ -50,8 +51,14 @@ const textBookSlice = createSlice({
     [getUserWords.fulfilled.type]: (state, action) => {
       state.words = action.payload;
       state.mode = 'dictionary';
+      state.isWordDeleted = false;
     },
     [getUserWords.rejected.type]: (state, action) => {},
+    [deleteUserWord.pending.type]: (state) => {},
+    [deleteUserWord.fulfilled.type]: (state) => {
+      state.isWordDeleted = true;
+    },
+    [deleteUserWord.rejected.type]: (state, action) => {},
   }
 });
 
