@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledDictionaryButton = styled.button`
+export const StyledWordButton = styled.button`
   padding: 5px 10px;
   border-radius: 5px;
   background-color: #b8b8b8;

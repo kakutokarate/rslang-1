@@ -1,4 +1,4 @@
-import { IWordProps } from './types';
+import { IWordCardProps } from './types';
 import { FC } from 'react';
 import WordContent from './components/WordContent';
 import WordImage from './components/WordImage';
@@ -6,12 +6,12 @@ import WordMeaning from './components/WordMeaning';
 import WordName from './components/WordName/WordName';
 import WordTranslation from './components/WordTranslation/WordTranslation';
 import { StyledWordCard } from './WordCard.styles';
-import DictionaryControl from './components/DictionaryControl';
+import WordControl from './components/WordControl';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
 import { createUserWord } from 'redux/thunks';
 
-const WordCard: FC<IWordProps> = (props) => {
+const WordCard: FC<IWordCardProps> = (props) => {
   const {
     audio,
     audioExample,
@@ -64,7 +64,7 @@ const WordCard: FC<IWordProps> = (props) => {
           textMeaning={textMeaning}
           textMeaningTranslate={textMeaningTranslate}
         />
-        {authUserData && <DictionaryControl makeDifficult={makeDifficult} />}
+        {authUserData && <WordControl makeDifficult={makeDifficult} />}
       </WordContent>
     </StyledWordCard>
   );

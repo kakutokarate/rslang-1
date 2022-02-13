@@ -1,6 +1,6 @@
 import { IWord } from "model/IWord";
 
-export interface IWordProps {
+export interface IWordCardProps {
   word: IWord;
   player: HTMLAudioElement;
 }
