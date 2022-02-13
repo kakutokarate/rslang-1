@@ -9,8 +9,8 @@ import { StyledWordCard } from './WordCard.styles';
 import WordControl from './components/WordControl';
 import { useTypedSelector } from 'redux/hooks';
 
-const WordCard: FC<IWordCardProps> = (props) => {
-  const {
+const WordCard: FC<IWordCardProps> = ({
+  word: {
     audio,
     audioExample,
     audioMeaning,
@@ -24,10 +24,10 @@ const WordCard: FC<IWordCardProps> = (props) => {
     userField,
     wordTranslate,
     word,
-  } = props.word;
-
-  const { player, makeDifficult } = props;
-
+  },
+  player,
+  makeDifficult,
+}) => {
   const {
     auth: { authUserData },
     textbook: { mode },
@@ -35,7 +35,7 @@ const WordCard: FC<IWordCardProps> = (props) => {
 
   const onDifficultClick = () => {
     makeDifficult(id);
-  }
+  };
 
   return (
     <StyledWordCard background={userField?.difficulty}>
@@ -56,7 +56,9 @@ const WordCard: FC<IWordCardProps> = (props) => {
           textMeaning={textMeaning}
           textMeaningTranslate={textMeaningTranslate}
         />
-        {authUserData && <WordControl mode={mode} onDifficultClick={onDifficultClick} />}
+        {authUserData && (
+          <WordControl mode={mode} onDifficultClick={onDifficultClick} />
+        )}
       </WordContent>
     </StyledWordCard>
   );
