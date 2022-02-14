@@ -4,7 +4,7 @@ import { IWord } from 'model/IWord';
 export const combineAllWordsWithUserWords = (
   allWords: Array<IWord>,
   userWords: Array<IUserWord>
-): any => {
+): Array<IWord> => {
   let userWordsData = [...userWords];
   let userWordsIds = userWordsData.map((el) => el.wordId);
   let result = [...allWords].map((item) => {
