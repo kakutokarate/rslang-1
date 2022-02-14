@@ -7,7 +7,7 @@ import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
 
 const CardsWrapper: FC = () => {
-  const { error, status, words, isWordDeleted } = useTypedSelector((state) => state.textbook);
+  const { error, status, words, isWordDeleted, mode } = useTypedSelector((state) => state.textbook);
   const dispatch = useTypedDispatch();
 
   const onPageChange = (page: number) => {
@@ -64,15 +64,17 @@ const CardsWrapper: FC = () => {
       {status === "pending" && <CircularProgress color="info" />}
       {error && <h2>{error}</h2>}
       {status === "resolved" && wordCards}
-      {status === "resolved" && Boolean(words.length) && (
-        <Pagination
-          sx={{ marginLeft: "auto", marginRight: "auto" }}
-          color="primary"
-          count={30}
-          page={currentPageNumber}
-          onChange={(_, page) => onPageChange(page)}
-        />
-      )}
+      {status === "resolved" &&
+        Boolean(words.length) &&
+        mode === "textbook" && (
+          <Pagination
+            sx={{ marginLeft: "auto", marginRight: "auto" }}
+            color="primary"
+            count={30}
+            page={currentPageNumber}
+            onChange={(_, page) => onPageChange(page)}
+          />
+        )}
     </StyledCardsWrapper>
   );
 };
