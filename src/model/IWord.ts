@@ -1,5 +1,10 @@
+interface IUserWordOptions {
+  difficulty: string;
+}
+
 export interface IWord {
   id: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;
@@ -13,4 +18,5 @@ export interface IWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userField?: IUserWordOptions;
 }
