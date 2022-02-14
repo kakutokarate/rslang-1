@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { fetchWordsByGroup } from 'redux/thunks';
+import { fetchAllWords, fetchUserWords, fetchWordsByGroup } from 'redux/thunks';
 import { startChallenge } from 'redux/features/challengeSlice';
 import ChallengeCard from './components/ChallengeCard';
 import ResultsTable from './components/ResultsTable';
@@ -9,8 +9,15 @@ import { Wrapper, StyledButtonsRow } from './Audiochallenge.styles';
 
 const Audiochallenge: FC = () => {
   const { isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
+  const { fetchAllWordsFulfilled } = useTypedSelector(state => state.words);
   const dispatch = useTypedDispatch();
   const challengeLevels = ['1', '2', '3', '4', '5'];
+  const user = JSON.parse(localStorage.getItem('authUserData-zm')!);
+
+  useEffect(() => { dispatch(fetchAllWords()); }, []);
+  useEffect(() => {
+    if (fetchAllWordsFulfilled === true) dispatch(fetchUserWords(user));
+  }, [fetchAllWordsFulfilled]);
 
   const onSubmitLevel = (level: string) => {
     dispatch(fetchWordsByGroup(level));

@@ -1,6 +1,4 @@
-interface IUserWordOptions {
-  difficulty: string;
-}
+import { IUserWord } from './IUserWord';
 
 export interface IWord {
   id: string;
@@ -18,5 +16,5 @@ export interface IWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
-  userField?: IUserWordOptions;
+  userField?: IUserWord;
 }

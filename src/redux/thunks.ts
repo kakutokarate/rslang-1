@@ -1,10 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IUser } from 'model/IUser';
-import { ICreateUserWord, IGetUserWords, ILoadingPageData, ISignIn } from './types';
+import {
+  ICreateUserWord,
+  IGetUserWords,
+  ILoadingPageData,
+  ISignIn,
+} from './types';
 
 // export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
-export const BASE_URL = 'https://react-rslang-fgriff.herokuapp.com';
+export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',
@@ -19,7 +24,9 @@ export const createUser = createAsyncThunk(
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось создать нового пользователя! Попробуйте еще раз.');
+      return thunkAPI.rejectWithValue(
+        'Не удалось создать нового пользователя! Попробуйте еще раз.'
+      );
     }
   }
 );
@@ -43,11 +50,50 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const fetchAllWords = createAsyncThunk(
+  'thunks/fetchAllWords',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/wordsAll`);
+      return response.data.map((el: any) => {
+        // TO DO: any уберу позже, нужно покопаться на бэке
+        return { ...el, _id: el._id.$oid };
+      });
+    } catch (e) {
+      if (e instanceof Error) console.error(e.message);
+      return thunkAPI.rejectWithValue('Не удалось получить слова');
+    }
+  }
+);
+
+export const fetchUserWords = createAsyncThunk(
+  'thunks/fetchUserWords',
+  async (userData: IGetUserWords, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/users/${userData.userId}/words`,
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        'Не удалось загрузить слова пользователя'
+      );
+    }
+  }
+);
+
 export const fetchWordsByGroup = createAsyncThunk(
   'thunks/fetchWordsByGroup',
   async (level: string, thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URL}words?group=${level}`);
+      const response = await axios.get(`${BASE_URL}/words?group=${level}`);
       return response.data;
     } catch (e) {
       if (e instanceof Error) console.error(e.message);
@@ -70,7 +116,9 @@ export const fetchWords = createAsyncThunk(
 
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue('Не удалось загрузить данные. Ошибка сервера');
+      return thunkAPI.rejectWithValue(
+        'Не удалось загрузить данные. Ошибка сервера'
+      );
     }
   }
 );
@@ -85,7 +133,7 @@ export const getUserWords = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${userData.token}`,
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -110,7 +158,7 @@ export const createUserWord = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${userWord.token}`,
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
