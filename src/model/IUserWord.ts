@@ -2,6 +2,8 @@ type TDifficulty = 'difficult' | '';
 
 export interface IUserWord {
   difficulty: TDifficulty;
+  wordId?: string;
+  userId?: string;
   optional?: {
     startDate: string; // строка в формате ISO для подсчета статистики кол-во новых слов за день
     isLearned: boolean;
