@@ -6,7 +6,8 @@ import Title from './components/Title';
 import CardsWrapper from './components/CardsWrapper';
 import { Wrapper } from './Textbook.styles';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
-import { fetchWords } from 'redux/thunks';
+import { fetchWords, getUserWords } from 'redux/thunks';
+import { combineAllWords } from 'redux/features/textbookSlice/textBookSlice';
 
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
@@ -19,8 +20,21 @@ const Textbook: FC = () => {
   const savedPageNumber = Number(localStorage.getItem('pageNumber-nsv')) || 1;
   const savedGroupNumber = Number(localStorage.getItem('groupNumber-nsv')) || 1;
 
+  const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
+
   useEffect(() => {
-    mode === 'textbook' && dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
+    const updateWords = async () => {
+      await dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
+      await dispatch(getUserWords({
+        userId: authUser.userId,
+        token: authUser.token,
+      }));
+      dispatch(combineAllWords());
+    }
+
+    if (mode === 'textbook') {
+      updateWords();
+    }
   }, [groupNumber, pageNumber, mode]);
   
   return (

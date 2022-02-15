@@ -15,18 +15,20 @@ const WordCard: FC<IWordCardProps> = ({
     audioExample,
     audioMeaning,
     id,
+    _id,
     image,
     textExample,
     textExampleTranslate,
     textMeaning,
     textMeaningTranslate,
     transcription,
-    userField,
+    userWord,
     wordTranslate,
     word,
   },
   player,
   makeDifficult,
+  deleteWord,
 }) => {
   const {
     auth: { authUserData },
@@ -37,8 +39,16 @@ const WordCard: FC<IWordCardProps> = ({
     makeDifficult(id);
   };
 
+  const onDeleteWord = () => {
+    deleteWord(_id!);
+  }
+
   return (
-    <StyledWordCard background={userField?.difficulty}>
+    <StyledWordCard
+      background={
+        (mode === 'textbook' && userWord && userWord.difficulty) || undefined
+      }
+    >
       <WordImage image={image} />
       <WordContent>
         <WordName word={word} />
@@ -57,7 +67,12 @@ const WordCard: FC<IWordCardProps> = ({
           textMeaningTranslate={textMeaningTranslate}
         />
         {authUserData && (
-          <WordControl mode={mode} onDifficultClick={onDifficultClick} />
+          <WordControl
+            mode={mode}
+            isDifficult={userWord?.difficulty}
+            onDifficultClick={onDifficultClick}
+            onDeleteWord={onDeleteWord}
+          />
         )}
       </WordContent>
     </StyledWordCard>
