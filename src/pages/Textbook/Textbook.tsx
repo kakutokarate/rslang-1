@@ -21,13 +21,6 @@ const Textbook: FC = () => {
   const savedGroupNumber = Number(localStorage.getItem('groupNumber-nsv')) || 1;
 
   const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
-  // useEffect(() => {
-
-  //   dispatch(getUserWords({
-  //     userId: authUser.userId,
-  //     token: authUser.token,
-  //   }));
-  // }, []);
 
   useEffect(() => {
     const updateWords = async () => {
@@ -39,11 +32,9 @@ const Textbook: FC = () => {
       dispatch(combineAllWords());
     }
 
-    // mode === 'textbook' && dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
     if (mode === 'textbook') {
       updateWords();
     }
-    // mode === 'textbook' && updateWords());
   }, [groupNumber, pageNumber, mode]);
   
   return (
