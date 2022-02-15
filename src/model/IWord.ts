@@ -16,5 +16,5 @@ export interface IWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
-  userField?: IUserWord;
+  userWord?: IUserWord;
 }

@@ -22,7 +22,7 @@ const WordCard: FC<IWordCardProps> = ({
     textMeaning,
     textMeaningTranslate,
     transcription,
-    userField,
+    userWord,
     wordTranslate,
     word,
   },
@@ -44,7 +44,11 @@ const WordCard: FC<IWordCardProps> = ({
   }
 
   return (
-    <StyledWordCard background={userField?.difficulty}>
+    <StyledWordCard
+      background={
+        (mode === 'textbook' && userWord && userWord.difficulty) || undefined
+      }
+    >
       <WordImage image={image} />
       <WordContent>
         <WordName word={word} />
@@ -63,7 +67,12 @@ const WordCard: FC<IWordCardProps> = ({
           textMeaningTranslate={textMeaningTranslate}
         />
         {authUserData && (
-          <WordControl mode={mode} onDifficultClick={onDifficultClick} onDeleteWord={onDeleteWord} />
+          <WordControl
+            mode={mode}
+            isDifficult={userWord?.difficulty}
+            onDifficultClick={onDifficultClick}
+            onDeleteWord={onDeleteWord}
+          />
         )}
       </WordContent>
     </StyledWordCard>

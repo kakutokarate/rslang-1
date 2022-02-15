@@ -105,14 +105,13 @@ export const fetchWords = createAsyncThunk(
   'words/fetchWords',
   async (pageData: ILoadingPageData, thunkAPI) => {
     try {
-      const response = await fetch(
-        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${pageData.savedPageNumber - 1
+      const response = await axios(
+        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${
+          pageData.savedPageNumber - 1
         }`
       );
 
-      const data = await response.json();
-
-      return data;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         'Не удалось загрузить данные. Ошибка сервера'
@@ -126,7 +125,7 @@ export const getUserWords = createAsyncThunk(
   async (userData: IGetUserWords, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/users/${userData.userId}/aggregatedWords?filter={"$and":[{"userWord.difficulty":"difficult"}]}`,
+        `${BASE_URL}/users/${userData.userId}/aggregatedWords?wordsPerPage=3600&filter={"$and":[{"userWord.difficulty":"difficult"}]}`,
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
