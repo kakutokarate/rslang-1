@@ -1,5 +1,5 @@
 import { IWord } from 'model/IWord';
-import { getRandomValueFromArray, shuffleArray } from 'utils';
+import { getRandomValueFromArray, shuffleArray } from 'shared/utils';
 import { NUM_OF_ANSWER_OPTIONS } from './challengeSlice';
 
 export const getAnswers = (

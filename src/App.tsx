@@ -4,6 +4,7 @@ import Auth from "pages/Auth";
 import Audiochallenge from "pages/Audiochallenge";
 import Home from "pages/Home";
 import Registration from "pages/Registration";
+import Sprint from "pages/Sprint";
 import Statistics from "pages/Statistics";
 import Textbook from "pages/Textbook";
 import { FC, useEffect } from "react";
@@ -28,6 +29,7 @@ const App: FC = () => {
         <Route path='/statistics' element={<Statistics />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/registration' element={<Registration />} />
+        <Route path='/sprint' element={<Sprint />} />
         <Route path='/audiochallenge' element={<Audiochallenge />} />
       </Routes>
       <Footer />

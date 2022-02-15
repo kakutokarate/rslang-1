@@ -4,6 +4,7 @@ import auth from 'redux/features/authSlice';
 import challenge from './features/challengeSlice';
 import textbook from './features/textbookSlice/textBookSlice';
 import words from './features/wordsSlice';
+import sprint from './features/sprintSlice';
 
 const rootReducer = combineReducers({
   registration,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   challenge,
   textbook,
   words,
+  sprint,
 });
 
 export const store = configureStore({
