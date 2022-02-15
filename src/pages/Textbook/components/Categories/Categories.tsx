@@ -1,4 +1,4 @@
-import { changeGroupNumber } from 'redux/features/textbookSlice/textBookSlice';
+import { changeGroupNumber, showDifficultWordsPage } from 'redux/features/textbookSlice/textBookSlice';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { getUserWords } from 'redux/thunks';
 import CategoriesButton from '../CategoriesButton';
@@ -15,12 +15,7 @@ const Categories = () => {
   };
 
   const onLoadUserWords = () => {
-    const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
-
-    dispatch(getUserWords({
-      userId: authUser.userId,
-      token: authUser.token,
-    }));
+    dispatch(showDifficultWordsPage());
   };
 
   const buttonElements = groupButtonData.map((b, idx) => (

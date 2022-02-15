@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledWordCard = styled.div<{background?: string}>`
+export const StyledWordCard = styled.div<{background?: string | undefined}>`
   width: 100%;
   padding: 30px 20px;
   margin-bottom: 15px;

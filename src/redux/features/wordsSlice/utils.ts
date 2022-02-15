@@ -11,7 +11,7 @@ export const combineAllWordsWithUserWords = (
     if (userWordsIds.indexOf(item._id!) !== -1) {
       item = {
         ...item,
-        userField: userWordsData.find((el) => el.wordId === item._id),
+        userWord: userWordsData.find((el) => el.wordId === item._id),
       };
     }
     return item;
