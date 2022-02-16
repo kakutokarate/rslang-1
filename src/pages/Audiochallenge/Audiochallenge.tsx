@@ -11,7 +11,7 @@ const Audiochallenge: FC = () => {
   const { isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
   const { fetchAllWordsFulfilled } = useTypedSelector(state => state.words);
   const dispatch = useTypedDispatch();
-  const challengeLevels = ['1', '2', '3', '4', '5'];
+  const challengeLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const user = JSON.parse(localStorage.getItem('authUserData-zm')!);
 
   useEffect(() => { dispatch(fetchAllWords()); }, []);
@@ -31,7 +31,7 @@ const Audiochallenge: FC = () => {
       {!isChallengeStarted
         && !showResult && <StyledButtonsRow>
           {challengeLevels.map(el =>
-            <div key={Number(el) - 1} onClick={() => onSubmitLevel((Number(el) - 1).toString())}>{el}</div>
+            <div key={el} onClick={() => onSubmitLevel(challengeLevels.indexOf(el).toString())}>{el}</div>
           )}
         </StyledButtonsRow>
       }
