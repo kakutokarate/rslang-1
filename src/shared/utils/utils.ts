@@ -1,4 +1,5 @@
 import { IWord } from 'model/IWord';
+import { AUDIOCHALLENGE, SPRINT } from './constants';
 import { TGetWordsByGroup } from './types';
 
 export const shuffleArray = <T>(arr: Array<T>): Array<T> => {
@@ -59,18 +60,18 @@ export const updateLocalStatistic = (
       console.log('IF-ДАТЫ СОВПАЛИ');
       let dailyNewWords: string[] = [];
       [...rightAnswers, ...wrongAnswers].forEach((el) => {
-        if (game === 'sprint') {
+        if (game === SPRINT) {
           if (!prevData.games.sprint.wordList.includes(el))
             dailyNewWords.push(el);
         }
-        if (game === 'audiochallenge') {
+        if (game === AUDIOCHALLENGE) {
           if (!prevData.games.audiochallenge.wordList.includes(el))
             dailyNewWords.push(el);
         }
       });
 
       let audiochallengeStat =
-        game === 'audiochallenge'
+        game === AUDIOCHALLENGE
           ? {
               bestStreak:
                 currentStreak > prevData.games.audiochallenge.bestStreak
@@ -91,7 +92,7 @@ export const updateLocalStatistic = (
           : { ...prevData.games.audiochallenge };
 
       let sprintStat =
-        game === 'sprint'
+        game === SPRINT
           ? {
               bestStreak:
                 currentStreak > prevData.games.sprint.bestStreak
@@ -127,7 +128,7 @@ export const updateLocalStatistic = (
   } else {
     const allWordsList = [...rightAnswers, ...wrongAnswers];
     const audiochallengeStat =
-      game === 'audiochallenge'
+      game === AUDIOCHALLENGE
         ? {
             bestStreak: currentStreak,
             gameNewWordsCount: allWordsList.length,
@@ -143,7 +144,7 @@ export const updateLocalStatistic = (
             wordList: [],
           };
     const sprintStat =
-      game === 'sprint'
+      game === SPRINT
         ? {
             bestStreak: currentStreak,
             gameNewWordsCount: allWordsList.length,
