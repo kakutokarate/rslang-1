@@ -1,5 +1,5 @@
-import { IUserWord } from 'model/IUserWord';
-import { IWord } from 'model/IWord';
+import { IUserWord } from '../../../model/IUserWord';
+import { IWord } from '../../../model/IWord';
 
 export const combineAllWordsWithUserWords = (
   allWords: Array<IWord>,
