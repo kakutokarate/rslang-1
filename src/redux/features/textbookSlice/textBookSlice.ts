@@ -71,7 +71,10 @@ const textBookSlice = createSlice({
     [getUserWords.pending.type]: (state) => { },
     [getUserWords.fulfilled.type]: (state, action) => {
       state.difficultWords = action.payload;
-      state.words = combineWords(state.words, action.payload);
+
+      if (state.mode === 'textbook') {
+        state.words = combineWords(state.words, action.payload);
+      }
 
       if (state.mode === 'dictionary') {
         state.words = action.payload; // Вызываем при удалении слова со страницы сложных слов, т.к. отрисовка завязана на массиве words
