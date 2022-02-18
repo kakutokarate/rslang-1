@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
-import { IChallengeState } from './types';
-import { getAnswers } from './utils';
+import { updateLocalStatistic } from 'shared/utils';
+import { IChallengeState, TPayload } from './types';
+import { getAnswers, updateUserWords } from './utils';
 
 export const NUM_OF_ANSWER_OPTIONS = 5;
-export const NUM_OF_QUESTIONS = 10;
+export const NUM_OF_QUESTIONS = 3;
 
 const initialState: IChallengeState = {
   challengeLevel: '',
@@ -19,6 +20,8 @@ const initialState: IChallengeState = {
   isChallengeStarted: false,
   isFetchingWords: false,
   fetchWordsError: null,
+  results: [],
+  currentRightStreak: 3,
 };
 
 const challengeSlice = createSlice({
@@ -29,14 +32,20 @@ const challengeSlice = createSlice({
       state.challengeLevel = action.payload;
     },
     selectAnswer(state, action: PayloadAction<string>) {
-      action.payload ===
-      state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
-        ? state.rightAnswers.push(
-            state.currentQuestionsSet[state.currentQuestionIndex].id
-          )
-        : state.wrongAnswers.push(
-            state.currentQuestionsSet[state.currentQuestionIndex].id
-          );
+      if (
+        action.payload ===
+        state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
+      ) {
+        state.rightAnswers.push(
+          state.currentQuestionsSet[state.currentQuestionIndex].id
+        );
+        state.currentRightStreak++;
+      } else {
+        state.wrongAnswers.push(
+          state.currentQuestionsSet[state.currentQuestionIndex].id
+        );
+        state.currentRightStreak = 0;
+      }
       state.currentAnswer = action.payload;
     },
     submitAnswer(state) {
@@ -52,6 +61,15 @@ const challengeSlice = createSlice({
         state.showResult = true;
       }
     },
+    saveResults(state, action: PayloadAction<string>) {
+      updateLocalStatistic(
+        state.rightAnswers,
+        state.wrongAnswers,
+        'audiochallenge',
+        state.currentRightStreak,
+        action.payload
+      );
+    },
   },
   extraReducers: {
     [fetchWordsByGroup.pending.type]: (state) => {
@@ -63,7 +81,8 @@ const challengeSlice = createSlice({
     ) => {
       state.isFetchingWords = false;
       state.fetchWordsError = null;
-      state.currentQuestionsSet = action.payload;
+      const allLevelWords = [...action.payload];
+      state.currentQuestionsSet = allLevelWords.slice(0, 10);
       state.answers = getAnswers(
         state.currentQuestionsSet,
         state.currentQuestionIndex
@@ -80,7 +99,7 @@ const challengeSlice = createSlice({
   },
 });
 
-export const { startChallenge, selectAnswer, submitAnswer } =
+export const { startChallenge, selectAnswer, submitAnswer, saveResults } =
   challengeSlice.actions;
 
 export default challengeSlice.reducer;

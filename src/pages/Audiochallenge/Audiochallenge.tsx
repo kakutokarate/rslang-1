@@ -12,11 +12,11 @@ const Audiochallenge: FC = () => {
   const { fetchAllWordsFulfilled } = useTypedSelector(state => state.words);
   const dispatch = useTypedDispatch();
   const challengeLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-  const user = JSON.parse(localStorage.getItem('authUserData-zm')!);
+  const user = localStorage.getItem('authUserData-zm');
 
   useEffect(() => { dispatch(fetchAllWords()); }, []);
   useEffect(() => {
-    if (fetchAllWordsFulfilled === true) dispatch(fetchUserWords(user));
+    if (user && fetchAllWordsFulfilled === true) dispatch(fetchUserWords(JSON.parse(user)));
   }, [fetchAllWordsFulfilled]);
 
   const onSubmitLevel = (level: string) => {
