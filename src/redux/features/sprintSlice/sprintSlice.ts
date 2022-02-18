@@ -5,10 +5,12 @@ import { answeredWord, ISprintState } from "./types";
 const initialState: ISprintState = {
   isSprintRunning: false,
   isGameOver: false,
-  currentPlayedCollection: null,
+  currentPlayedCollection: [],
   currentWordIndex: 0,
   pickedGroup: null,
   answeredWords: [],
+  lastBestSeries: 0,
+  currentCorrectAnswersSeries: 0,
 };
 
 export const sprintSlice = createSlice({
@@ -33,6 +35,15 @@ export const sprintSlice = createSlice({
     setAnsweredWords(state, action: PayloadAction<answeredWord>) {
       state.answeredWords.push(action.payload);
     },
+    clearAnsweredWords(state) {
+      state.answeredWords = [];
+    },
+    setCurrentCorrectAnswersSeries(state, action: PayloadAction<number>) {
+      state.currentCorrectAnswersSeries = action.payload;
+    },
+    setLastBestSeries(state, action: PayloadAction<number>) {
+      state.lastBestSeries = action.payload;
+    },
   },
 });
 
@@ -43,6 +54,9 @@ export const {
   setPickedGroup,
   setCurrentWordIndex,
   setAnsweredWords,
+  clearAnsweredWords,
+  setCurrentCorrectAnswersSeries,
+  setLastBestSeries,
 } = sprintSlice.actions;
 
 export default sprintSlice.reducer;
