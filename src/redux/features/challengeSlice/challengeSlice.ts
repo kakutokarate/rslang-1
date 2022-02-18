@@ -3,7 +3,7 @@ import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
 import { updateLocalStatistic } from 'shared/utils';
 import { IChallengeState, TPayload } from './types';
-import { getAnswers, updateUserWords } from './utils';
+import { getAnswers } from './utils';
 
 export const NUM_OF_ANSWER_OPTIONS = 5;
 export const NUM_OF_QUESTIONS = 3;
@@ -70,6 +70,9 @@ const challengeSlice = createSlice({
         action.payload
       );
     },
+    setInitialChallengeState(state) {
+      return (state = { ...initialState });
+    },
   },
   extraReducers: {
     [fetchWordsByGroup.pending.type]: (state) => {
@@ -99,7 +102,12 @@ const challengeSlice = createSlice({
   },
 });
 
-export const { startChallenge, selectAnswer, submitAnswer, saveResults } =
-  challengeSlice.actions;
+export const {
+  startChallenge,
+  selectAnswer,
+  submitAnswer,
+  saveResults,
+  setInitialChallengeState,
+} = challengeSlice.actions;
 
 export default challengeSlice.reducer;
