@@ -59,22 +59,23 @@ const CardsWrapper: FC = () => {
   // When the page is loaded for the first time and Local Storage is empty
   const currentPageNumber = Number(localStorage.getItem('pageNumber-nsv')) || 1;
 
+  const showPagination =
+    status === 'resolved' && Boolean(words.length) && mode === 'textbook';
+
   return (
     <StyledCardsWrapper>
       {status === "pending" && <CircularProgress color="info" />}
       {error && <h2>{error}</h2>}
       {status === "resolved" && wordCards}
-      {status === "resolved" &&
-        Boolean(words.length) &&
-        mode === "textbook" && (
-          <Pagination
-            sx={{ marginLeft: "auto", marginRight: "auto" }}
-            color="primary"
-            count={30}
-            page={currentPageNumber}
-            onChange={(_, page) => onPageChange(page)}
-          />
-        )}
+      {showPagination && (
+        <Pagination
+          sx={{ marginLeft: "auto", marginRight: "auto" }}
+          color="primary"
+          count={30}
+          page={currentPageNumber}
+          onChange={(_, page) => onPageChange(page)}
+        />
+      )}
     </StyledCardsWrapper>
   );
 };
