@@ -1,3 +1,4 @@
+import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 
 export interface IChallengeState {
@@ -12,4 +13,11 @@ export interface IChallengeState {
   isChallengeStarted: boolean;
   isFetchingWords: boolean;
   fetchWordsError: null | string;
+  results: Array<IUserWord>;
+  currentRightStreak: number;
 }
+
+export type TPayload = {
+  userId: string;
+  prevWords: Array<IWord>;
+};
