@@ -16,8 +16,3 @@ export interface IChallengeState {
   results: Array<IUserWord>;
   currentRightStreak: number;
 }
-
-export type TPayload = {
-  userId: string;
-  prevWords: Array<IWord>;
-};

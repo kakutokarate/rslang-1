@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
 import { updateLocalStatistic } from 'shared/utils';
-import { IChallengeState, TPayload } from './types';
+import { IChallengeState } from './types';
 import { getAnswers } from './utils';
 
 export const NUM_OF_ANSWER_OPTIONS = 5;
@@ -97,7 +97,7 @@ const challengeSlice = createSlice({
       action: PayloadAction<string>
     ) => {
       state.fetchWordsError = action.payload;
-      console.log(action.payload);
+      console.error(action.payload);
     },
   },
 });

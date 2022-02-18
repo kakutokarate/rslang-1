@@ -1,4 +1,4 @@
-import { IWord } from 'model/IWord';
+import { ILocalStatistic } from 'model/ILocalStatistic';
 import { AUDIOCHALLENGE, SPRINT } from './constants';
 import { TGetWordsByGroup } from './types';
 
@@ -19,57 +19,114 @@ export const getWordsByGroup: TGetWordsByGroup = (words, group) => {
   return words.filter((word) => word.group === group);
 };
 
-// export const getWordsForGame = (
-//   allWords: Array<IWord>,
-//   group: number,
-//   page: number,
-//   quantity: number
-// ) => {
-//   const currentWords = allWords.filter(
-//     (el) =>
-//       el.group === group &&
-//       el.page === page &&
-//       !el.userWord?.optional?.isLearned
-//   );
-//   if (currentWords.length >= quantity) {
-//     return currentWords;
-//   } else {
-//   }
-// };
+export const getCurrentDate = () => {
+  const now = new Date();
+  return now.toISOString().slice(0, 10);
+};
+
+export const getNewWordsFromArray = (
+  newDailyWords: Array<string>,
+  allLearnedWords: Array<string>
+) => {
+  let result: Array<string> = [];
+  [...newDailyWords].forEach((el) => {
+    if (!allLearnedWords.includes(el)) result.push(el);
+  });
+  return result;
+};
+
+const setInitialLocalStatistic = (
+  rightAnswersIds: Array<string>,
+  wrongAnswersIds: Array<string>,
+  game: string,
+  currentStreak: number
+) => {
+  const allWordsList = [...rightAnswersIds, ...wrongAnswersIds];
+  const audiochallengeStat =
+    game === AUDIOCHALLENGE
+      ? {
+          bestStreak: currentStreak,
+          gameNewWordsCount: allWordsList.length,
+          rightAnswers: rightAnswersIds.length,
+          wrongAnswers: wrongAnswersIds.length,
+          wordList: allWordsList,
+        }
+      : {
+          bestStreak: 0,
+          gameNewWordsCount: 0,
+          rightAnswers: 0,
+          wrongAnswers: 0,
+          wordList: [],
+        };
+  const sprintStat =
+    game === SPRINT
+      ? {
+          bestStreak: currentStreak,
+          gameNewWordsCount: allWordsList.length,
+          rightAnswers: rightAnswersIds.length,
+          wrongAnswers: wrongAnswersIds.length,
+          wordList: allWordsList,
+        }
+      : {
+          bestStreak: 0,
+          gameNewWordsCount: 0,
+          rightAnswers: 0,
+          wrongAnswers: 0,
+          wordList: [],
+        };
+  let newData: ILocalStatistic = {
+    date: getCurrentDate(),
+    allNewWordsCount: rightAnswersIds.length + wrongAnswersIds.length,
+    allGamesRight: rightAnswersIds.length,
+    allGamesWrong: wrongAnswersIds.length,
+    wordList: allWordsList,
+    games: {
+      audiochallenge: audiochallengeStat,
+      sprint: sprintStat,
+    },
+  };
+  return newData;
+};
 
 export const updateLocalStatistic = (
-  rightAnswers: Array<string>,
-  wrongAnswers: Array<string>,
+  rightAnswersIds: Array<string>,
+  wrongAnswersIds: Array<string>,
   game: string,
   currentStreak: number,
   userId?: string
 ) => {
-  const userStatistic = localStorage.getItem(`statistic-${userId}-zm`);
-  const guestStatistic = localStorage.getItem(`statistic-guest-zm`);
+  const userKey = `statistic-${userId}-zm`;
+  const guestKey = `statistic-guest-zm`;
+  const userStatistic = userId ? localStorage.getItem(userKey) : undefined;
+  const guestStatistic = localStorage.getItem(guestKey);
   let prevStatistic = userStatistic
     ? userStatistic
     : guestStatistic
     ? guestStatistic
     : null;
-  const now = new Date();
-  const currentDate = now.toISOString().slice(0, 10);
+  const currentDate = getCurrentDate();
+  let newData: ILocalStatistic;
   if (prevStatistic) {
-    console.log('IF-PREVSTAT');
     const prevData = JSON.parse(prevStatistic);
-    if (currentDate === prevData.date) {
-      console.log('IF-ДАТЫ СОВПАЛИ');
-      let dailyNewWords: string[] = [];
-      [...rightAnswers, ...wrongAnswers].forEach((el) => {
-        if (game === SPRINT) {
-          if (!prevData.games.sprint.wordList.includes(el))
-            dailyNewWords.push(el);
-        }
-        if (game === AUDIOCHALLENGE) {
-          if (!prevData.games.audiochallenge.wordList.includes(el))
-            dailyNewWords.push(el);
-        }
-      });
+    let dailyGameNewWords: string[] = [];
+    if (game === SPRINT) {
+      dailyGameNewWords = getNewWordsFromArray(
+        [...rightAnswersIds, ...wrongAnswersIds],
+        prevData.games.sprint.wordList
+      );
+    }
+    if (game === AUDIOCHALLENGE) {
+      dailyGameNewWords = getNewWordsFromArray(
+        [...rightAnswersIds, ...wrongAnswersIds],
+        prevData.games.audiochallenge.wordList
+      );
+    }
+    let dailyAllNewWords = getNewWordsFromArray(
+      [...rightAnswersIds, ...wrongAnswersIds],
+      prevData.wordList
+    );
 
+    if (currentDate === prevData.date) {
       let audiochallengeStat =
         game === AUDIOCHALLENGE
           ? {
@@ -77,16 +134,18 @@ export const updateLocalStatistic = (
                 currentStreak > prevData.games.audiochallenge.bestStreak
                   ? currentStreak
                   : prevData.games.audiochallenge.bestStreak,
-              gameNewWordsCount: dailyNewWords.length,
+              gameNewWordsCount:
+                prevData.games.audiochallenge.gameNewWordsCount +
+                dailyGameNewWords.length,
               rightAnswers:
                 prevData.games.audiochallenge.rightAnswers +
-                rightAnswers.length,
+                rightAnswersIds.length,
               wrongAnswers:
                 prevData.games.audiochallenge.wrongAnswers +
-                wrongAnswers.length,
+                wrongAnswersIds.length,
               wordList: [
                 ...prevData.games.audiochallenge.wordList,
-                ...dailyNewWords,
+                ...dailyGameNewWords,
               ],
             }
           : { ...prevData.games.audiochallenge };
@@ -98,82 +157,98 @@ export const updateLocalStatistic = (
                 currentStreak > prevData.games.sprint.bestStreak
                   ? currentStreak
                   : prevData.games.sprint.bestStreak,
-              gameNewWordsCount: dailyNewWords.length,
+              gameNewWordsCount:
+                prevData.games.sprint.gameNewWordsCount +
+                dailyGameNewWords.length,
               rightAnswers:
-                prevData.games.sprint.rightAnswers + rightAnswers.length,
+                prevData.games.sprint.rightAnswers + rightAnswersIds.length,
               wrongAnswers:
-                prevData.games.sprint.wrongAnswers + wrongAnswers.length,
-              wordList: [...prevData.games.sprint.wordList, ...dailyNewWords],
+                prevData.games.sprint.wrongAnswers + wrongAnswersIds.length,
+              wordList: [
+                ...prevData.games.sprint.wordList,
+                ...dailyGameNewWords,
+              ],
             }
           : { ...prevData.games.sprint };
-      let newData = {
+      newData = {
         games: {
           audiochallenge: audiochallengeStat,
           sprint: sprintStat,
         },
         date: currentDate,
-        allNewWordsCount: prevData.allNewWordsCount + dailyNewWords.length,
+        allNewWordsCount: prevData.allNewWordsCount + dailyAllNewWords.length,
         allGamesRight:
           audiochallengeStat.rightAnswers + sprintStat.rightAnswers,
         allGamesWrong:
           audiochallengeStat.wrongAnswers + sprintStat.wrongAnswers,
-        wordList: [...prevData.wordList, ...dailyNewWords],
+        wordList: [...prevData.wordList, ...dailyAllNewWords],
       };
-      console.log(prevData, 'PREVDATA');
-      console.log(newData, 'NEWDATA');
       userId
-        ? localStorage.setItem(`statistic${userId}-zm`, JSON.stringify(newData))
-        : localStorage.setItem(`statisticGuest-zm`, JSON.stringify(newData));
+        ? localStorage.setItem(userKey, JSON.stringify(newData))
+        : localStorage.setItem(guestKey, JSON.stringify(newData));
+    } else if (currentDate !== prevData.date) {
+      let audiochallengeStat =
+        game === AUDIOCHALLENGE
+          ? {
+              bestStreak: currentStreak,
+              gameNewWordsCount: dailyGameNewWords.length,
+              rightAnswers: rightAnswersIds.length,
+              wrongAnswers: wrongAnswersIds.length,
+              wordList: [
+                ...prevData.games.audiochallenge.wordList,
+                ...dailyGameNewWords,
+              ],
+            }
+          : {
+              ...prevData.games.audiochallenge,
+              bestStreak: 0,
+              gameWordsCount: 0,
+              rightAnswers: 0,
+              wrongAnswers: 0,
+            };
+      let sprintStat =
+        game === SPRINT
+          ? {
+              bestStreak: currentStreak,
+              gameNewWordsCount: dailyGameNewWords.length,
+              rightAnswers: rightAnswersIds.length,
+              wrongAnswers: wrongAnswersIds.length,
+              wordList: [
+                ...prevData.games.sprint.wordList,
+                ...dailyGameNewWords,
+              ],
+            }
+          : {
+              ...prevData.games.sprint,
+              bestStreak: 0,
+              gameWordsCount: 0,
+              rightAnswers: 0,
+              wrongAnswers: 0,
+            };
+      newData = {
+        games: {
+          audiochallenge: audiochallengeStat,
+          sprint: sprintStat,
+        },
+        date: currentDate,
+        allNewWordsCount: dailyAllNewWords.length,
+        allGamesRight: rightAnswersIds.length,
+        allGamesWrong: wrongAnswersIds.length,
+        wordList: [...prevData.wordList, ...dailyAllNewWords],
+      };
+      userId
+        ? localStorage.setItem(userKey, JSON.stringify(newData))
+        : localStorage.setItem(guestKey, JSON.stringify(newData));
     }
   } else {
-    const allWordsList = [...rightAnswers, ...wrongAnswers];
-    const audiochallengeStat =
-      game === AUDIOCHALLENGE
-        ? {
-            bestStreak: currentStreak,
-            gameNewWordsCount: allWordsList.length,
-            rightAnswers: rightAnswers.length,
-            wrongAnswers: wrongAnswers.length,
-            wordList: allWordsList,
-          }
-        : {
-            bestStreak: 0,
-            gameNewWordsCount: 0,
-            rightAnswers: 0,
-            wrongAnswers: 0,
-            wordList: [],
-          };
-    const sprintStat =
-      game === SPRINT
-        ? {
-            bestStreak: currentStreak,
-            gameNewWordsCount: allWordsList.length,
-            rightAnswers: rightAnswers.length,
-            wrongAnswers: wrongAnswers.length,
-            wordList: allWordsList,
-          }
-        : {
-            bestStreak: 0,
-            gameNewWordsCount: 0,
-            rightAnswers: 0,
-            wrongAnswers: 0,
-            wordList: [],
-          };
-    const newData = {
-      date: currentDate,
-      allNewWordsCount: rightAnswers.length + wrongAnswers.length,
-      allGamesRight: rightAnswers.length,
-      allGamesWrong: wrongAnswers.length,
-      wordList: allWordsList,
-      games: {
-        audiochallenge: audiochallengeStat,
-        sprint: sprintStat,
-      },
-    };
+    newData = setInitialLocalStatistic(
+      rightAnswersIds,
+      wrongAnswersIds,
+      game,
+      currentStreak
+    );
     userId
-      ? localStorage.setItem(`statistic${userId}-zm`, JSON.stringify(newData))
-      : localStorage.setItem(`statisticGuest-zm`, JSON.stringify(newData));
+      ? localStorage.setItem(userKey, JSON.stringify(newData))
+      : localStorage.setItem(guestKey, JSON.stringify(newData));
   }
 };
-
-// gameNewWordsCount: 10 переделать!!!
