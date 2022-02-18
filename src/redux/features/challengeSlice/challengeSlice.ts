@@ -61,7 +61,7 @@ const challengeSlice = createSlice({
         state.showResult = true;
       }
     },
-    saveResults(state, action: PayloadAction<string>) {
+    saveResults(state, action: PayloadAction<string | undefined>) {
       updateLocalStatistic(
         state.rightAnswers,
         state.wrongAnswers,

@@ -15,7 +15,7 @@ const ResultsTable: FC = () => {
       const parsedUserData = JSON.parse(user);
       const userId = parsedUserData.userId.toString();
       dispatch(saveResults(userId));
-    }
+    } else dispatch(saveResults());
   }, []);
 
 
