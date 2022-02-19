@@ -6,7 +6,7 @@ import {
   ICreateUserWord,
   IGetUserWords,
   ILoadingPageData,
-  ISetStatistic,
+  ISendStatistic,
   ISignIn,
 } from './types';
 
@@ -206,9 +206,9 @@ export const getStatistic = createAsyncThunk(
   }
 );
 
-export const setStatistic = createAsyncThunk(
-  'statistic/setStatistic',
-  async (statisticData: ISetStatistic, thunkAPI) => {
+export const sendStatistic = createAsyncThunk(
+  'statistic/sendStatistic',
+  async (statisticData: ISendStatistic, thunkAPI) => {
     const { userData, newStatistic } = statisticData;
     try {
       await axios.put(

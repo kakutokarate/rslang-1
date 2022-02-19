@@ -22,7 +22,7 @@ export interface ICreateUserWord {
   token: string;
 }
 
-export interface ISetStatistic {
+export interface ISendStatistic {
   userData: IAuth;
   newStatistic: IStatistic;
 }

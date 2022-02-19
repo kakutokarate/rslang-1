@@ -266,3 +266,10 @@ export const filterNotLearnedWords = (words: Array<IWord>) => {
     );
   });
 };
+
+export const isObjectEmpty = (obj: object) => {
+  for (let key in obj) {
+    return false;
+  }
+  return true;
+};
