@@ -1,5 +1,6 @@
 import { IAuth } from 'model/IAuth';
 import { IStatistic } from 'model/IStatistic';
+import { IUserWord } from 'model/IUserWord';
 
 export interface ISignIn {
   email: string;
@@ -25,4 +26,9 @@ export interface ICreateUserWord {
 export interface ISendStatistic {
   userData: IAuth;
   newStatistic: IStatistic;
+}
+
+export interface IPostUserWord {
+  newUserWord: IUserWord;
+  userData: IAuth;
 }
