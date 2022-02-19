@@ -4,9 +4,7 @@ import { getStatistic } from 'redux/thunks';
 import { IStatisticState } from './types';
 
 const initialState: IStatisticState = {
-  learnedWordsCount: 0,
-  learnedWordsIds: {},
-  dailyResults: {},
+  statisticData: {},
   isLoadingStatistic: false,
   statisticLoaded: false,
   statisticError: null,
@@ -28,9 +26,7 @@ const statisticSlice = createSlice({
       state.isLoadingStatistic = false;
       state.statisticError = null;
       state.statisticLoaded = true;
-      state.learnedWordsCount = action.payload.learnedWords;
-      state.learnedWordsIds = action.payload.optional.learnedWordsIds;
-      state.dailyResults = action.payload.optional.dailyResults;
+      state.statisticData = { ...action.payload };
     },
     [getStatistic.rejected.type]: (state, action: PayloadAction<string>) => {
       state.statisticError = action.payload;

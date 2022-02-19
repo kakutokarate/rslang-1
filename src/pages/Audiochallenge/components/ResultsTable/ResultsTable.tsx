@@ -1,22 +1,28 @@
+import { IAuth } from 'model/IAuth';
+import { IStatistic } from 'model/IStatistic';
 import { FC, useEffect } from 'react';
 import { saveResults } from 'redux/features/challengeSlice';
+import { prepareNewStatistic } from 'redux/features/statisticSlice/utils';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
+import { sendStatistic } from 'redux/thunks';
 import ResultsItem from '../ResultsItem';
 
 import { StyledResultsTable } from './ResultsTable.styles';
 
 const ResultsTable: FC = () => {
   const { rightAnswers, wrongAnswers } = useTypedSelector(state => state.challenge);
-  const prevWords = useTypedSelector(state => state.words.allWords);
+  const prevStatistic = useTypedSelector(state => state.statistic.statisticData);
   const dispatch = useTypedDispatch();
   const user = localStorage.getItem('authUserData-zm');
   useEffect(() => {
     if (user) {
-      const parsedUserData = JSON.parse(user);
-      const userId = parsedUserData.userId.toString();
+      const userData = JSON.parse(user);
+      const userId = userData.userId.toString();
       dispatch(saveResults(userId));
+      const newStatistic = prepareNewStatistic(prevStatistic, [...rightAnswers, ...wrongAnswers]) as IStatistic;
+      dispatch(sendStatistic({ userData, newStatistic }));
     } else dispatch(saveResults());
-  }, []);
+  }, [dispatch]);
 
 
   return (

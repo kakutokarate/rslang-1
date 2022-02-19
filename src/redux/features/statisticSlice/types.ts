@@ -1,15 +1,17 @@
-import { IDailyResult } from 'model/IStatistic';
+import { IDailyResult, IStatistic } from 'model/IStatistic';
 import { IWord } from 'model/IWord';
 
 export interface IStatisticState {
-  learnedWordsCount: number;
-  learnedWordsIds: {
-    [prop: string]: number;
-  };
-  dailyResults: {
-    [prop: string]: IDailyResult;
-  };
+  statisticData: IStatistic | {};
   isLoadingStatistic: boolean;
   statisticLoaded: boolean;
   statisticError: string | null;
 }
+
+export type TLearnedWordsIds = {
+  [prop: string]: number;
+};
+
+export type TDailyResults = {
+  [prop: string]: IDailyResult;
+};
