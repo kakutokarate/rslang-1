@@ -1,14 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { IAuth } from 'model/IAuth';
 import { IUser } from 'model/IUser';
 import {
   ICreateUserWord,
   IGetUserWords,
   ILoadingPageData,
+  ISetStatistic,
   ISignIn,
 } from './types';
 
-export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',
@@ -175,12 +177,55 @@ export const deleteUserWord = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${userWord.token}`,
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
     } catch (error) {
       return thunkAPI.rejectWithValue('Не удалось удалить слово');
+    }
+  }
+);
+
+export const getStatistic = createAsyncThunk(
+  'statistic/getStatistic',
+  async (userData: IAuth, thunkAPI) => {
+    const { userId, token } = userData;
+    try {
+      const response = await axios(`${BASE_URL}/users/${userId}/statistics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Не удалось получить статистику');
+    }
+  }
+);
+
+export const setStatistic = createAsyncThunk(
+  'statistic/setStatistic',
+  async (statisticData: ISetStatistic, thunkAPI) => {
+    const { userData, newStatistic } = statisticData;
+    try {
+      await axios.put(
+        `${BASE_URL}/users/${userData.userId}/statistics`,
+        {
+          ...newStatistic,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Не удалось получить статистику');
     }
   }
 );

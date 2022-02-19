@@ -5,6 +5,7 @@ import challenge from './features/challengeSlice';
 import textbook from './features/textbookSlice/textBookSlice';
 import words from './features/wordsSlice';
 import sprint from './features/sprintSlice';
+import statistic from './features/statisticSlice';
 
 const rootReducer = combineReducers({
   registration,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   textbook,
   words,
   sprint,
+  statistic,
 });
 
 export const store = configureStore({

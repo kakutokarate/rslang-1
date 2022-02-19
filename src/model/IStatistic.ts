@@ -1,15 +1,18 @@
 import { IWord } from './IWord';
 
-interface IDailyResult {
-  date: string;
+export interface IDailyResult {
   newWordsCounter: number;
   allWordsCounter: number;
 }
 export interface IStatistic {
   id?: string;
-  learnedWordsCounter: number;
+  learnedWords: number;
   optional: {
-    learnedWords: Array<IWord>;
-    dailyResults: Array<IDailyResult>;
+    learnedWordsIds: {
+      [prop: string]: number; // в качестве key используется id слова, в качестве значения - единица
+    };
+    dailyResults: {
+      [prop: string]: IDailyResult; // в качестве key - дата в формате строки 'yyyy-mm-dd'
+    };
   };
 }

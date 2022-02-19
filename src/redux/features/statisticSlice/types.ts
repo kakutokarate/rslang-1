@@ -3,6 +3,13 @@ import { IWord } from 'model/IWord';
 
 export interface IStatisticState {
   learnedWordsCount: number;
-  learnedWords: Array<IWord>;
-  dailyResults: Array<IDailyResult>;
+  learnedWordsIds: {
+    [prop: string]: number;
+  };
+  dailyResults: {
+    [prop: string]: IDailyResult;
+  };
+  isLoadingStatistic: boolean;
+  statisticLoaded: boolean;
+  statisticError: string | null;
 }
