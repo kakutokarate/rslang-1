@@ -6,6 +6,7 @@ import {
   ICreateUserWord,
   IGetUserWords,
   ILoadingPageData,
+  IPostUserWord,
   ISendStatistic,
   ISignIn,
 } from './types';
@@ -183,6 +184,54 @@ export const deleteUserWord = createAsyncThunk(
       );
     } catch (error) {
       return thunkAPI.rejectWithValue('Не удалось удалить слово');
+    }
+  }
+);
+
+export const postUserWord = createAsyncThunk(
+  'thunks/postUserWord',
+  async ({ newUserWord, userData }: IPostUserWord, thunkAPI) => {
+    const { wordId } = newUserWord.optional;
+    try {
+      await axios.post(
+        `${BASE_URL}/users/${userData.userId}/words/${wordId}`,
+        newUserWord,
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        'Не удалось обновить слово в базе данных'
+      );
+    }
+  }
+);
+
+export const updateUserWord = createAsyncThunk(
+  'thunks/postUserWord',
+  async ({ newUserWord, userData }: IPostUserWord, thunkAPI) => {
+    const { wordId } = newUserWord.optional;
+    try {
+      await axios.put(
+        `${BASE_URL}/users/${userData.userId}/words/${wordId}`,
+        newUserWord,
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        'Не удалось обновить слово в базе данных'
+      );
     }
   }
 );

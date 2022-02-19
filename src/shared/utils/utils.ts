@@ -1,4 +1,5 @@
 import { ILocalStatistic } from 'model/ILocalStatistic';
+import { TDifficulty } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 import { AUDIOCHALLENGE, SPRINT } from './constants';
 import { TGetWordsByGroup } from './types';
@@ -75,7 +76,7 @@ const setInitialLocalStatistic = (
           wrongAnswers: 0,
           wordList: [],
         };
-  let newData: ILocalStatistic = {
+  const newData: ILocalStatistic = {
     date: getCurrentDate(),
     allNewWordsCount: rightAnswersIds.length + wrongAnswersIds.length,
     allGamesRight: rightAnswersIds.length,
@@ -100,7 +101,7 @@ export const updateLocalStatistic = (
   const guestKey = `statistic-guest-zm`;
   const userStatistic = userId ? localStorage.getItem(userKey) : undefined;
   const guestStatistic = localStorage.getItem(guestKey);
-  let prevStatistic = userStatistic
+  const prevStatistic = userStatistic
     ? userStatistic
     : guestStatistic
     ? guestStatistic
@@ -122,13 +123,13 @@ export const updateLocalStatistic = (
         prevData.games.audiochallenge.wordList
       );
     }
-    let dailyAllNewWords = getNewWordsFromArray(
+    const dailyAllNewWords = getNewWordsFromArray(
       [...rightAnswersIds, ...wrongAnswersIds],
       prevData.wordList
     );
 
     if (currentDate === prevData.date) {
-      let audiochallengeStat =
+      const audiochallengeStat =
         game === AUDIOCHALLENGE
           ? {
               bestStreak:
@@ -151,7 +152,7 @@ export const updateLocalStatistic = (
             }
           : { ...prevData.games.audiochallenge };
 
-      let sprintStat =
+      const sprintStat =
         game === SPRINT
           ? {
               bestStreak:
@@ -188,7 +189,7 @@ export const updateLocalStatistic = (
         ? localStorage.setItem(userKey, JSON.stringify(newData))
         : localStorage.setItem(guestKey, JSON.stringify(newData));
     } else if (currentDate !== prevData.date) {
-      let audiochallengeStat =
+      const audiochallengeStat =
         game === AUDIOCHALLENGE
           ? {
               bestStreak: currentStreak,
@@ -207,7 +208,7 @@ export const updateLocalStatistic = (
               rightAnswers: 0,
               wrongAnswers: 0,
             };
-      let sprintStat =
+      const sprintStat =
         game === SPRINT
           ? {
               bestStreak: currentStreak,
@@ -272,4 +273,74 @@ export const isObjectEmpty = (obj: object) => {
     return false;
   }
   return true;
+};
+
+export const createNewUserWord = (
+  //для создания 'пустого' объекта userWord
+  wordId: string,
+  isRight: boolean,
+  gameName?: string,
+  difficulty?: TDifficulty
+) => {
+  const counter = isRight ? 1 : 0;
+  return {
+    difficulty: difficulty ? difficulty : 'easy',
+    optional: {
+      wordId,
+      counter,
+      sprint: {
+        rightCounter: Number(gameName && gameName === SPRINT && isRight) || 0,
+        wrongCounter: Number(gameName && gameName === SPRINT && !isRight) || 0,
+      },
+      audiochallenge: {
+        rightCounter:
+          Number(gameName && gameName === AUDIOCHALLENGE && isRight) || 0,
+        wrongCounter:
+          Number(gameName && gameName === AUDIOCHALLENGE && !isRight) || 0,
+      },
+    },
+  };
+};
+
+export const updateUserWordData = (
+  //создание обновленного объекта UserWord после игры
+  word: IWord,
+  isRight: boolean,
+  gameName: string
+) => {
+  if (!('userWord' in word)) {
+    const updatedUserWord = createNewUserWord(word._id!, isRight, gameName);
+    return updatedUserWord;
+  } else if (word.userWord) {
+    const { difficulty, optional } = word.userWord!;
+    const { wordId } = optional;
+    const updatedUserWord = {
+      difficulty: difficulty ? difficulty : 'easy',
+      optional: {
+        wordId,
+        counter: isRight ? optional.counter + 1 : 0,
+        sprint: {
+          rightCounter:
+            gameName && gameName === SPRINT && isRight
+              ? optional.sprint.rightCounter + 1
+              : optional.sprint.rightCounter,
+          wrongCounter:
+            gameName && gameName === SPRINT && !isRight
+              ? optional.sprint.wrongCounter + 1
+              : optional.sprint.wrongCounter,
+        },
+        audiochallenge: {
+          rightCounter:
+            gameName && gameName === AUDIOCHALLENGE && isRight
+              ? optional.audiochallenge.rightCounter + 1
+              : optional.audiochallenge.rightCounter,
+          wrongCounter:
+            gameName && gameName === AUDIOCHALLENGE && !isRight
+              ? optional.audiochallenge.wrongCounter + 1
+              : optional.audiochallenge.wrongCounter,
+        },
+      },
+    };
+    return updatedUserWord;
+  }
 };

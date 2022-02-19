@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
 import { fetchWordsByGroup } from 'redux/thunks';
 import { updateLocalStatistic } from 'shared/utils';
+import { AUDIOCHALLENGE } from 'shared/utils/constants';
 import { IChallengeState } from './types';
 import { getAnswers } from './utils';
 
@@ -61,11 +62,11 @@ const challengeSlice = createSlice({
         state.showResult = true;
       }
     },
-    saveResults(state, action: PayloadAction<string | undefined>) {
+    saveDailyResults(state, action: PayloadAction<string | undefined>) {
       updateLocalStatistic(
         state.rightAnswers,
         state.wrongAnswers,
-        'audiochallenge',
+        AUDIOCHALLENGE,
         state.currentRightStreak,
         action.payload
       );
@@ -106,7 +107,7 @@ export const {
   startChallenge,
   selectAnswer,
   submitAnswer,
-  saveResults,
+  saveDailyResults,
   setInitialChallengeState,
 } = challengeSlice.actions;
 
