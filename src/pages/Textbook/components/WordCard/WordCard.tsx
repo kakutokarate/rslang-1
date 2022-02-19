@@ -29,6 +29,7 @@ const WordCard: FC<IWordCardProps> = ({
   player,
   makeDifficult,
   deleteWord,
+  makeLearned,
 }) => {
   const {
     auth: { authUserData },
@@ -43,11 +44,15 @@ const WordCard: FC<IWordCardProps> = ({
     deleteWord(_id!);
   }
 
+  const onLearnedClick = () => {
+    makeLearned(id);
+  };
+
+  const isUserWord = mode === 'textbook' && userWord;
+
   return (
     <StyledWordCard
-      background={
-        (mode === 'textbook' && userWord && userWord.difficulty) || undefined
-      }
+      background={(isUserWord && userWord.difficulty) || undefined}
     >
       <WordImage image={image} />
       <WordContent>
@@ -72,6 +77,7 @@ const WordCard: FC<IWordCardProps> = ({
             isDifficult={userWord?.difficulty}
             onDifficultClick={onDifficultClick}
             onDeleteWord={onDeleteWord}
+            onLearnedClick={onLearnedClick}
           />
         )}
       </WordContent>

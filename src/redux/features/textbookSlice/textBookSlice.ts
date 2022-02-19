@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 import { deleteUserWord, fetchWords, getUserWords } from 'redux/thunks';
 import { ITextbookState } from './types';
@@ -45,6 +46,22 @@ const textBookSlice = createSlice({
           },
         },
       };
+    },
+    makeWordLearned(state, action) {
+      const idx = state.words.findIndex((w) => w.id === action.payload.id);
+      if (state.words[idx].userWord && state.words[idx].userWord?.difficulty === 'difficult') {
+        state.words[idx].userWord = {
+          ...(state.words[idx].userWord as IUserWord),
+          optional: { counter: 5 },
+        };
+      } else {
+        state.words[idx].userWord = {
+          difficulty: 'easy',
+          optional: {
+            counter: 3,
+          },
+        };
+      }
     },
     showDifficultWordsPage(state) {
       state.words = state.difficultWords;
@@ -96,6 +113,7 @@ export const {
   changePageNumber,
   combineAllWords,
   makeWordDifficult,
+  makeWordLearned,
   showDifficultWordsPage,
 } = textBookSlice.actions;
 

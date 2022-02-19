@@ -1,6 +1,6 @@
 import { CircularProgress, Pagination } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { changePageNumber, makeWordDifficult } from 'redux/features/textbookSlice/textBookSlice';
+import { changePageNumber, makeWordDifficult, makeWordLearned } from 'redux/features/textbookSlice/textBookSlice';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { createUserWord, deleteUserWord, getUserWords } from 'redux/thunks';
 import WordCard from '../WordCard';
@@ -18,7 +18,7 @@ const CardsWrapper: FC = () => {
   const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
 
   const makeDifficult = async (id: string) => {
-    dispatch(makeWordDifficult({id}));
+    dispatch(makeWordDifficult({ id }));
     await dispatch(createUserWord({
       userId: authUser.userId,
       wordId: id,
@@ -37,6 +37,10 @@ const CardsWrapper: FC = () => {
       wordId: id,
       token: authUser.token,
     }));
+  }
+
+  const makeLearned = (id: string) => {
+    dispatch(makeWordLearned({ id }));
   }
 
   useEffect(() => {
@@ -58,6 +62,7 @@ const CardsWrapper: FC = () => {
       word={w}
       makeDifficult={makeDifficult}
       deleteWord={deleteWord}
+      makeLearned={makeLearned}
     />
   ));
 

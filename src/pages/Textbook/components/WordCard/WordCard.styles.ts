@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledWordCard = styled.div<{background?: string | undefined}>`
+export const StyledWordCard = styled.div<{ background?: string | undefined }>`
   width: 100%;
   padding: 30px 20px;
   margin-bottom: 15px;
@@ -8,5 +8,10 @@ export const StyledWordCard = styled.div<{background?: string | undefined}>`
   border-radius: 5px;
   display: flex;
   row-gap: 15px;
-  background-color: ${(props) => props.background ? 'tomato' : '#d7d7d7'};
+  background-color: ${({ background }) =>
+    background === 'difficult'
+      ? 'tomato'
+      : background === 'easy'
+      ? 'lightgreen'
+      : '#d7d7d7'};
 `;
