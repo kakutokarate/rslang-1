@@ -32,6 +32,7 @@ const Textbook: FC = () => {
       dispatch(combineAllWords());
     }
 
+    // Только в режиме учебника комбинируем слова
     if (mode === 'textbook') {
       updateWords();
     }

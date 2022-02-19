@@ -17,11 +17,16 @@ const CardsWrapper: FC = () => {
 
   const authUser = JSON.parse(localStorage.getItem('authUserData-zm')!);
 
-  const makeDifficult = (id: string) => {
+  const makeDifficult = async (id: string) => {
     dispatch(makeWordDifficult({id}));
-    dispatch(createUserWord({
+    await dispatch(createUserWord({
       userId: authUser.userId,
       wordId: id,
+      token: authUser.token,
+    }));
+    // После создания нового слова, сразу обновляем массив сложных слов, чтобы, при переключении на словарь, оно уже было
+    await dispatch(getUserWords({
+      userId: authUser.userId,
       token: authUser.token,
     }));
   }
