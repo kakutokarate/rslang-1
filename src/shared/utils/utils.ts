@@ -1,4 +1,5 @@
 import { ILocalStatistic } from 'model/ILocalStatistic';
+import { IWord } from 'model/IWord';
 import { AUDIOCHALLENGE, SPRINT } from './constants';
 import { TGetWordsByGroup } from './types';
 
@@ -251,4 +252,24 @@ export const updateLocalStatistic = (
       ? localStorage.setItem(userKey, JSON.stringify(newData))
       : localStorage.setItem(guestKey, JSON.stringify(newData));
   }
+};
+
+export const filterNotLearnedWords = (words: Array<IWord>) => {
+  return [...words].filter((el) => {
+    return (
+      !el.userWord ||
+      !el.userWord.optional ||
+      el.userWord!.optional!.counter === null ||
+      el.userWord!.optional!.counter < 3 ||
+      (el.userWord!.difficulty === 'difficult' &&
+        el.userWord!.optional!.counter < 5)
+    );
+  });
+};
+
+export const isObjectEmpty = (obj: object) => {
+  for (let key in obj) {
+    return false;
+  }
+  return true;
 };
