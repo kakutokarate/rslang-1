@@ -3,7 +3,7 @@ import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 import { deleteUserWord, fetchWords, getUserWords } from 'redux/thunks';
 import { ITextbookState } from './types';
-import { combineWords } from './utils';
+import { combineWords, createInitOptional, createInitUserWord } from './utils';
 
 const initialState: ITextbookState = {
   words: [],
@@ -31,40 +31,25 @@ const textBookSlice = createSlice({
     },
     makeWordDifficult(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
-      state.words[idx].userWord = {
-        difficulty: 'difficult',
-        optional: {
-          counter: 0,
-          wordId: '5e9f5ee35eb9e72bc21b00f0',
-          sprint: {
-            rightCounter: 0,
-            wrongCounter: 0,
-          },
-          audiochallenge: {
-            rightCounter: 0,
-            wrongCounter: 0,
-          },
-        },
-      };
+      state.words[idx].userWord = createInitUserWord(action.payload.id, 0, 'difficult');
     },
     makeWordLearned(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
       if (state.words[idx].userWord && state.words[idx].userWord?.difficulty === 'difficult') {
         state.words[idx].userWord = {
           ...(state.words[idx].userWord as IUserWord),
-          optional: { counter: 5 },
+          optional: createInitOptional(action.payload.id, 5),
         };
       } else {
-        state.words[idx].userWord = {
-          difficulty: 'easy',
-          optional: {
-            counter: 3,
-          },
-        };
+        state.words[idx].userWord = createInitUserWord(action.payload.id, 3, 'easy');
       }
     },
     showDifficultWordsPage(state) {
-      state.words = state.difficultWords;
+      // Отфильтруем только слова с difficulty = 'difficult'
+      const onlyDifficultWordsArray = state.difficultWords.filter(
+        (w) => w.userWord?.difficulty === 'difficult'
+      );
+      state.words = onlyDifficultWordsArray;
       state.mode = 'dictionary';
     },
     combineAllWords(state) {
@@ -94,7 +79,8 @@ const textBookSlice = createSlice({
       }
 
       if (state.mode === 'dictionary') {
-        state.words = action.payload; // Вызываем при удалении слова со страницы сложных слов, т.к. отрисовка завязана на массиве words
+        // Вызываем при удалении слова со страницы сложных слов, т.к. отрисовка завязана на массиве words
+        state.words = action.payload.filter((w: IWord) => w.userWord?.difficulty === 'difficult');
       }
 
       state.isWordDeleted = false;

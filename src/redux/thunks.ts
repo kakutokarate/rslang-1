@@ -4,6 +4,7 @@ import { IAuth } from 'model/IAuth';
 import { IUser } from 'model/IUser';
 import {
   ICreateUserWord,
+  IDeleteUserWord,
   IGetUserWords,
   ILoadingPageData,
   IPostUserWord,
@@ -128,7 +129,7 @@ export const getUserWords = createAsyncThunk(
   async (userData: IGetUserWords, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/users/${userData.userId}/aggregatedWords?wordsPerPage=3600&filter={"$and":[{"userWord.difficulty":"difficult"}]}`,
+        `${BASE_URL}/users/${userData.userId}/aggregatedWords?wordsPerPage=3600&filter={"$or":[{"userWord.difficulty":"difficult"}, {"userWord.difficulty":"easy"}]}`,
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
@@ -152,7 +153,54 @@ export const createUserWord = createAsyncThunk(
       await axios.post(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
         {
-          difficulty: 'difficult',
+          difficulty: userWord.difficulty,
+          optional: {
+            wordId: userWord.wordId,
+            counter: userWord.counter,
+            sprint: {
+              rightCounter: 0,
+              wrongCounter: 0,
+            },
+            audiochallenge: {
+              rightCounter: 0,
+              wrongCounter: 0,
+            },
+          }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userWord.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Не удалось добавить слово');
+    }
+  }
+);
+
+export const updateWord = createAsyncThunk(
+  'words/createUserWord',
+  async (userWord: ICreateUserWord, thunkAPI) => {
+    try {
+      await axios.put(
+        `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
+        {
+          difficulty: userWord.difficulty,
+          optional: {
+            wordId: userWord.wordId,
+            counter: userWord.counter,
+            sprint: {
+              rightCounter: 0,
+              wrongCounter: 0,
+            },
+            audiochallenge: {
+              rightCounter: 0,
+              wrongCounter: 0,
+            },
+          }
         },
         {
           headers: {
@@ -170,7 +218,7 @@ export const createUserWord = createAsyncThunk(
 
 export const deleteUserWord = createAsyncThunk(
   'words/deleteUserWord',
-  async (userWord: ICreateUserWord, thunkAPI) => {
+  async (userWord: IDeleteUserWord, thunkAPI) => {
     try {
       await axios.delete(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
