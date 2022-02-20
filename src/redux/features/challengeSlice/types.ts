@@ -15,4 +15,5 @@ export interface IChallengeState {
   fetchWordsError: null | string;
   results: Array<IUserWord>;
   currentRightStreak: number;
+  bestGameStreak: number;
 }

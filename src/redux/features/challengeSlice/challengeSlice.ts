@@ -22,7 +22,8 @@ const initialState: IChallengeState = {
   isFetchingWords: false,
   fetchWordsError: null,
   results: [],
-  currentRightStreak: 3,
+  currentRightStreak: 0,
+  bestGameStreak: 0,
 };
 
 const challengeSlice = createSlice({
@@ -45,6 +46,8 @@ const challengeSlice = createSlice({
         state.wrongAnswers.push(
           state.currentQuestionsSet[state.currentQuestionIndex].id
         );
+        if (state.currentRightStreak > state.bestGameStreak)
+          state.bestGameStreak = state.currentRightStreak;
         state.currentRightStreak = 0;
       }
       state.currentAnswer = action.payload;
@@ -59,6 +62,8 @@ const challengeSlice = createSlice({
         );
       } else {
         state.currentAnswer = '';
+        if (state.currentRightStreak > state.bestGameStreak)
+          state.bestGameStreak = state.currentRightStreak;
         state.showResult = true;
       }
     },
@@ -67,7 +72,7 @@ const challengeSlice = createSlice({
         state.rightAnswers,
         state.wrongAnswers,
         AUDIOCHALLENGE,
-        state.currentRightStreak,
+        state.bestGameStreak,
         action.payload
       );
     },
