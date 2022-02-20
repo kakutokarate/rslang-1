@@ -122,8 +122,19 @@ const CardsWrapper: FC = () => {
   const showPagination =
     status === 'resolved' && Boolean(words.length) && mode === 'textbook';
 
+  // Если каждое слово сложное или изученное, то сумма будет 20 
+  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
+    if (w.userWord) {
+      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
+        return accum += 1;
+      }
+    }
+
+    return accum += 0;
+  }, 0);
+
   return (
-    <StyledCardsWrapper>
+    <StyledCardsWrapper learnedWordCount={learnedWordCount}>
       {status === "pending" && <CircularProgress color="info" />}
       {error && <h2>{error}</h2>}
       {status === "resolved" && wordCards}
