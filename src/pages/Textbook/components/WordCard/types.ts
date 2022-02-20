@@ -5,4 +5,5 @@ export interface IWordCardProps {
   player: HTMLAudioElement;
   makeDifficult: (id: string) => void;
   deleteWord: (id: string) => void;
+  makeLearned: (id: string) => void;
 }

@@ -21,6 +21,13 @@ export interface ICreateUserWord {
   userId: string;
   wordId: string;
   token: string;
+  wordData: IUserWord;
+}
+
+export interface IDeleteUserWord {
+  userId: string;
+  wordId: string;
+  token: string;
 }
 
 export interface ISendStatistic {
