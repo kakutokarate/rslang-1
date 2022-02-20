@@ -4,21 +4,27 @@ import { IWordControlProps } from './types';
 
 const WordControl: FC<IWordControlProps> = ({
   mode,
-  isDifficult,
+  userWord,
   onDifficultClick,
   onDeleteWord,
   onLearnedClick,
 }) => {
-  const isDisabled = isDifficult ? true : false;
+  const isDisabledDifficultBtn = userWord?.difficulty === 'difficult' ? true : false;
+  const isDisabledLearnedBtn = userWord?.difficulty === 'easy' ? true : false;
 
   return (
     <StyledWordControl>
       {mode === 'textbook' && (
         <>
-          <button onClick={onDifficultClick} disabled={isDisabled}>
+          <button
+            onClick={onDifficultClick}
+            disabled={isDisabledDifficultBtn || isDisabledLearnedBtn}
+          >
             Сложное слово
           </button>
-          <button onClick={onLearnedClick}>Изученное слово</button>
+          <button onClick={onLearnedClick} disabled={isDisabledLearnedBtn}>
+            Изученное слово
+          </button>
         </>
       )}
       {mode === 'dictionary' && (

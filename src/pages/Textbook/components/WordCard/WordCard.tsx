@@ -74,7 +74,7 @@ const WordCard: FC<IWordCardProps> = ({
         {authUserData && (
           <WordControl
             mode={mode}
-            isDifficult={userWord?.difficulty}
+            userWord={userWord}
             onDifficultClick={onDifficultClick}
             onDeleteWord={onDeleteWord}
             onLearnedClick={onLearnedClick}
