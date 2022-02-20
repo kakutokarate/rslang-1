@@ -103,7 +103,7 @@ export const updateLocalStatistic = (
   const guestStatistic = localStorage.getItem(guestKey);
   const prevStatistic = userStatistic
     ? userStatistic
-    : guestStatistic
+    : !userId && guestStatistic
     ? guestStatistic
     : null;
   const currentDate = getCurrentDate();
@@ -255,16 +255,21 @@ export const updateLocalStatistic = (
   }
 };
 
+export const checkIsLearnedWord = (word: IWord) => {
+  return (
+    word.userWord &&
+    word.userWord.optional &&
+    word.userWord.optional.counter &&
+    ((word.userWord.difficulty === 'easy' &&
+      word.userWord.optional.counter > 2) ||
+      (word.userWord.difficulty === 'difficult' &&
+        word.userWord.optional.counter > 4))
+  );
+};
+
 export const filterNotLearnedWords = (words: Array<IWord>) => {
   return [...words].filter((el) => {
-    return (
-      !el.userWord ||
-      !el.userWord.optional ||
-      el.userWord!.optional!.counter === null ||
-      el.userWord!.optional!.counter < 3 ||
-      (el.userWord!.difficulty === 'difficult' &&
-        el.userWord!.optional!.counter < 5)
-    );
+    return !checkIsLearnedWord(el);
   });
 };
 
