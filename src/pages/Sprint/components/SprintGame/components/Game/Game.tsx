@@ -1,51 +1,89 @@
-import { FC } from "react"
-import { setAnsweredWords, setCurrentWordIndex } from "redux/features/sprintSlice";
+import { FC, useEffect, useState } from "react"
+import { setAnsweredWords, setCurrentCorrectAnswersSeries, setCurrentWordIndex, setLastBestSeries } from "redux/features/sprintSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
-import { getRandomValueFromArray } from "shared/utils";
 import Timer from "../Timer";
 import { Button, Wrapper } from "./Game.styled"
+import usePrepareDataForAnswer from "./hooks/usePrepareDataForAnswer";
+import correctSound from 'assets/sounds/correct_answer.wav';
+import wrongSound from 'assets/sounds/wrong_answer.wav';
 
 const Game: FC = () => {
+  const [isBtnsActive, setIsBtnsActive] = useState(true);
+  const [currentWord, translation, enWord, id] = usePrepareDataForAnswer();
   const dispatch = useTypedDispatch();
   const {
-    currentPlayedCollection,
     currentWordIndex,
-    answeredWords
+    answeredWords,
+    currentCorrectAnswersSeries,
+    lastBestSeries,
   } = useTypedSelector(state => state.sprint);
-  const randomWord = currentPlayedCollection && getRandomValueFromArray(currentPlayedCollection);
-  const enWord = currentPlayedCollection && currentPlayedCollection[currentWordIndex].word;
-  const ruWord = randomWord && randomWord
-    .wordTranslate
-    .toLowerCase();
-  const translation = currentPlayedCollection && currentPlayedCollection[currentWordIndex]
-    .wordTranslate
-    .toLowerCase();
-  const currentWord = Math.random() > 0.5 ? ruWord : translation;
 
-  function clickHandler(arg: boolean) {
-    dispatch(setCurrentWordIndex(currentWordIndex + 1));
-    const result = currentWord === translation;
-    if (result === arg) {
-      dispatch(setAnsweredWords({
-        [enWord!]: {
-          answerResult: result,
-          translation,
-          currentWord,
-        }
-      }));
-    } else {
-      dispatch(setAnsweredWords({
-        [enWord!]: {
-          answerResult: result,
-          translation,
-          currentWord,
-        }
-      }));
+  const audioCorrect = new Audio(correctSound);
+  const audioWrong = new Audio(wrongSound);
+
+  function falseAnswer() {
+    audioWrong.play();
+    if (currentCorrectAnswersSeries > lastBestSeries) {
+      dispatch(setLastBestSeries(currentCorrectAnswersSeries));
     }
-    console.log(answeredWords);
+    dispatch(setCurrentCorrectAnswersSeries(0));
+    dispatch(setAnsweredWords({
+      word: enWord,
+      answerResult: false,
+      translation,
+      currentWord,
+      id,
+    }));
   }
 
+  function clickHandler(answer: boolean) {
+    if (isBtnsActive) {
+      setIsBtnsActive(false);
+      const result = currentWord === translation;
 
+      if (result === answer) {
+        audioCorrect.play();
+        dispatch(setCurrentCorrectAnswersSeries(currentCorrectAnswersSeries + 1));
+        dispatch(setAnsweredWords({
+          word: enWord,
+          answerResult: true,
+          translation,
+          currentWord,
+          id,
+        }));
+
+      } else {
+        falseAnswer();
+      }
+      dispatch(setCurrentWordIndex(currentWordIndex + 1));
+      setTimeout(() => setIsBtnsActive(true), 500);
+
+    }
+  }
+
+  function skipHandler() {
+    if (isBtnsActive) {
+      setIsBtnsActive(false);
+
+      falseAnswer();
+      dispatch(setCurrentWordIndex(currentWordIndex + 1));
+
+    }
+    setTimeout(() => setIsBtnsActive(true), 500);
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'ArrowLeft') clickHandler(false);
+      if (e.code === 'ArrowRight') clickHandler(true);
+      if (e.code === 'ArrowUp') skipHandler();
+      if (e.code === 'ArrowDown') skipHandler();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [answeredWords, isBtnsActive, currentWordIndex, clickHandler, skipHandler]);
 
   return (
     <Wrapper>
@@ -56,11 +94,22 @@ const Game: FC = () => {
       </div>
       <div>
         <Button
-          onClick={() => clickHandler(true)}
-        >Да</Button>
-        <Button
           onClick={() => clickHandler(false)}
-        >Нет</Button>
+
+        >
+          Нет
+        </Button>
+        <Button
+          onClick={skipHandler}
+        >
+          Не знаю
+        </Button>
+        <Button
+          onClick={() => clickHandler(true)}
+
+        >
+          Да
+        </Button>
       </div>
     </Wrapper>
   );

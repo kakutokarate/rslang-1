@@ -1,18 +1,20 @@
 import { IWord } from "model/IWord";
 
 export interface answeredWord {
-  [k: string]: {
-    answerResult: boolean | null;
-    translation: string | null;
-    currentWord: string | null;
-  }
+  word: string | null | undefined;
+  answerResult: boolean | null;
+  translation: string | null | undefined;
+  currentWord: string | null | undefined;
+  id: string | null | undefined;
 };
 
 export interface ISprintState {
   isSprintRunning: boolean;
   isGameOver: boolean;
-  currentPlayedCollection: null | IWord[];
+  currentPlayedCollection: IWord[];
   currentWordIndex: number;
   pickedGroup: null | number;
   answeredWords: answeredWord[];
+  lastBestSeries: number,
+  currentCorrectAnswersSeries: number,
 };
