@@ -9,8 +9,14 @@ const WordControl: FC<IWordControlProps> = ({
   onDeleteWord,
   onLearnedClick,
 }) => {
-  const isDisabledDifficultBtn = userWord?.difficulty === 'difficult' ? true : false;
-  const isDisabledLearnedBtn = userWord?.difficulty === 'easy' ? true : false;
+  const isDisabledDifficultBtn =
+    userWord?.difficulty === 'difficult' && userWord.optional.counter === 5
+      ? true
+      : false;
+  const isDisabledLearnedBtn =
+    userWord?.difficulty === 'easy' && userWord.optional.counter === 3
+      ? true
+      : false;
 
   return (
     <StyledWordControl>

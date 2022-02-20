@@ -52,7 +52,7 @@ const WordCard: FC<IWordCardProps> = ({
 
   return (
     <StyledWordCard
-      background={(isUserWord && userWord.difficulty) || undefined}
+      background={(isUserWord && userWord) || undefined}
     >
       <WordImage image={image} />
       <WordContent>

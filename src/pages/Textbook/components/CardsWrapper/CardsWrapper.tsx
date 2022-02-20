@@ -51,7 +51,6 @@ const CardsWrapper: FC = () => {
 
   const makeLearned = async (id: string) => {
     dispatch(makeWordLearned({ id }));
-    console.log(difficultWords)
 
     const word = difficultWords.find((df) => df._id === id);
 
