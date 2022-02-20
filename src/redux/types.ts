@@ -20,9 +20,8 @@ export interface IGetUserWords {
 export interface ICreateUserWord {
   userId: string;
   wordId: string;
-  difficulty: string;
-  counter: number;
   token: string;
+  wordData: IUserWord;
 }
 
 export interface IDeleteUserWord {

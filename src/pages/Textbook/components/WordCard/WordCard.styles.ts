@@ -10,9 +10,10 @@ export const StyledWordCard = styled.div<{ background?: IUserWord | undefined }>
   display: flex;
   row-gap: 15px;
   background-color: ${({ background }) =>
-    background?.difficulty === 'difficult' && background.optional.counter === 5
+    background?.difficulty === 'difficult'
       ? 'tomato'
-      : background?.difficulty === 'easy' && background.optional.counter === 3
+      : background?.difficulty === "easy" &&
+        background.optional.counter >= 3
       ? 'lightgreen'
       : '#d7d7d7'};
 `;

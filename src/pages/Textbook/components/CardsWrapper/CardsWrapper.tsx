@@ -1,9 +1,9 @@
 import { CircularProgress, Pagination } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { changePageNumber, makeWordDifficult, makeWordLearned } from 'redux/features/textbookSlice/textBookSlice';
-import { createInitOptional, createInitUserWord } from 'redux/features/textbookSlice/utils';
+import { buildUserWord } from 'redux/features/textbookSlice/utils';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
-import { createUserWord, deleteUserWord, getUserWords, updateWord } from 'redux/thunks';
+import { createUserWord, deleteUserWord, getUserWords, updateCurrentWord } from 'redux/thunks';
 import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
 
@@ -21,24 +21,34 @@ const CardsWrapper: FC = () => {
   const makeDifficult = async (id: string) => {
     dispatch(makeWordDifficult({ id }));
 
-    const {
-      difficulty,
-      optional: { counter },
-    } = createInitUserWord(id, 0, 'difficult');
+    const word = difficultWords.find((df) => df._id === id);
 
-    await dispatch(createUserWord({
-      userId: authUser.userId,
-      wordId: id,
-      difficulty,
-      counter,
-      token: authUser.token,
-    }));
+    if (!word) {
+      await dispatch(createUserWord({
+        userId: authUser.userId,
+        wordId: id,
+        token: authUser.token,
+        wordData: buildUserWord(id, words, 'difficult'),
+      }));
+  
+      // После создания нового слова, сразу обновляем массив сложных слов, чтобы, при переключении на словарь, оно уже было
+      await dispatch(getUserWords({
+        userId: authUser.userId,
+        token: authUser.token,
+      }));
+    } else {
+      await dispatch(updateCurrentWord({
+        userId: authUser.userId,
+        wordId: id,
+        token: authUser.token,
+        wordData: buildUserWord(id, words, 'difficult'),
+      }));
 
-    // После создания нового слова, сразу обновляем массив сложных слов, чтобы, при переключении на словарь, оно уже было
-    await dispatch(getUserWords({
-      userId: authUser.userId,
-      token: authUser.token,
-    }));
+      await dispatch(getUserWords({
+        userId: authUser.userId,
+        token: authUser.token,
+      }));
+    }
   }
 
   const deleteWord = (id: string) => {
@@ -54,18 +64,12 @@ const CardsWrapper: FC = () => {
 
     const word = difficultWords.find((df) => df._id === id);
 
-    if (!word) {
-      const {
-        difficulty,
-        optional: { counter },
-      } = createInitUserWord(id, 3, 'easy');
-  
+    if (!word) {  
       await dispatch(createUserWord({
         userId: authUser.userId,
         wordId: id,
-        difficulty,
-        counter,
         token: authUser.token,
+        wordData: buildUserWord(id, words, 'easy'),
       }));
   
       // После создания нового слова, сразу обновляем массив сложных слов, чтобы, при переключении на словарь, оно уже было
@@ -74,15 +78,11 @@ const CardsWrapper: FC = () => {
         token: authUser.token,
       }));
     } else {
-      const difficulty = 'easy';
-      const { counter } = createInitOptional(id, 3);
-
-      await dispatch(updateWord({
+      await dispatch(updateCurrentWord({
         userId: authUser.userId,
         wordId: id,
-        difficulty,
-        counter,
         token: authUser.token,
+        wordData: buildUserWord(id, words, 'easy'),
       }));
   
       // После создания нового слова, сразу обновляем массив сложных слов, чтобы, при переключении на словарь, оно уже было

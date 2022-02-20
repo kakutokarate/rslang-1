@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 import { deleteUserWord, fetchWords, getUserWords } from 'redux/thunks';
 import { ITextbookState } from './types';
-import { combineWords, createInitOptional, createInitUserWord } from './utils';
+import { buildUserWord, combineWords } from './utils';
 
 const initialState: ITextbookState = {
   words: [],
@@ -31,17 +30,14 @@ const textBookSlice = createSlice({
     },
     makeWordDifficult(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
-      state.words[idx].userWord = createInitUserWord(action.payload.id, 0, 'difficult');
+      state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'difficult');
     },
     makeWordLearned(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
       if (state.words[idx].userWord && state.words[idx].userWord?.difficulty === 'difficult') {
-        state.words[idx].userWord = {
-          ...(state.words[idx].userWord as IUserWord),
-          optional: createInitOptional(action.payload.id, 5),
-        };
+        state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'difficult');
       } else {
-        state.words[idx].userWord = createInitUserWord(action.payload.id, 3, 'easy');
+        state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'easy');
       }
     },
     showDifficultWordsPage(state) {
@@ -76,6 +72,7 @@ const textBookSlice = createSlice({
 
       if (state.mode === 'textbook') {
         state.words = combineWords(state.words, action.payload);
+        console.log(state.words)
       }
 
       if (state.mode === 'dictionary') {

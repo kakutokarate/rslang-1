@@ -19,32 +19,33 @@ export const combineWords = (clearWords: IWord[], userWords: IWord[]) => {
   });
 };
 
-export const createInitOptional = (
-  id: string,
-  count: number,
-) => {
-  return {
-      counter: count,
-      wordId: id,
-      sprint: {
-        rightCounter: 0,
-        wrongCounter: 0,
-      },
-      audiochallenge: {
-        rightCounter: 0,
-        wrongCounter: 0,
-      },
-  };
-};
+export const buildUserWord = (id: string, words: IWord[], wordType: 'difficult' | 'easy') => {
+  const idx = words.findIndex((w) => w.id === id);
 
-export const createInitUserWord = (
-  wordId: string,
-  count: number,
-  difficulty?: 'difficult' | 'easy',
-) => {
-  return {
-    difficulty: difficulty ? difficulty : 'easy',
-    wordId,
-    optional: createInitOptional(wordId, count),
-  };
+  if (wordType === 'difficult') {
+    return {
+      ...words[idx].userWord,
+      difficulty: wordType,
+      optional: {
+        ...words[idx].userWord?.optional!,
+        sprint: { ...words[idx].userWord?.optional.sprint! },
+        audiochallenge: {
+          ...words[idx].userWord?.optional.audiochallenge!
+        },
+      },
+    };
+  } else {
+    return {
+      ...words[idx].userWord,
+      difficulty: wordType,
+      optional: {
+        ...words[idx].userWord?.optional!,
+        counter: 3,
+        sprint: { ...words[idx].userWord?.optional.sprint! },
+        audiochallenge: {
+          ...words[idx].userWord?.optional.audiochallenge!
+        },
+      },
+    };
+  }
 };

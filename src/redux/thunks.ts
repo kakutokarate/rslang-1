@@ -152,21 +152,7 @@ export const createUserWord = createAsyncThunk(
     try {
       await axios.post(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
-        {
-          difficulty: userWord.difficulty,
-          optional: {
-            wordId: userWord.wordId,
-            counter: userWord.counter,
-            sprint: {
-              rightCounter: 0,
-              wrongCounter: 0,
-            },
-            audiochallenge: {
-              rightCounter: 0,
-              wrongCounter: 0,
-            },
-          }
-        },
+        userWord.wordData,
         {
           headers: {
             Authorization: `Bearer ${userWord.token}`,
@@ -181,27 +167,13 @@ export const createUserWord = createAsyncThunk(
   }
 );
 
-export const updateWord = createAsyncThunk(
-  'words/createUserWord',
+export const updateCurrentWord = createAsyncThunk(
+  'words/updateCurrentWord',
   async (userWord: ICreateUserWord, thunkAPI) => {
     try {
       await axios.put(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
-        {
-          difficulty: userWord.difficulty,
-          optional: {
-            wordId: userWord.wordId,
-            counter: userWord.counter,
-            sprint: {
-              rightCounter: 0,
-              wrongCounter: 0,
-            },
-            audiochallenge: {
-              rightCounter: 0,
-              wrongCounter: 0,
-            },
-          }
-        },
+        userWord.wordData,
         {
           headers: {
             Authorization: `Bearer ${userWord.token}`,

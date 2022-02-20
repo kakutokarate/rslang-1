@@ -10,11 +10,11 @@ const WordControl: FC<IWordControlProps> = ({
   onLearnedClick,
 }) => {
   const isDisabledDifficultBtn =
-    userWord?.difficulty === 'difficult' && userWord.optional.counter === 5
-      ? true
-      : false;
+    userWord?.difficulty === 'difficult' ? true : false;
+
   const isDisabledLearnedBtn =
-    userWord?.difficulty === 'easy' && userWord.optional.counter === 3
+    userWord?.difficulty === 'easy' &&
+    userWord.optional.counter >= 3
       ? true
       : false;
 
