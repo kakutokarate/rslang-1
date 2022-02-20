@@ -27,14 +27,6 @@ const Game: FC = () => {
       dispatch(setLastBestSeries(currentCorrectAnswersSeries));
     }
     dispatch(setCurrentCorrectAnswersSeries(0));
-    console.log(
-      {
-        word: enWord,
-        answerResult: false,
-        translation,
-        currentWord,
-      }
-    )
     dispatch(setAnsweredWords({
       word: enWord,
       answerResult: false,
@@ -46,18 +38,9 @@ const Game: FC = () => {
   function clickHandler(answer: boolean) {
     if (isBtnsActive) {
       setIsBtnsActive(false);
-
       const result = currentWord === translation;
 
       if (result === answer) {
-        console.log(
-          {
-            word: enWord,
-            answerResult: false,
-            translation,
-            currentWord,
-          }
-        )
         audioCorrect.play();
         dispatch(setCurrentCorrectAnswersSeries(currentCorrectAnswersSeries + 1));
         dispatch(setAnsweredWords({
