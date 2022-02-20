@@ -4,6 +4,7 @@ import { IAuth } from 'model/IAuth';
 import { IUser } from 'model/IUser';
 import {
   ICreateUserWord,
+  IDeleteUserWord,
   IGetUserWords,
   ILoadingPageData,
   IPostUserWord,
@@ -11,7 +12,8 @@ import {
   ISignIn,
 } from './types';
 
-export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+// export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+export const BASE_URL = 'https://react-rslang-fgriff.herokuapp.com';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',
@@ -127,7 +129,7 @@ export const getUserWords = createAsyncThunk(
   async (userData: IGetUserWords, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/users/${userData.userId}/aggregatedWords?wordsPerPage=3600&filter={"$and":[{"userWord.difficulty":"difficult"}]}`,
+        `${BASE_URL}/users/${userData.userId}/aggregatedWords?wordsPerPage=3600&filter={"$or":[{"userWord.difficulty":"difficult"}, {"userWord.difficulty":"easy"}]}`,
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
@@ -150,9 +152,28 @@ export const createUserWord = createAsyncThunk(
     try {
       await axios.post(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
+        userWord.wordData,
         {
-          difficulty: 'difficult',
-        },
+          headers: {
+            Authorization: `Bearer ${userWord.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Не удалось добавить слово');
+    }
+  }
+);
+
+export const updateCurrentWord = createAsyncThunk(
+  'words/updateCurrentWord',
+  async (userWord: ICreateUserWord, thunkAPI) => {
+    try {
+      await axios.put(
+        `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,
+        userWord.wordData,
         {
           headers: {
             Authorization: `Bearer ${userWord.token}`,
@@ -169,7 +190,7 @@ export const createUserWord = createAsyncThunk(
 
 export const deleteUserWord = createAsyncThunk(
   'words/deleteUserWord',
-  async (userWord: ICreateUserWord, thunkAPI) => {
+  async (userWord: IDeleteUserWord, thunkAPI) => {
     try {
       await axios.delete(
         `${BASE_URL}/users/${userWord.userId}/words/${userWord.wordId}`,

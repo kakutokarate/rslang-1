@@ -1,6 +1,7 @@
+import { IUserWord } from 'model/IUserWord';
 import styled from 'styled-components';
 
-export const StyledWordCard = styled.div<{background?: string | undefined}>`
+export const StyledWordCard = styled.div<{ background?: IUserWord | undefined }>`
   width: 100%;
   padding: 30px 20px;
   margin-bottom: 15px;
@@ -8,5 +9,11 @@ export const StyledWordCard = styled.div<{background?: string | undefined}>`
   border-radius: 5px;
   display: flex;
   row-gap: 15px;
-  background-color: ${(props) => props.background ? 'tomato' : '#d7d7d7'};
+  background-color: ${({ background }) =>
+    background?.difficulty === 'difficult'
+      ? 'tomato'
+      : background?.difficulty === "easy" &&
+        background.optional.counter >= 3
+      ? 'lightgreen'
+      : '#d7d7d7'};
 `;

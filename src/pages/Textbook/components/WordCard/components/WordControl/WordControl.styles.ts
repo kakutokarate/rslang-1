@@ -13,5 +13,9 @@ export const StyledWordControl = styled.div`
     &:hover {
       cursor: pointer;
     }
+
+    &[disabled] {
+      cursor: default;
+    }
   }
 `;

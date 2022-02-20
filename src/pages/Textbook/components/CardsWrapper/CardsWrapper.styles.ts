@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledCardsWrapper = styled.div`
+export const StyledCardsWrapper = styled.div<{ learnedWordCount: number | false }>`
   width: calc(1200px - 150px);
   min-height: 50vh;
   padding: 20px;
@@ -9,4 +9,5 @@ export const StyledCardsWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'lightblue' : '#fff'}
 `;
