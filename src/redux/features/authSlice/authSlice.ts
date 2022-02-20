@@ -23,6 +23,7 @@ export const authSlice = createSlice({
     setEnteringFlag(state, action: PayloadAction<boolean>) {
       state.enteringFlag = action.payload;
     },
+
   },
   extraReducers: {
     [signIn.pending.type]: (state) => {
