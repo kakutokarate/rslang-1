@@ -42,7 +42,7 @@ const wordsSlice = createSlice({
     ) => {
       state.isFetchingUserWords = false;
       state.fetchUserWordsError = null;
-      let prevWords = current(state).allWords;
+      const prevWords = current(state).allWords;
       state.allWords = combineAllWordsWithUserWords(prevWords, action.payload);
     },
     [fetchUserWords.rejected.type]: (state, action: PayloadAction<string>) => {

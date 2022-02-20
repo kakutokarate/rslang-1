@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { setCurrentPlayedCollection, setIsSprintRunning } from "redux/features/sprintSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { getWordsByGroup, shuffleArray } from "shared/utils";
 import LevelBtns from "../LevelBtns";
 import { Start, Wrapper } from "./Launch.styled";
 import { Box, LinearProgress } from "@mui/material";
+import { fetchUserWords, getStatistic } from "redux/thunks";
 
 const Launch: FC = () => {
   const dispatch = useTypedDispatch();
@@ -21,6 +22,15 @@ const Launch: FC = () => {
       dispatch(setCurrentPlayedCollection(shuffled));
     }
   };
+
+  useEffect(() => {
+    const authData = localStorage.getItem('authUserData-zm');
+
+    if (authData) {
+      dispatch(fetchUserWords(JSON.parse(authData)));
+      dispatch(getStatistic(JSON.parse(authData)))
+    };
+  }, []);
 
   return (
     <Wrapper>

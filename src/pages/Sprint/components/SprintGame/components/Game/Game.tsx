@@ -9,7 +9,7 @@ import wrongSound from 'assets/sounds/wrong_answer.wav';
 
 const Game: FC = () => {
   const [isBtnsActive, setIsBtnsActive] = useState(true);
-  const [currentWord, translation, enWord] = usePrepareDataForAnswer();
+  const [currentWord, translation, enWord, id] = usePrepareDataForAnswer();
   const dispatch = useTypedDispatch();
   const {
     currentWordIndex,
@@ -32,6 +32,7 @@ const Game: FC = () => {
       answerResult: false,
       translation,
       currentWord,
+      id,
     }));
   }
 
@@ -48,6 +49,7 @@ const Game: FC = () => {
           answerResult: true,
           translation,
           currentWord,
+          id,
         }));
 
       } else {

@@ -32,6 +32,18 @@ const textBookSlice = createSlice({
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
       state.words[idx].userWord = {
         difficulty: 'difficult',
+        optional: {
+          counter: 0,
+          wordId: '5e9f5ee35eb9e72bc21b00f0',
+          sprint: {
+            rightCounter: 0,
+            wrongCounter: 0,
+          },
+          audiochallenge: {
+            rightCounter: 0,
+            wrongCounter: 0,
+          },
+        },
       };
     },
     showDifficultWordsPage(state) {
@@ -56,7 +68,7 @@ const textBookSlice = createSlice({
       state.status = 'rejected';
       state.error = action.payload;
     },
-    [getUserWords.pending.type]: (state) => {},
+    [getUserWords.pending.type]: (state) => { },
     [getUserWords.fulfilled.type]: (state, action) => {
       state.difficultWords = action.payload;
       state.words = combineWords(state.words, action.payload);
@@ -67,12 +79,12 @@ const textBookSlice = createSlice({
 
       state.isWordDeleted = false;
     },
-    [getUserWords.rejected.type]: (state, action) => {},
-    [deleteUserWord.pending.type]: (state, action) => {},
+    [getUserWords.rejected.type]: (state, action) => { },
+    [deleteUserWord.pending.type]: (state, action) => { },
     [deleteUserWord.fulfilled.type]: (state) => {
       state.isWordDeleted = true;
     },
-    [deleteUserWord.rejected.type]: (state, action) => {},
+    [deleteUserWord.rejected.type]: (state, action) => { },
   }
 });
 

@@ -10,6 +10,7 @@ export const prepareNewStatistic = (
   const prevData = { ...prevStatistic };
   const newWordsIds: Array<string> = [];
   const today = getCurrentDate();
+  console.log(prevData)
   if (!isObjectEmpty(prevData)) {
     [...gameWordsIds].forEach((el) => {
       if (!(el in prevData!.optional!.learnedWordsIds)) newWordsIds.push(el);
@@ -17,15 +18,15 @@ export const prepareNewStatistic = (
     const newDailyResult =
       today in prevData!.optional!.dailyResults
         ? {
-            newWordsCounter:
-              prevData!.optional!.dailyResults[today].newWordsCounter +
-              newWordsIds.length,
-            allWordsCounter: prevData!.learnedWords! + newWordsIds.length,
-          }
+          newWordsCounter:
+            prevData!.optional!.dailyResults[today].newWordsCounter +
+            newWordsIds.length,
+          allWordsCounter: prevData!.learnedWords! + newWordsIds.length,
+        }
         : {
-            newWordsCounter: newWordsIds.length,
-            allWordsCounter: prevData!.learnedWords! + newWordsIds.length,
-          };
+          newWordsCounter: newWordsIds.length,
+          allWordsCounter: prevData!.learnedWords! + newWordsIds.length,
+        };
     const addedWordsIds: TLearnedWordsIds = {};
     newWordsIds.forEach((item) => {
       addedWordsIds[item] = 1;

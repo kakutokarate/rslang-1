@@ -1,10 +1,11 @@
 import { IWord } from "model/IWord";
 
 export interface answeredWord {
-  word: string | null;
+  word: string | null | undefined;
   answerResult: boolean | null;
-  translation: string | null;
-  currentWord: string | null;
+  translation: string | null | undefined;
+  currentWord: string | null | undefined;
+  id: string | null | undefined;
 };
 
 export interface ISprintState {
