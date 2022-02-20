@@ -135,13 +135,13 @@ const CardsWrapper: FC = () => {
 
   return (
     <StyledCardsWrapper learnedWordCount={learnedWordCount}>
-      {status === "pending" && <CircularProgress color="info" />}
+      {status === 'pending' && <CircularProgress color='info' />}
       {error && <h2>{error}</h2>}
-      {status === "resolved" && wordCards}
+      {status === 'resolved' && wordCards}
       {showPagination && (
         <Pagination
-          sx={{ marginLeft: "auto", marginRight: "auto" }}
-          color="primary"
+          sx={{ marginLeft: 'auto', marginRight: 'auto' }}
+          color={learnedWordCount === 20 ? 'secondary' : 'primary'}
           count={30}
           page={currentPageNumber}
           onChange={(_, page) => onPageChange(page)}
