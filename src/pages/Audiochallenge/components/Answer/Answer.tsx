@@ -1,5 +1,7 @@
 import { FC, useEffect } from 'react';
 import { AnswerProps } from './types';
+import correctSound from 'assets/sounds/correct_answer.wav';
+import wrongSound from 'assets/sounds/wrong_answer.wav';
 
 import { StyledAnswer } from './Answer.styles';
 import { useTypedDispatch } from 'redux/hooks';
@@ -10,9 +12,14 @@ const Answer: FC<AnswerProps> = ({ value, answerText, currentAnswer, correctAnsw
   const isWrong = Boolean(currentAnswer === answerText && currentAnswer !== correctAnswer);
   const dispatch = useTypedDispatch();
 
+  const correctAudio = new Audio(correctSound);
+  const wrongAudio = new Audio(wrongSound);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (Number(e.key) === value) {
+        if (correctAnswer === answerText) correctAudio.play();
+        if (correctAnswer != answerText) wrongAudio.play();
         dispatch(selectAnswer(answerText));
       }
     }

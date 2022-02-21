@@ -10,6 +10,8 @@ import {
   StyledRightAnswer,
 } from './ChallengeCard.styles';
 import MemoizedAudio from '../Audio';
+import correctSound from 'assets/sounds/correct_answer.wav';
+import wrongSound from 'assets/sounds/wrong_answer.wav';
 
 const ChallengeCard: FC = () => {
   const {
@@ -18,6 +20,9 @@ const ChallengeCard: FC = () => {
     currentAnswer,
     answers
   } = useTypedSelector(state => state.challenge);
+
+  const correctAudio = new Audio(correctSound);
+  const wrongAudio = new Audio(wrongSound);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -36,6 +41,8 @@ const ChallengeCard: FC = () => {
   const dispatch = useTypedDispatch();
 
   const dispatchSelectAnswer = (answerText: string) => {
+    if (correctAnswer === answerText) correctAudio.play();
+    if (correctAnswer != answerText) wrongAudio.play();
     dispatch(selectAnswer(answerText));
   }
 
