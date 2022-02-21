@@ -2,11 +2,12 @@ import { VolumeUp } from '@mui/icons-material';
 import styled from 'styled-components';
 
 export const StyledAudioIcon = styled(VolumeUp)`
-  margin: auto;
   margin-bottom: 30px;
+  margin-right: 15px;
   font-size: 2rem;
-  line-height: 2rem;
+  line-height: 3rem;
   cursor: pointer;
+  color: #111827;
   &:hover {
     transform: scale(1.2);
   }

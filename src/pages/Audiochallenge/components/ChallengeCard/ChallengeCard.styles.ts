@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { VolumeUp } from '@mui/icons-material';
 
 export const StyledChallengeCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 70%;
   & * {
     margin-bottom: 30px;
   }
@@ -13,11 +11,13 @@ export const StyledChallengeCard = styled.div`
 
 export const StyledAnswersWrapper = styled.div`
   width: 100%;
-  margin: 0 auto;
+  margin: 20px 0 70px;
+  padding: 10px;
+  list-style-position: inside;
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
 `;
 
 export const StyledButton = styled.button`
@@ -39,5 +39,14 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledRightAnswer = styled.div`
-  text-align: center;
+  color: #111827;
+  text-transform: none;
+`;
+
+export const StyledQuestionWrapper = styled.div`
+  height: 75px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
