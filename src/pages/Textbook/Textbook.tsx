@@ -8,6 +8,7 @@ import { Wrapper } from './Textbook.styles';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { fetchWords, getUserWords } from 'redux/thunks';
 import { combineAllWords } from 'redux/features/textbookSlice/textBookSlice';
+import GameButtons from './components/GameButtons';
 
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
@@ -46,6 +47,7 @@ const Textbook: FC = () => {
           <Categories />
           <CardsWrapper />
         </ContentWrapper>
+        <GameButtons />
       </Container>
     </Wrapper>
   );
