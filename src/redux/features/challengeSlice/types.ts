@@ -18,4 +18,5 @@ export interface IChallengeState {
   results: Array<IUserWord>;
   currentRightStreak: number;
   bestGameStreak: number;
+  isButtonsBlocked: boolean;
 }

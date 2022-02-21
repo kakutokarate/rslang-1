@@ -26,6 +26,7 @@ const initialState: IChallengeState = {
   results: [],
   currentRightStreak: 0,
   bestGameStreak: 0,
+  isButtonsBlocked: false,
 };
 
 const challengeSlice = createSlice({
@@ -53,6 +54,7 @@ const challengeSlice = createSlice({
       state.isChallengeStarted = true;
     },
     selectAnswer(state, action: PayloadAction<string>) {
+      state.isButtonsBlocked = true;
       if (
         action.payload ===
         state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
@@ -79,6 +81,7 @@ const challengeSlice = createSlice({
           state.allAnswers,
           state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
         );
+        state.isButtonsBlocked = false;
       } else {
         state.currentAnswer = '';
         if (state.currentRightStreak > state.bestGameStreak)

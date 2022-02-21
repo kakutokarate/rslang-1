@@ -18,7 +18,8 @@ const ChallengeCard: FC = () => {
     currentQuestionsSet,
     currentQuestionIndex,
     currentAnswer,
-    answers
+    answers,
+    isButtonsBlocked
   } = useTypedSelector(state => state.challenge);
 
   const correctAudio = new Audio(correctSound);
@@ -41,9 +42,12 @@ const ChallengeCard: FC = () => {
   const dispatch = useTypedDispatch();
 
   const dispatchSelectAnswer = (answerText: string) => {
-    if (correctAnswer === answerText) correctAudio.play();
-    if (correctAnswer != answerText) wrongAudio.play();
-    dispatch(selectAnswer(answerText));
+    if (!isButtonsBlocked) {
+      if (correctAnswer === answerText) correctAudio.play();
+      if (correctAnswer != answerText) wrongAudio.play();
+      dispatch(selectAnswer(answerText));
+    }
+
   }
 
   const handleNextClick = () => {
