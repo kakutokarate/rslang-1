@@ -1,36 +1,53 @@
 import { FC, useEffect } from 'react';
 import { useTypedSelector, useTypedDispatch } from 'redux/hooks';
-import { Audiotrack } from '@mui/icons-material';
 import { selectAnswer, submitAnswer } from 'redux/features/challengeSlice';
 import Answer from '../Answer';
-import { BASE_URL } from 'redux/thunks';
 
 import {
   StyledAnswersWrapper,
   StyledChallengeCard,
   StyledButton,
-  StyledAudioIcon
+  StyledRightAnswer,
 } from './ChallengeCard.styles';
+import MemoizedAudio from '../Audio';
+import correctSound from 'assets/sounds/correct_answer.wav';
+import wrongSound from 'assets/sounds/wrong_answer.wav';
 
 const ChallengeCard: FC = () => {
   const {
     currentQuestionsSet,
     currentQuestionIndex,
     currentAnswer,
-    answers
+    answers,
+    isButtonsBlocked
   } = useTypedSelector(state => state.challenge);
 
-  const audio = new Audio(`${BASE_URL}/${currentQuestionsSet[currentQuestionIndex].audio}`);
+  const correctAudio = new Audio(correctSound);
+  const wrongAudio = new Audio(wrongSound);
 
   useEffect(() => {
-    audio.play();
-  }, [audio]);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' && currentAnswer) dispatch(submitAnswer());
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [currentAnswer]);
 
   const correctAnswer = currentQuestionsSet[currentQuestionIndex].wordTranslate;
+  const question = currentQuestionsSet[currentQuestionIndex].word;
   const dispatch = useTypedDispatch();
 
   const dispatchSelectAnswer = (answerText: string) => {
-    dispatch(selectAnswer(answerText));
+    if (!isButtonsBlocked) {
+      if (correctAnswer === answerText) correctAudio.play();
+      if (correctAnswer != answerText) wrongAudio.play();
+      dispatch(selectAnswer(answerText));
+    }
+
   }
 
   const handleNextClick = () => {
@@ -39,11 +56,13 @@ const ChallengeCard: FC = () => {
 
   return (
     <StyledChallengeCard>
-      <StyledAudioIcon onClick={() => audio.play()} />
+      <MemoizedAudio src={currentQuestionsSet[currentQuestionIndex].audio} />
+      {currentAnswer && <StyledRightAnswer>{question}</StyledRightAnswer>}
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
             key={index}
+            value={index + 1}
             answerText={answer}
             correctAnswer={correctAnswer}
             currentAnswer={currentAnswer}

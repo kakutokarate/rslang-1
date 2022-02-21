@@ -38,13 +38,6 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const StyledAudioIcon = styled(VolumeUp)`
-  margin: auto;
-  margin-bottom: 30px;
-  font-size: 2rem;
-  line-height: 2rem;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.2);
-  }
+export const StyledRightAnswer = styled.div`
+  text-align: center;
 `;
