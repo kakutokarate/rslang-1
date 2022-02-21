@@ -12,7 +12,8 @@ import { CircularProgress } from '@mui/material';
 const Audiochallenge: FC = () => {
   const { isStartedFromTextbook, isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
   const { fetchAllWordsFulfilled, fetchUserWordsFulfilled, allWords } = useTypedSelector(state => state.words);
-  const { groupNumber: group, pageNumber: page } = useTypedSelector(state => state.textbook);
+  const group = Number(localStorage.getItem('groupNumber-nsv')) - 1 || 0;
+  const page = Number(localStorage.getItem('pageNumber-nsv')) - 1 || 0;
   const dispatch = useTypedDispatch();
   const challengeLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const user = localStorage.getItem('authUserData-zm');
