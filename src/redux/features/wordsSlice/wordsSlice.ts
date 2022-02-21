@@ -12,6 +12,7 @@ const initialState: IWordsState = {
   fetchAllWordsFulfilled: false,
   isFetchingUserWords: false,
   fetchUserWordsError: null,
+  fetchUserWordsFulfilled: false,
 };
 
 const wordsSlice = createSlice({
@@ -35,6 +36,7 @@ const wordsSlice = createSlice({
     },
     [fetchUserWords.pending.type]: (state) => {
       state.isFetchingUserWords = true;
+      state.fetchUserWordsFulfilled = false;
     },
     [fetchUserWords.fulfilled.type]: (
       state,
@@ -44,6 +46,7 @@ const wordsSlice = createSlice({
       state.fetchUserWordsError = null;
       const prevWords = current(state).allWords;
       state.allWords = combineAllWordsWithUserWords(prevWords, action.payload);
+      state.fetchUserWordsFulfilled = true;
     },
     [fetchUserWords.rejected.type]: (state, action: PayloadAction<string>) => {
       state.fetchUserWordsError = action.payload;

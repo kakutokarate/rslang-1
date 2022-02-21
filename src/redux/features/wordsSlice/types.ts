@@ -7,4 +7,5 @@ export interface IWordsState {
   fetchAllWordsFulfilled: boolean;
   isFetchingUserWords: boolean;
   fetchUserWordsError: null | string;
+  fetchUserWordsFulfilled: boolean;
 }
