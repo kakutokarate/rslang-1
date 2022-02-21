@@ -3,6 +3,7 @@ import { StyledWordControl } from './WordControl.styles';
 import { IWordControlProps } from './types';
 import LocalFireDepartmentSharpIcon from '@mui/icons-material/LocalFireDepartmentSharp';
 import DoneOutlineSharpIcon from '@mui/icons-material/DoneOutlineSharp';
+import Tooltip from '@mui/material/Tooltip';
 
 const WordControl: FC<IWordControlProps> = ({
   mode,
@@ -28,10 +29,14 @@ const WordControl: FC<IWordControlProps> = ({
             onClick={onDifficultClick}
             disabled={isDisabledDifficultBtn || isDisabledLearnedBtn}
           >
-            <LocalFireDepartmentSharpIcon />
+            <Tooltip title='Сложное слово'>
+              <LocalFireDepartmentSharpIcon />
+            </Tooltip>
           </button>
           <button onClick={onLearnedClick} disabled={isDisabledLearnedBtn}>
-            <DoneOutlineSharpIcon />
+            <Tooltip title='Изученное слово'>
+              <DoneOutlineSharpIcon />
+            </Tooltip>
           </button>
         </>
       )}
