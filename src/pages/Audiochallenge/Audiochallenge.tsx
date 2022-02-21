@@ -1,49 +1,77 @@
 import { FC, useEffect } from 'react';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { fetchAllWords, fetchUserWords, fetchWordsByGroup, getStatistic, sendStatistic } from 'redux/thunks';
-import { setInitialChallengeState, startChallenge } from 'redux/features/challengeSlice';
+import { fetchAllWords, fetchUserWords, getStatistic, sendStatistic } from 'redux/thunks';
+import { NUM_OF_QUESTIONS, setAnswersSet, setInitialChallengeState, setWordsByLevel, startChallenge, startChallengeByLevel } from 'redux/features/challengeSlice';
 import ChallengeCard from './components/ChallengeCard';
 import ResultsTable from './components/ResultsTable';
 
 import { Wrapper, StyledButtonsRow } from './Audiochallenge.styles';
+import { getWordsByGroup, getWordsByPageAndGroup, getWordsFromTextbookForUser, shuffleArray } from 'shared/utils';
+import { CircularProgress } from '@mui/material';
 
 const Audiochallenge: FC = () => {
-  const { isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
-  const { fetchAllWordsFulfilled } = useTypedSelector(state => state.words);
+  const { isStartedFromTextbook, isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
+  const { fetchAllWordsFulfilled, fetchUserWordsFulfilled, allWords } = useTypedSelector(state => state.words);
+  const group = Number(localStorage.getItem('groupNumber-nsv')) - 1 || 0;
+  const page = Number(localStorage.getItem('pageNumber-nsv')) - 1 || 0;
   const dispatch = useTypedDispatch();
   const challengeLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const user = localStorage.getItem('authUserData-zm');
+  const isShowLevel = !isStartedFromTextbook && !isChallengeStarted && !showResult && fetchAllWordsFulfilled;
 
   useEffect(() => {
-    dispatch(fetchAllWords());
-    if (user) dispatch(getStatistic(JSON.parse(user)));
+    if (!user) dispatch(fetchAllWords());
+    if (user) {
+      dispatch(getStatistic(JSON.parse(user)));
+      const updateWords = async () => {
+        await dispatch(fetchAllWords());
+        dispatch(fetchUserWords(JSON.parse(user)));
+      };
+      updateWords();
+    }
   }, []);
   useEffect(() => {
-    if (user && fetchAllWordsFulfilled === true) dispatch(fetchUserWords(JSON.parse(user)));
-  }, [fetchAllWordsFulfilled]);
+    if (isStartedFromTextbook && !user && fetchAllWordsFulfilled) {
+      dispatch(setAnswersSet(allWords));
+      const currentWords = shuffleArray(getWordsByPageAndGroup(allWords, group, page)).slice(NUM_OF_QUESTIONS);
+      dispatch(setWordsByLevel(currentWords));
+    }
+  }, []);
+  useEffect(() => {
+    if (isStartedFromTextbook && user && fetchUserWordsFulfilled) {
+      dispatch(setAnswersSet(allWords));
+      const currentWords = getWordsFromTextbookForUser(allWords, group, page, NUM_OF_QUESTIONS);
+      dispatch(setWordsByLevel(currentWords));
+      dispatch(startChallenge());
+    }
+  }, []);
+
   useEffect(() => {
     return () => {
       dispatch(setInitialChallengeState());
     };
   }, []);
 
-  const onSubmitLevel = (level: string) => {
-    dispatch(fetchWordsByGroup(level));
-    dispatch(startChallenge(level));
+  const onSubmitLevel = (level: number) => {
+    const levelWords = getWordsByGroup(allWords, level);
+    const gameSet = shuffleArray(levelWords).slice(0, NUM_OF_QUESTIONS);
+    dispatch(setAnswersSet(levelWords));
+    dispatch(setWordsByLevel(gameSet));
+    dispatch(startChallengeByLevel(level.toString()));
   }
 
   return (
     <Wrapper>
-      {!isChallengeStarted && !showResult &&
+      {!fetchAllWordsFulfilled && <CircularProgress />}
+      {isShowLevel &&
         <div>Выберите сложность</div>}
-      {!isChallengeStarted
-        && !showResult && <StyledButtonsRow>
-          {challengeLevels.map(el =>
-            <div key={el} onClick={() => onSubmitLevel(challengeLevels.indexOf(el).toString())}>{el}</div>
-          )}
-        </StyledButtonsRow>
+      {isShowLevel && <StyledButtonsRow>
+        {challengeLevels.map(el =>
+          <div key={el} onClick={() => onSubmitLevel(challengeLevels.indexOf(el))}>{el}</div>
+        )}
+      </StyledButtonsRow>
       }
-      {isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
+      {fetchAllWordsFulfilled && isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
       {showResult && <ResultsTable />}
     </Wrapper>
   );

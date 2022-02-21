@@ -12,7 +12,9 @@ import {
   ISignIn,
 } from './types';
 
+
 //export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+// export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
 export const BASE_URL = 'https://react-rslang-fgriff.herokuapp.com';
 
 export const createUser = createAsyncThunk(
@@ -93,25 +95,13 @@ export const fetchUserWords = createAsyncThunk(
   }
 );
 
-export const fetchWordsByGroup = createAsyncThunk(
-  'thunks/fetchWordsByGroup',
-  async (level: string, thunkAPI) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/words?group=${level}`);
-      return response.data;
-    } catch (e) {
-      if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось получить слова');
-    }
-  }
-);
-
 export const fetchWords = createAsyncThunk(
   'words/fetchWords',
   async (pageData: ILoadingPageData, thunkAPI) => {
     try {
       const response = await axios(
-        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${pageData.savedPageNumber - 1
+        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${
+          pageData.savedPageNumber - 1
         }`
       );
 
@@ -233,7 +223,7 @@ export const postUserWord = createAsyncThunk(
 );
 
 export const updateUserWord = createAsyncThunk(
-  'thunks/postUserWord',
+  'thunks/updateUserWord',
   async ({ newUserWord, userData }: IPostUserWord, thunkAPI) => {
     const { wordId } = newUserWord.optional;
     try {

@@ -103,7 +103,7 @@ export const updateLocalStatistic = (
   const guestStatistic = localStorage.getItem(guestKey);
   const prevStatistic = userStatistic
     ? userStatistic
-    : guestStatistic
+    : !userId && guestStatistic
     ? guestStatistic
     : null;
   const currentDate = getCurrentDate();
@@ -255,16 +255,21 @@ export const updateLocalStatistic = (
   }
 };
 
-export const filterNotLearnedWords = (words: Array<IWord>) => {
+export const checkIsLearnedWord = (word: IWord) => {
+  return (
+    word.userWord &&
+    word.userWord.optional &&
+    word.userWord.optional.counter &&
+    ((word.userWord.difficulty === 'easy' &&
+      word.userWord.optional.counter > 2) ||
+      (word.userWord.difficulty === 'difficult' &&
+        word.userWord.optional.counter > 4))
+  );
+};
+
+export const getNotLearnedWords = (words: Array<IWord>) => {
   return [...words].filter((el) => {
-    return (
-      !el.userWord ||
-      !el.userWord.optional ||
-      el.userWord!.optional!.counter === null ||
-      el.userWord!.optional!.counter < 3 ||
-      (el.userWord!.difficulty === 'difficult' &&
-        el.userWord!.optional!.counter < 5)
-    );
+    return !checkIsLearnedWord(el);
   });
 };
 
@@ -308,7 +313,7 @@ export const updateUserWordData = (
   isRight: boolean,
   gameName: string
 ) => {
-  if (!('userWord' in word)) {
+  if (!word.hasOwnProperty('userWord')) {
     const updatedUserWord = createNewUserWord(word._id!, isRight, gameName);
     return updatedUserWord;
   } else if (word.userWord) {
@@ -343,4 +348,29 @@ export const updateUserWordData = (
     };
     return updatedUserWord;
   }
+};
+
+export const getWordsFromTextbookForUser = (
+  // для авторизованного пользователя
+  allWords: Array<IWord>,
+  group: number,
+  page: number,
+  quantity: number
+) => {
+  const currentWords = allWords.filter(
+    (el) =>
+      ((el.group === group && el.page <= page) || el.group < group) &&
+      !checkIsLearnedWord(el)
+  );
+  if (currentWords.length <= quantity) {
+    return currentWords;
+  } else return currentWords.slice(-quantity);
+};
+
+export const getWordsByPageAndGroup = (
+  allWords: Array<IWord>,
+  group: number,
+  page: number
+) => {
+  return [...allWords].filter((el) => el.group === group && el.page === page);
 };

@@ -13,7 +13,7 @@ const initialState: ITextbookState = {
   pageNumber: 0,
   mode: 'textbook',
   isWordDeleted: false,
-}
+};
 
 const textBookSlice = createSlice({
   name: 'words',
@@ -30,14 +30,29 @@ const textBookSlice = createSlice({
     },
     makeWordDifficult(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
-      state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'difficult');
+      state.words[idx].userWord = buildUserWord(
+        action.payload.id,
+        state.words,
+        'difficult'
+      );
     },
     makeWordLearned(state, action) {
       const idx = state.words.findIndex((w) => w.id === action.payload.id);
-      if (state.words[idx].userWord && state.words[idx].userWord?.difficulty === 'difficult') {
-        state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'difficult');
+      if (
+        state.words[idx].userWord &&
+        state.words[idx].userWord?.difficulty === 'difficult'
+      ) {
+        state.words[idx].userWord = buildUserWord(
+          action.payload.id,
+          state.words,
+          'difficult'
+        );
       } else {
-        state.words[idx].userWord = buildUserWord(action.payload.id, state.words, 'easy');
+        state.words[idx].userWord = buildUserWord(
+          action.payload.id,
+          state.words,
+          'easy'
+        );
       }
     },
     showDifficultWordsPage(state) {
@@ -50,7 +65,7 @@ const textBookSlice = createSlice({
     },
     combineAllWords(state) {
       state.words = combineWords(state.words, state.difficultWords);
-    }
+    },
   },
   extraReducers: {
     [fetchWords.pending.type]: (state) => {
@@ -66,29 +81,30 @@ const textBookSlice = createSlice({
       state.status = 'rejected';
       state.error = action.payload;
     },
-    [getUserWords.pending.type]: (state) => { },
+    [getUserWords.pending.type]: (state) => {},
     [getUserWords.fulfilled.type]: (state, action) => {
       state.difficultWords = action.payload;
 
       if (state.mode === 'textbook') {
         state.words = combineWords(state.words, action.payload);
-        console.log(state.words)
       }
 
       if (state.mode === 'dictionary') {
         // Вызываем при удалении слова со страницы сложных слов, т.к. отрисовка завязана на массиве words
-        state.words = action.payload.filter((w: IWord) => w.userWord?.difficulty === 'difficult');
+        state.words = action.payload.filter(
+          (w: IWord) => w.userWord?.difficulty === 'difficult'
+        );
       }
 
       state.isWordDeleted = false;
     },
-    [getUserWords.rejected.type]: (state, action) => { },
-    [deleteUserWord.pending.type]: (state, action) => { },
+    [getUserWords.rejected.type]: (state, action) => {},
+    [deleteUserWord.pending.type]: (state, action) => {},
     [deleteUserWord.fulfilled.type]: (state) => {
       state.isWordDeleted = true;
     },
-    [deleteUserWord.rejected.type]: (state, action) => { },
-  }
+    [deleteUserWord.rejected.type]: (state, action) => {},
+  },
 });
 
 export const {

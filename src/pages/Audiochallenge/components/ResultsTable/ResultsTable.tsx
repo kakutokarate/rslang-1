@@ -38,13 +38,13 @@ const ResultsTable: FC = () => {
       dispatch(sendStatistic({ userData, newStatistic }));
       rightWords.forEach((el) => {
         const newUserWord = updateUserWordData(el, true, AUDIOCHALLENGE) as IUserWord;
-        !('userWord' in el)
+        !(el.hasOwnProperty('userWord'))
           ? dispatch(postUserWord({ newUserWord, userData }))
           : dispatch(updateUserWord({ newUserWord, userData }));
       });
       wrongWords.forEach((el) => {
         const newUserWord = updateUserWordData(el, false, AUDIOCHALLENGE) as IUserWord;
-        !('userWord' in el)
+        !(el.hasOwnProperty('userWord'))
           ? dispatch(postUserWord({ newUserWord, userData }))
           : dispatch(updateUserWord({ newUserWord, userData }));
       });

@@ -49,8 +49,9 @@ const GameOver: FC = () => {
     const correctAnswersIds = getWordsId(correctWords) as string[];
     const wrongAnswersIds = getWordsId(wrongWords) as string[];
     const authData = localStorage.getItem('authUserData-zm');
+    const isAnyAnswers = Boolean([...correctAnswersIds, ...wrongAnswersIds].length);
 
-    if (authData) {
+    if (authData && isAnyAnswers) {
       const userData = JSON.parse(authData);
       const userId = userData.userId;
       const correctIWords: Array<IWord> = [];
@@ -88,7 +89,7 @@ const GameOver: FC = () => {
           : dispatch(updateUserWord({ newUserWord, userData }));
 
       });
-    } else {
+    } else if (!authData && isAnyAnswers) {
       updateLocalStatistic(
         correctAnswersIds,
         wrongAnswersIds,
@@ -137,7 +138,7 @@ const GameOver: FC = () => {
       <button
         onClick={clickHandler}
       >
-        Начать Заного!
+        Начать Заново!
       </button>
     </Wrapper>
   );

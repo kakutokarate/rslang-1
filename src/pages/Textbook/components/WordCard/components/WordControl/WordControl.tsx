@@ -4,6 +4,7 @@ import { IWordControlProps } from './types';
 import LocalFireDepartmentSharpIcon from '@mui/icons-material/LocalFireDepartmentSharp';
 import DoneOutlineSharpIcon from '@mui/icons-material/DoneOutlineSharp';
 import Tooltip from '@mui/material/Tooltip';
+import Statistics from '../Statistics';
 
 const WordControl: FC<IWordControlProps> = ({
   mode,
@@ -43,6 +44,10 @@ const WordControl: FC<IWordControlProps> = ({
       {mode === 'dictionary' && (
         <button onClick={onDeleteWord}>Удалить слово</button>
       )}
+      <Statistics
+        sprintStat={userWord?.optional?.sprint}
+        audiochallengeStat={userWord?.optional?.audiochallenge}
+      />
     </StyledWordControl>
   );
 };

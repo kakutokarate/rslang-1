@@ -40,7 +40,6 @@ const Header: FC = () => {
                 },
               }
             );
-            // console.log(response);
             const newAuthData = {
               ...parsedAuthData,
               token: response.data.token,
