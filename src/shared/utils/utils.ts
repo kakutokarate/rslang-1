@@ -267,7 +267,7 @@ export const checkIsLearnedWord = (word: IWord) => {
   );
 };
 
-export const filterNotLearnedWords = (words: Array<IWord>) => {
+export const getNotLearnedWords = (words: Array<IWord>) => {
   return [...words].filter((el) => {
     return !checkIsLearnedWord(el);
   });
@@ -288,6 +288,7 @@ export const createNewUserWord = (
   difficulty?: TDifficulty
 ) => {
   const counter = isRight ? 1 : 0;
+  console.log(counter, 'COUNTER пустого');
   return {
     difficulty: difficulty ? difficulty : 'easy',
     optional: {
@@ -313,7 +314,7 @@ export const updateUserWordData = (
   isRight: boolean,
   gameName: string
 ) => {
-  if (!('userWord' in word)) {
+  if (!word.hasOwnProperty('userWord')) {
     const updatedUserWord = createNewUserWord(word._id!, isRight, gameName);
     return updatedUserWord;
   } else if (word.userWord) {
@@ -348,4 +349,33 @@ export const updateUserWordData = (
     };
     return updatedUserWord;
   }
+};
+
+export const getWordsFromTextbookForUser = (
+  // для авторизованного пользователя
+  allWords: Array<IWord>,
+  group: number,
+  page: number,
+  quantity: number
+) => {
+  const currentWords = allWords.filter(
+    (el) =>
+      ((el.group === group && el.page <= page) || el.group < group) &&
+      !checkIsLearnedWord(el)
+  );
+  console.log(currentWords, 'currentWords');
+  currentWords.forEach((word) => {
+    console.log(word.userWord?.optional.counter, !checkIsLearnedWord(word));
+  });
+  if (currentWords.length <= quantity) {
+    return currentWords;
+  } else return currentWords.slice(-quantity);
+};
+
+export const getWordsByPageAndGroup = (
+  allWords: Array<IWord>,
+  group: number,
+  page: number
+) => {
+  return [...allWords].filter((el) => el.group === group && el.page === page);
 };

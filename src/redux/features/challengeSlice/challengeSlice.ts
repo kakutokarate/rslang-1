@@ -10,7 +10,7 @@ export const NUM_OF_ANSWER_OPTIONS = 5;
 export const NUM_OF_QUESTIONS = 3;
 
 const initialState: IChallengeState = {
-  isStartedFromTextbook: false,
+  isStartedFromTextbook: true,
   challengeLevel: '',
   currentQuestionsSet: [],
   currentQuestionIndex: 0,
@@ -41,6 +41,9 @@ const challengeSlice = createSlice({
         state.allAnswers,
         state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
       );
+    },
+    startChallenge(state) {
+      state.isChallengeStarted = true;
     },
     startChallengeByLevel(state, action: PayloadAction<string>) {
       state.challengeLevel = action.payload;
@@ -123,6 +126,7 @@ const challengeSlice = createSlice({
 
 export const {
   setAnswersSet,
+  startChallenge,
   startChallengeByLevel,
   selectAnswer,
   submitAnswer,
