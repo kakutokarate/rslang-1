@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import { clearAnsweredWords, setCurrentCorrectAnswersSeries, setCurrentWordIndex, setIsGameOver, setLastBestSeries } from "redux/features/sprintSlice";
 import { useTypedDispatch } from "redux/hooks";
 import { fetchAllWords } from "redux/thunks";
 import SprintGame from "./components/SprintGame";
@@ -10,6 +11,11 @@ const Sprint: FC = () => {
 
   useEffect(() => {
     dispatch(fetchAllWords());
+    dispatch(setIsGameOver(false));
+    dispatch(clearAnsweredWords());
+    dispatch(setCurrentCorrectAnswersSeries(0));
+    dispatch(setCurrentWordIndex(0));
+    dispatch(setLastBestSeries(0));
   }, []);
 
   return (

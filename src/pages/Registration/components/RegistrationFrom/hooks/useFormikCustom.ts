@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useTypedDispatch } from "redux/hooks";
-import { createUser } from "redux/thunks";
+import { createUser, signIn } from "redux/thunks";
 import { validationSchema } from "../utils/validationSchema";
 
 export function useFormikCustom() {
