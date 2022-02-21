@@ -8,4 +8,5 @@ export const StyledTitle = styled.h2`
   font-family: 'Roboto-Regular';
   color: black;
   font-size: 24px;
+  z-index: 1;
 `;
