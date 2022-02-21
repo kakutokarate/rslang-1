@@ -13,7 +13,7 @@ import GameButtons from './components/GameButtons';
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
 
-  const { groupNumber, pageNumber, mode } = useTypedSelector(
+  const { groupNumber, pageNumber, mode, words } = useTypedSelector(
     (state) => state.textbook
   );
 
@@ -38,6 +38,16 @@ const Textbook: FC = () => {
       updateWords();
     }
   }, [groupNumber, pageNumber, mode]);
+
+  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
+    if (w.userWord) {
+      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
+        return accum += 1;
+      }
+    }
+
+    return accum += 0;
+  }, 0);
   
   return (
     <Wrapper>
@@ -45,9 +55,9 @@ const Textbook: FC = () => {
         <Title>Учебник</Title>
         <ContentWrapper>
           <Categories />
-          <CardsWrapper />
+          <CardsWrapper learnedWordCount={learnedWordCount} />
         </ContentWrapper>
-        <GameButtons />
+        <GameButtons learnedWordCount={learnedWordCount} />
       </Container>
     </Wrapper>
   );

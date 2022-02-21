@@ -8,7 +8,7 @@ export const StyledCardsWrapper = styled.div<{ learnedWordCount: number | false 
   gap: 15px;
   justify-content: space-around;
   flex-wrap: wrap;
-  background: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'lightblue' : '#ааа'};
+  background: ${({ learnedWordCount }) => learnedWordCount === 20 ? '#dff7df' : '#fff'};
 
   @media (max-width: 660px) {
     padding: 20px 0;
