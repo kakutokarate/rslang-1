@@ -20,29 +20,32 @@ const Audiochallenge: FC = () => {
   const isShowLevel = !isStartedFromTextbook && !isChallengeStarted && !showResult && fetchAllWordsFulfilled;
 
   useEffect(() => {
-    if (!user) dispatch(fetchAllWords());
+    if (!user) {
+      const startGame = async () => {
+        await dispatch(fetchAllWords());
+        if (isStartedFromTextbook) {
+          dispatch(setAnswersSet(allWords));
+          const currentWords = shuffleArray(getWordsByPageAndGroup(allWords, group, page)).slice(NUM_OF_QUESTIONS);
+          await dispatch(setWordsByLevel(currentWords));
+          dispatch(startChallenge());
+        }
+      }
+      startGame();
+    }
+
     if (user) {
       dispatch(getStatistic(JSON.parse(user)));
-      const updateWords = async () => {
+      const startGame = async () => {
         await dispatch(fetchAllWords());
-        dispatch(fetchUserWords(JSON.parse(user)));
+        await dispatch(fetchUserWords(JSON.parse(user)));
+        if (isStartedFromTextbook) {
+          dispatch(setAnswersSet(allWords));
+          const currentWords = getWordsFromTextbookForUser(allWords, group, page, NUM_OF_QUESTIONS);
+          dispatch(setWordsByLevel(currentWords));
+          dispatch(startChallenge());
+        }
       };
-      updateWords();
-    }
-  }, []);
-  useEffect(() => {
-    if (isStartedFromTextbook && !user && fetchAllWordsFulfilled) {
-      dispatch(setAnswersSet(allWords));
-      const currentWords = shuffleArray(getWordsByPageAndGroup(allWords, group, page)).slice(NUM_OF_QUESTIONS);
-      dispatch(setWordsByLevel(currentWords));
-    }
-  }, []);
-  useEffect(() => {
-    if (isStartedFromTextbook && user && fetchUserWordsFulfilled) {
-      dispatch(setAnswersSet(allWords));
-      const currentWords = getWordsFromTextbookForUser(allWords, group, page, NUM_OF_QUESTIONS);
-      dispatch(setWordsByLevel(currentWords));
-      dispatch(startChallenge());
+      startGame();
     }
   }, []);
 
