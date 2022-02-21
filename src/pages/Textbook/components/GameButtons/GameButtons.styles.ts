@@ -1,15 +1,31 @@
 import styled from 'styled-components';
 
 export const StyledWrapper = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 450px;
   display: flex;
   justify-content: space-between;
+  align-self: center;
+  pointer-events: none;
+
+  @media (max-width: 475px) {
+    width: 400px;
+  }
 `;
 
-export const GameButton = styled.div`
-  width: 120px;
-  height: 100px;
-  background-color: lightcoral;
+export const GameButton = styled.div<{ img: string }>`
+  width: 200px;
+  height: 250px;
+  border-radius: 5px;
+  padding-top: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-family: 'Roboto-Bold';
+  font-size: 24px;
   text-align: center;
+  background-image: ${({ img }) => `url('${img}')`};
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 `;

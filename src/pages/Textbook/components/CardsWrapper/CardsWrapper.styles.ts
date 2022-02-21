@@ -4,12 +4,13 @@ export const StyledCardsWrapper = styled.div<{ learnedWordCount: number | false 
   max-width: calc(1200px - 150px);
   min-height: 50vh;
   padding: 20px;
-  background-color: #fff;
   display: flex;
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  justify-content: space-between;
+  gap: 15px;
+  justify-content: space-around;
   flex-wrap: wrap;
-  background: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'lightblue' : '#fff'}
+  background: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'lightblue' : '#ааа'};
+
+  @media (max-width: 660px) {
+    padding: 20px 0;
+  }
 `;
