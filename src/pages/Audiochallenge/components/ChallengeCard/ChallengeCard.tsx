@@ -9,8 +9,8 @@ import {
   StyledAnswersWrapper,
   StyledChallengeCard,
   StyledButton,
-  StyledAudioIcon
 } from './ChallengeCard.styles';
+import MemoizedAudio from '../Audio';
 
 const ChallengeCard: FC = () => {
   const {
@@ -19,12 +19,6 @@ const ChallengeCard: FC = () => {
     currentAnswer,
     answers
   } = useTypedSelector(state => state.challenge);
-
-  const audio = new Audio(`${BASE_URL}/${currentQuestionsSet[currentQuestionIndex].audio}`);
-
-  useEffect(() => {
-    audio.play();
-  }, [audio]);
 
   const correctAnswer = currentQuestionsSet[currentQuestionIndex].wordTranslate;
   const dispatch = useTypedDispatch();
@@ -39,7 +33,7 @@ const ChallengeCard: FC = () => {
 
   return (
     <StyledChallengeCard>
-      <StyledAudioIcon onClick={() => audio.play()} />
+      <MemoizedAudio src={currentQuestionsSet[currentQuestionIndex].audio} />
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
