@@ -14,9 +14,9 @@ export const StyledWordCard = styled.div<{ background?: IUserWord | undefined }>
   /* align-items: center; */
   background-color: ${({ background }) =>
     background?.difficulty === 'difficult'
-      ? 'tomato'
+      ? '#ffa1a1'
       : background?.difficulty === "easy" &&
         background.optional.counter >= 3
-      ? 'lightgreen'
+      ? '#bef7be'
       : '#d7d7d7'};
 `;
