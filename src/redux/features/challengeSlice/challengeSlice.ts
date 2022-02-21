@@ -10,7 +10,7 @@ export const NUM_OF_ANSWER_OPTIONS = 5;
 export const NUM_OF_QUESTIONS = 3;
 
 const initialState: IChallengeState = {
-  isStartedFromTextbook: true,
+  isStartedFromTextbook: false,
   challengeLevel: '',
   currentQuestionsSet: [],
   currentQuestionIndex: 0,
@@ -32,6 +32,9 @@ const challengeSlice = createSlice({
   name: 'challenge',
   initialState,
   reducers: {
+    setGameFromTextbook(state) {
+      state.isStartedFromTextbook = true;
+    },
     setAnswersSet(state, action: PayloadAction<IWord[]>) {
       state.allAnswers = action.payload;
     },
