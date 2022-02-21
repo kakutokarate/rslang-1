@@ -11,8 +11,8 @@ const DailyStatistics: FC = () => {
   } else if (!user) {
     statKey = 'statistic-guest-zm';
   }
-  const isNoData = Boolean(statKey);
   const statistics = JSON.parse(localStorage.getItem(statKey)!);
+  const isNoData = !Boolean(statistics);
   return (
     <StyledDailyStatistics>
       <h2>Статистика за сегодня</h2>
