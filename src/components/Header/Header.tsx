@@ -1,13 +1,14 @@
 import axios from "axios";
 import { FC, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
-import { BASE_URL, signIn } from "redux/thunks";
-import { Item, Wrapper } from "./Header.styles";
+import { BASE_URL } from "redux/thunks";
+
+import ResponsiveHeader from "./components/ResponsiveHeader";
 
 const Header: FC = () => {
-  const { authUserData } = useTypedSelector(state => state.auth)
+  const { authUserData } = useTypedSelector(state => state.auth);
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
 
@@ -58,44 +59,13 @@ const Header: FC = () => {
         })();
 
       }, 5000);
-
     }
 
     return () => clearInterval(intervalID);
   }, [authUserData]);
 
   return (
-    <Wrapper>
-      <Link to='/'>
-        <Item>Главная</Item>
-      </Link>
-      <Link to='/textbook'>
-        <Item>Учебник</Item>
-      </Link>
-      <Link to='/sprint'>
-        <Item>Спринт</Item>
-      </Link>
-      <Link to='/audiochallenge'>
-        <Item>Аудиовызов</Item>
-      </Link>
-      <Link to='/statistics'>
-        <Item>Статистика</Item>
-      </Link>
-      {authUserData
-        ? (
-          <div>
-            Привет, {authUserData.name}
-            <span onClick={logoutHandler}>Выйти</span>
-          </div>
-        )
-        : (
-          <Link to='/auth'>
-            <Item>Вход</Item>
-          </Link>
-        )
-      }
-
-    </Wrapper>
+    <ResponsiveHeader />
   );
 };
 
