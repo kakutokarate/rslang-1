@@ -37,9 +37,6 @@ const ResultsTable: FC = () => {
       const newStatistic = prepareNewStatistic(prevStatistic, [...rightAnswers, ...wrongAnswers]) as IStatistic;
       dispatch(sendStatistic({ userData, newStatistic }));
       rightWords.forEach((el) => {
-        console.log(!(el.hasOwnProperty('userWord')), `!(el.hasOwnProperty('userWord'))`);
-        console.log(el, 'EL');
-        console.log((el.hasOwnProperty('userWord')), 'HAS');
         const newUserWord = updateUserWordData(el, true, AUDIOCHALLENGE) as IUserWord;
         !(el.hasOwnProperty('userWord'))
           ? dispatch(postUserWord({ newUserWord, userData }))
@@ -47,9 +44,6 @@ const ResultsTable: FC = () => {
       });
       wrongWords.forEach((el) => {
         const newUserWord = updateUserWordData(el, false, AUDIOCHALLENGE) as IUserWord;
-        console.log(!(el.hasOwnProperty('userWord')), `!(el.hasOwnProperty('userWord'))`);
-        console.log(el, 'EL');
-        console.log((el.hasOwnProperty('userWord')), 'HAS');
         !(el.hasOwnProperty('userWord'))
           ? dispatch(postUserWord({ newUserWord, userData }))
           : dispatch(updateUserWord({ newUserWord, userData }));

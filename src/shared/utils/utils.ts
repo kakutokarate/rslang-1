@@ -288,7 +288,6 @@ export const createNewUserWord = (
   difficulty?: TDifficulty
 ) => {
   const counter = isRight ? 1 : 0;
-  console.log(counter, 'COUNTER пустого');
   return {
     difficulty: difficulty ? difficulty : 'easy',
     optional: {
@@ -363,10 +362,6 @@ export const getWordsFromTextbookForUser = (
       ((el.group === group && el.page <= page) || el.group < group) &&
       !checkIsLearnedWord(el)
   );
-  console.log(currentWords, 'currentWords');
-  currentWords.forEach((word) => {
-    console.log(word.userWord?.optional.counter, !checkIsLearnedWord(word));
-  });
   if (currentWords.length <= quantity) {
     return currentWords;
   } else return currentWords.slice(-quantity);

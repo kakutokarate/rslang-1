@@ -31,7 +31,6 @@ const Audiochallenge: FC = () => {
   }, []);
   useEffect(() => {
     if (isStartedFromTextbook && !user && fetchAllWordsFulfilled) {
-      console.log('CASE1');
       dispatch(setAnswersSet(allWords));
       const currentWords = shuffleArray(getWordsByPageAndGroup(allWords, group, page)).slice(NUM_OF_QUESTIONS);
       dispatch(setWordsByLevel(currentWords));
@@ -39,7 +38,6 @@ const Audiochallenge: FC = () => {
   }, []);
   useEffect(() => {
     if (isStartedFromTextbook && user && fetchUserWordsFulfilled) {
-      console.log('CASE2');
       dispatch(setAnswersSet(allWords));
       const currentWords = getWordsFromTextbookForUser(allWords, group, page, NUM_OF_QUESTIONS);
       dispatch(setWordsByLevel(currentWords));

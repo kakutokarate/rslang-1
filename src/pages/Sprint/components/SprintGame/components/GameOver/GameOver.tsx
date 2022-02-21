@@ -138,7 +138,7 @@ const GameOver: FC = () => {
       <button
         onClick={clickHandler}
       >
-        Начать Заного!
+        Начать Заново!
       </button>
     </Wrapper>
   );
