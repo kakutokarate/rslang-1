@@ -92,19 +92,6 @@ export const fetchUserWords = createAsyncThunk(
   }
 );
 
-export const fetchWordsByGroup = createAsyncThunk(
-  'thunks/fetchWordsByGroup',
-  async (level: string, thunkAPI) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/words?group=${level}`);
-      return response.data;
-    } catch (e) {
-      if (e instanceof Error) console.error(e.message);
-      return thunkAPI.rejectWithValue('Не удалось получить слова');
-    }
-  }
-);
-
 export const fetchWords = createAsyncThunk(
   'words/fetchWords',
   async (pageData: ILoadingPageData, thunkAPI) => {

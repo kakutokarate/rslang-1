@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { fetchAllWords, fetchUserWords, fetchWordsByGroup, getStatistic, sendStatistic } from 'redux/thunks';
+import { fetchAllWords, fetchUserWords, getStatistic, sendStatistic } from 'redux/thunks';
 import { NUM_OF_QUESTIONS, setAnswersSet, setInitialChallengeState, setWordsByLevel, startChallenge, startChallengeByLevel } from 'redux/features/challengeSlice';
 import ChallengeCard from './components/ChallengeCard';
 import ResultsTable from './components/ResultsTable';

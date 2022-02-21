@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IWord } from 'model/IWord';
-import { fetchWordsByGroup } from 'redux/thunks';
 import { updateLocalStatistic } from 'shared/utils';
 import { AUDIOCHALLENGE } from 'shared/utils/constants';
 import { IChallengeState } from './types';
@@ -102,32 +101,7 @@ const challengeSlice = createSlice({
       return (state = { ...initialState });
     },
   },
-  extraReducers: {
-    [fetchWordsByGroup.pending.type]: (state) => {
-      state.isFetchingWords = true;
-    },
-    [fetchWordsByGroup.fulfilled.type]: (
-      state,
-      action: PayloadAction<IWord[]>
-    ) => {
-      state.isFetchingWords = false;
-      state.fetchWordsError = null;
-      const allLevelWords = [...action.payload];
-      state.currentQuestionsSet = allLevelWords.slice(0, 10);
-      state.answers = getAnswers(
-        state.allAnswers,
-        state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
-      );
-      state.isChallengeStarted = true;
-    },
-    [fetchWordsByGroup.rejected.type]: (
-      state,
-      action: PayloadAction<string>
-    ) => {
-      state.fetchWordsError = action.payload;
-      console.error(action.payload);
-    },
-  },
+  extraReducers: {},
 });
 
 export const {
