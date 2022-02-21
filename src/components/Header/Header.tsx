@@ -1,10 +1,9 @@
 import axios from "axios";
 import { FC, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
-import { BASE_URL, signIn } from "redux/thunks";
-import { Item, Wrapper } from "./Header.styles";
+import { BASE_URL } from "redux/thunks";
 
 import ResponsiveHeader from "./components/ResponsiveHeader";
 
