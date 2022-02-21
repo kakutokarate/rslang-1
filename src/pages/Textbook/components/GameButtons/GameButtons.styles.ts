@@ -5,7 +5,7 @@ export const StyledWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-self: center;
-  pointer-events: none;
+  /* pointer-events: none; */
 
   @media (max-width: 475px) {
     width: 400px;
