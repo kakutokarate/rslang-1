@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledWordControl = styled.div`
-  width: 75px;
+  width: 100%;
+  height: 60px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   button {
     /* padding: 5px 10px; */
