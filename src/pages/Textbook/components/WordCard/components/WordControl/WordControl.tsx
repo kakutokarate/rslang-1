@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { StyledWordControl } from './WordControl.styles';
 import { IWordControlProps } from './types';
+import LocalFireDepartmentSharpIcon from '@mui/icons-material/LocalFireDepartmentSharp';
+import DoneOutlineSharpIcon from '@mui/icons-material/DoneOutlineSharp';
 
 const WordControl: FC<IWordControlProps> = ({
   mode,
@@ -26,10 +28,10 @@ const WordControl: FC<IWordControlProps> = ({
             onClick={onDifficultClick}
             disabled={isDisabledDifficultBtn || isDisabledLearnedBtn}
           >
-            Сложное слово
+            <LocalFireDepartmentSharpIcon />
           </button>
           <button onClick={onLearnedClick} disabled={isDisabledLearnedBtn}>
-            Изученное слово
+            <DoneOutlineSharpIcon />
           </button>
         </>
       )}

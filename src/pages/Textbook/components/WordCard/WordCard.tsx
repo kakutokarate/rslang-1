@@ -8,6 +8,7 @@ import WordTranslation from './components/WordTranslation/WordTranslation';
 import { StyledWordCard } from './WordCard.styles';
 import WordControl from './components/WordControl';
 import { useTypedSelector } from 'redux/hooks';
+import BasicModal from './components/Statistics/Statistics';
 
 const WordCard: FC<IWordCardProps> = ({
   word: {
@@ -81,6 +82,7 @@ const WordCard: FC<IWordCardProps> = ({
           />
         )}
       </WordContent>
+      <BasicModal />
     </StyledWordCard>
   );
 };
