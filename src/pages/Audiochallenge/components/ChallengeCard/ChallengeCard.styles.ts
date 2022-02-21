@@ -37,3 +37,7 @@ export const StyledButton = styled.button`
     border: 2px solid rgba(59, 130, 246);
   }
 `;
+
+export const StyledRightAnswer = styled.div`
+  text-align: center;
+`;
