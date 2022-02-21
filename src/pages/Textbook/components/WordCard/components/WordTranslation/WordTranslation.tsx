@@ -3,6 +3,7 @@ import { ITranslationProps } from './types';
 import { StyledWordTranslation } from './WordTranslation.styles';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { BASE_URL } from 'redux/thunks';
+import Tooltip from '@mui/material/Tooltip';
 
 const WordTranslation: FC<ITranslationProps> = ({
   audio,
@@ -36,7 +37,9 @@ const WordTranslation: FC<ITranslationProps> = ({
     <StyledWordTranslation>
       <span>{transcription}</span>
       <span>{translation}</span>
-      <button onClick={playWordAudio}><VolumeUpIcon /></button>
+      <Tooltip title='Озвучить слово, его значение и пример'>
+        <button onClick={playWordAudio}><VolumeUpIcon /></button>
+      </Tooltip>
     </StyledWordTranslation>
   )
 };

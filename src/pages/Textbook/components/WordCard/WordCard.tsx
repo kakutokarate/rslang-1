@@ -71,7 +71,8 @@ const WordCard: FC<IWordCardProps> = ({
           textMeaning={textMeaning}
           textMeaningTranslate={textMeaningTranslate}
         />
-        {authUserData && (
+      </WordContent>
+      {authUserData && (
           <WordControl
             mode={mode}
             userWord={userWord}
@@ -80,7 +81,6 @@ const WordCard: FC<IWordCardProps> = ({
             onLearnedClick={onLearnedClick}
           />
         )}
-      </WordContent>
     </StyledWordCard>
   );
 };

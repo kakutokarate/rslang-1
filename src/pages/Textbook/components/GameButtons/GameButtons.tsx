@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks';
 import { StyledWrapper, GameButton } from './GameButtons.styles';
 import { setGameFromTextbook } from 'redux/features/challengeSlice';
+import audiochallengeImg from '../../../../assets/images/audiochallenge.png';
+import sprintImg from '../../../../assets/images/sprint.png';
 
 const GameButtons = () => {
   const dispatch = useTypedDispatch();
@@ -11,10 +13,10 @@ const GameButtons = () => {
   return (
     <StyledWrapper>
       <Link to='/sprint'>
-        <GameButton>Спринт</GameButton>
+        <GameButton img={sprintImg}>Спринт</GameButton>
       </Link>
       <Link to='/audiochallenge'>
-        <GameButton onClick={() => handleAudiochallengeClick()}>Аудиовызов</GameButton>
+        <GameButton img={audiochallengeImg} onClick={() => handleAudiochallengeClick()}>Аудиовызов</GameButton>
       </Link>
     </StyledWrapper>
   );
