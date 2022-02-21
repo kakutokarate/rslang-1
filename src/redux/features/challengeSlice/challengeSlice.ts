@@ -6,7 +6,7 @@ import { IChallengeState } from './types';
 import { getAnswers } from './utils';
 
 export const NUM_OF_ANSWER_OPTIONS = 5;
-export const NUM_OF_QUESTIONS = 3;
+export const NUM_OF_QUESTIONS = 10;
 
 const initialState: IChallengeState = {
   isStartedFromTextbook: false,
@@ -105,6 +105,7 @@ const challengeSlice = createSlice({
 });
 
 export const {
+  setGameFromTextbook,
   setAnswersSet,
   startChallenge,
   startChallengeByLevel,
