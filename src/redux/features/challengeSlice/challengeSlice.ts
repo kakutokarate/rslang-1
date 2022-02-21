@@ -10,9 +10,11 @@ export const NUM_OF_ANSWER_OPTIONS = 5;
 export const NUM_OF_QUESTIONS = 3;
 
 const initialState: IChallengeState = {
+  isStartedFromTextbook: false,
   challengeLevel: '',
   currentQuestionsSet: [],
   currentQuestionIndex: 0,
+  allAnswers: [],
   answers: [],
   currentAnswer: '',
   rightAnswers: [],
@@ -30,8 +32,19 @@ const challengeSlice = createSlice({
   name: 'challenge',
   initialState,
   reducers: {
-    startChallenge(state, action: PayloadAction<string>) {
+    setAnswersSet(state, action: PayloadAction<IWord[]>) {
+      state.allAnswers = action.payload;
+    },
+    setWordsByLevel(state, action: PayloadAction<IWord[]>) {
+      state.currentQuestionsSet = action.payload;
+      state.answers = getAnswers(
+        state.allAnswers,
+        state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
+      );
+    },
+    startChallengeByLevel(state, action: PayloadAction<string>) {
       state.challengeLevel = action.payload;
+      state.isChallengeStarted = true;
     },
     selectAnswer(state, action: PayloadAction<string>) {
       if (
@@ -39,12 +52,12 @@ const challengeSlice = createSlice({
         state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
       ) {
         state.rightAnswers.push(
-          state.currentQuestionsSet[state.currentQuestionIndex].id
+          state.currentQuestionsSet[state.currentQuestionIndex]._id!
         );
         state.currentRightStreak++;
       } else {
         state.wrongAnswers.push(
-          state.currentQuestionsSet[state.currentQuestionIndex].id
+          state.currentQuestionsSet[state.currentQuestionIndex]._id!
         );
         if (state.currentRightStreak > state.bestGameStreak)
           state.bestGameStreak = state.currentRightStreak;
@@ -57,8 +70,8 @@ const challengeSlice = createSlice({
         state.currentAnswer = '';
         state.currentQuestionIndex++;
         state.answers = getAnswers(
-          state.currentQuestionsSet,
-          state.currentQuestionIndex
+          state.allAnswers,
+          state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
         );
       } else {
         state.currentAnswer = '';
@@ -93,8 +106,8 @@ const challengeSlice = createSlice({
       const allLevelWords = [...action.payload];
       state.currentQuestionsSet = allLevelWords.slice(0, 10);
       state.answers = getAnswers(
-        state.currentQuestionsSet,
-        state.currentQuestionIndex
+        state.allAnswers,
+        state.currentQuestionsSet[state.currentQuestionIndex].wordTranslate
       );
       state.isChallengeStarted = true;
     },
@@ -109,11 +122,13 @@ const challengeSlice = createSlice({
 });
 
 export const {
-  startChallenge,
+  setAnswersSet,
+  startChallengeByLevel,
   selectAnswer,
   submitAnswer,
   saveDailyResults,
   setInitialChallengeState,
+  setWordsByLevel,
 } = challengeSlice.actions;
 
 export default challengeSlice.reducer;

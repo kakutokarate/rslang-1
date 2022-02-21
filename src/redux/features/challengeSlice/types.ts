@@ -2,9 +2,11 @@ import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 
 export interface IChallengeState {
+  isStartedFromTextbook: boolean;
   challengeLevel: string;
   currentQuestionsSet: Array<IWord>;
   currentQuestionIndex: number;
+  allAnswers: Array<IWord>;
   answers: Array<string>;
   currentAnswer: string;
   rightAnswers: Array<string>;

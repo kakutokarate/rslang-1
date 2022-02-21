@@ -4,9 +4,9 @@ import { NUM_OF_ANSWER_OPTIONS } from './challengeSlice';
 
 export const getAnswers = (
   arr: Array<IWord>,
-  currentQuestionIndex: number
+  currentAnswer: string
 ): Array<string> => {
-  let answers = [arr[currentQuestionIndex].wordTranslate];
+  let answers = [currentAnswer];
   while (answers.length < NUM_OF_ANSWER_OPTIONS) {
     let randomAnswer = getRandomValueFromArray(
       [...arr].map((el) => el.wordTranslate)
