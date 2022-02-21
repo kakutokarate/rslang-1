@@ -12,7 +12,8 @@ import {
   ISignIn,
 } from './types';
 
-export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
+// export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
+export const BASE_URL = 'https://react-rslang-fgriff.herokuapp.com';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',

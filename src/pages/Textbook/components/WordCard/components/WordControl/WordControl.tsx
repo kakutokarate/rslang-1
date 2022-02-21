@@ -45,8 +45,8 @@ const WordControl: FC<IWordControlProps> = ({
         <button onClick={onDeleteWord}>Удалить слово</button>
       )}
       <Statistics
-        sprintStat={userWord?.optional.sprint}
-        audiochallengeStat={userWord?.optional.audiochallenge}
+        sprintStat={userWord?.optional?.sprint}
+        audiochallengeStat={userWord?.optional?.audiochallenge}
       />
     </StyledWordControl>
   );
