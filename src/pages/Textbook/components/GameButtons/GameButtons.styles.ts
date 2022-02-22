@@ -6,6 +6,7 @@ export const StyledWrapper = styled.div<{ learnedWordCount: number | false }>`
   justify-content: space-between;
   align-self: center;
   pointer-events: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'none' : 'auto'};
+  margin-top: 20px;
 
   @media (max-width: 475px) {
     width: 400px;
