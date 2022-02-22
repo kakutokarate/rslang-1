@@ -8,6 +8,10 @@ export const StyledWrapper = styled.div<{ learnedWordCount: number | false }>`
   pointer-events: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'none' : 'auto'};
   margin-top: 20px;
 
+  @media (max-width: 615px) {
+    margin-left: 0;
+  }
+  
   @media (max-width: 475px) {
     width: 400px;
   }

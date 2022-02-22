@@ -8,13 +8,12 @@ import { Wrapper } from './Textbook.styles';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { fetchWords, getUserWords } from 'redux/thunks';
 import { combineAllWords } from 'redux/features/textbookSlice/textBookSlice';
-import GameButtons from './components/GameButtons';
 import Footer from 'components/Footer';
 
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
 
-  const { groupNumber, pageNumber, mode, words } = useTypedSelector(
+  const { groupNumber, pageNumber, mode } = useTypedSelector(
     (state) => state.textbook
   );
 
@@ -43,15 +42,7 @@ const Textbook: FC = () => {
     }
   }, [groupNumber, pageNumber, mode]);
 
-  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
-    if (w.userWord) {
-      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
-        return accum += 1;
-      }
-    }
 
-    return accum += 0;
-  }, 0);
 
   return (
     <Wrapper>
@@ -59,9 +50,8 @@ const Textbook: FC = () => {
         <Title>Учебник</Title>
         <ContentWrapper>
           <Categories />
-          <CardsWrapper learnedWordCount={learnedWordCount} />
+          <CardsWrapper />
         </ContentWrapper>
-        <GameButtons learnedWordCount={learnedWordCount} />
       </Container>
       <Footer />
     </Wrapper>
