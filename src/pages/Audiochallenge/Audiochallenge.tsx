@@ -13,8 +13,8 @@ import LevelPicker from './components/LevelPicker';
 const Audiochallenge: FC = () => {
   const { isStartedFromTextbook, isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
   const { fetchAllWordsFulfilled, allWords } = useTypedSelector(state => state.words);
-  const group = Number(localStorage.getItem('groupNumber-nsv')) - 1 || 0;
-  const page = Number(localStorage.getItem('pageNumber-nsv')) - 1 || 0;
+  const group = localStorage.getItem('groupNumber-nsv') ? Number(localStorage.getItem('groupNumber-nsv')) - 1 : 0;
+  const page = localStorage.getItem('pageNumber-nsv') ? Number(localStorage.getItem('pageNumber-nsv')) - 1 : 0;
   const dispatch = useTypedDispatch();
   const user = localStorage.getItem('authUserData-zm');
   const isShowLevel = !isStartedFromTextbook && !isChallengeStarted && !showResult && fetchAllWordsFulfilled;
