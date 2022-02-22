@@ -22,30 +22,19 @@ export const combineWords = (clearWords: IWord[], userWords: IWord[]) => {
 export const buildUserWord = (id: string, words: IWord[], wordType: 'difficult' | 'easy') => {
   const idx = words.findIndex((w) => w.id === id);
 
-  if (wordType === 'difficult') {
-    return {
-      ...words[idx].userWord,
-      difficulty: wordType,
-      optional: {
-        ...words[idx].userWord?.optional!,
-        sprint: { ...words[idx].userWord?.optional.sprint! },
-        audiochallenge: {
-          ...words[idx].userWord?.optional.audiochallenge!
-        },
-      },
-    };
-  } else {
-    return {
-      ...words[idx].userWord,
-      difficulty: wordType,
-      optional: {
-        ...words[idx].userWord?.optional!,
-        counter: 3,
-        sprint: { ...words[idx].userWord?.optional.sprint! },
-        audiochallenge: {
-          ...words[idx].userWord?.optional.audiochallenge!
-        },
-      },
-    };
-  }
+  return {
+    ...words[idx].userWord,
+    difficulty: wordType,
+    optional: {
+      ...words[idx].userWord?.optional!,
+      counter: wordType === 'difficult' ? 0 : 3,
+      wordId: id,
+      sprint: words[idx].userWord?.optional.sprint!
+        ? { ...words[idx].userWord?.optional.sprint! }
+        : { rightCounter: 0, wrongCounter: 0 },
+      audiochallenge: words[idx].userWord?.optional.audiochallenge!
+        ? { ...words[idx].userWord?.optional.audiochallenge! }
+        : { rightCounter: 0, wrongCounter: 0 },
+    },
+  };
 };
