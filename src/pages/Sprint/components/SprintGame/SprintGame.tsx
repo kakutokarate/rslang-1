@@ -6,7 +6,11 @@ import Intro from "./components/Intro";
 import { Wrapper } from "./SprintGame.styled";
 
 const SprintGame: FC = () => {
-  const { isSprintRunning, isGameOver } = useTypedSelector(state => state.sprint);
+  const {
+    isSprintRunning,
+    isGameOver,
+    isStartedFromTextbook
+  } = useTypedSelector(state => state.sprint);
 
   if (isGameOver) {
     return (
@@ -17,10 +21,9 @@ const SprintGame: FC = () => {
   } {
     return (
       <Wrapper>
-        {isSprintRunning
-          ? <Game />
-          : <Intro />
-        }
+        {isSprintRunning && !isStartedFromTextbook && <Game />}
+        {!isSprintRunning && !isStartedFromTextbook && <Intro />}
+        {isSprintRunning && isStartedFromTextbook && <Game />}
       </Wrapper>
     );
   }

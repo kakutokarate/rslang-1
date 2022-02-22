@@ -51,7 +51,7 @@ const Header: FC = () => {
 
           } catch (e) {
             if (e instanceof Error) {
-              console.log(e);
+              // console.log(e);
               logoutHandler();
             }
           }

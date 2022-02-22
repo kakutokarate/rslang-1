@@ -4,7 +4,7 @@ import { Wrapper } from "./SprintHeader.styled";
 const SprintHeader: FC = () => {
   return (
     <Wrapper>
-      SprintHeader
+
     </Wrapper>
   );
 };

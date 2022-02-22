@@ -12,8 +12,8 @@ import {
   ISignIn,
 } from './types';
 
-export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
-// export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
+//export const BASE_URL = 'https://zoukman-rslang.herokuapp.com';
+export const BASE_URL = 'https://rsschool-ll.herokuapp.com';
 
 export const createUser = createAsyncThunk(
   'thunks/createUser',
@@ -98,8 +98,7 @@ export const fetchWords = createAsyncThunk(
   async (pageData: ILoadingPageData, thunkAPI) => {
     try {
       const response = await axios(
-        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${
-          pageData.savedPageNumber - 1
+        `${BASE_URL}/words?group=${pageData.savedGroupNumber - 1}&page=${pageData.savedPageNumber - 1
         }`
       );
 
