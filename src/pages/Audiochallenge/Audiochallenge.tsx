@@ -5,9 +5,9 @@ import { NUM_OF_QUESTIONS, setAnswersSet, setInitialChallengeState, setWordsByLe
 import ChallengeCard from './components/ChallengeCard';
 import ResultsTable from './components/ResultsTable';
 
-import { Wrapper } from './Audiochallenge.styles';
-import { getWordsByGroup, getWordsByPageAndGroup, getWordsFromTextbookForUser, shuffleArray } from 'shared/utils';
-import { CircularProgress } from '@mui/material';
+import { StyledAlert, Wrapper } from './Audiochallenge.styles';
+import { getWordsByPageAndGroup, getWordsFromTextbookForUser, shuffleArray } from 'shared/utils';
+import { Alert, CircularProgress } from '@mui/material';
 import LevelPicker from './components/LevelPicker';
 
 const Audiochallenge: FC = () => {
@@ -58,6 +58,7 @@ const Audiochallenge: FC = () => {
   return (
     <Wrapper>
       {!fetchAllWordsFulfilled && <CircularProgress />}
+      {isChallengeStarted && !currentQuestionsSet.length && <StyledAlert severity="info">Слова для игры не найдены. Перезапустите игру.</StyledAlert>}
       {isShowLevel && <LevelPicker />}
       {fetchAllWordsFulfilled && isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
       {showResult && <ResultsTable />}

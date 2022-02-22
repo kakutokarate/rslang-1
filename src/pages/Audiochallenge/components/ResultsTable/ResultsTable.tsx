@@ -15,7 +15,6 @@ import { StyledResultsTable, StyledRightAnswers, StyledWrongAnswers } from './Re
 
 const ResultsTable: FC = () => {
   const { rightAnswers, wrongAnswers, bestGameStreak } = useTypedSelector(state => state.challenge);
-  console.log(rightAnswers, wrongAnswers);
   const rightAnswersPercent = (rightAnswers.length + wrongAnswers.length) > 0
     ? Math.round((rightAnswers.length / (rightAnswers.length + wrongAnswers.length)) * 100) : 0;
   const prevStatistic = useTypedSelector(state => state.statistic.statisticData);
