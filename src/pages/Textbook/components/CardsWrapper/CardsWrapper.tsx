@@ -1,14 +1,15 @@
 import { CircularProgress, Pagination } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { changePageNumber, makeWordDifficult, makeWordLearned } from 'redux/features/textbookSlice/textBookSlice';
 import { buildUserWord } from 'redux/features/textbookSlice/utils';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { createUserWord, deleteUserWord, getUserWords, updateCurrentWord } from 'redux/thunks';
+import GameButtons from '../GameButtons';
 import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
-import { ICardsWrapperProps } from './types';
+import CardsContainer from './components';
 
-const CardsWrapper: FC<ICardsWrapperProps> = ({ learnedWordCount }) => {
+const CardsWrapper = () => {
   const { error, status, words, isWordDeleted, mode, difficultWords } = useTypedSelector((state) => state.textbook);
   const dispatch = useTypedDispatch();
 
@@ -123,11 +124,23 @@ const CardsWrapper: FC<ICardsWrapperProps> = ({ learnedWordCount }) => {
   const showPagination =
     status === 'resolved' && Boolean(words.length) && mode === 'textbook';
 
+  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
+    if (w.userWord) {
+      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
+        return accum += 1;
+      }
+    }
+
+    return accum += 0;
+  }, 0);
+
   return (
     <StyledCardsWrapper learnedWordCount={learnedWordCount}>
       {status === 'pending' && <CircularProgress color='info' />}
       {error && <h2>{error}</h2>}
-      {status === 'resolved' && wordCards}
+      <CardsContainer>
+        {status === 'resolved' && (wordCards.length ? wordCards : <span className='empty'>{'Слов нет'}</span>)}
+      </CardsContainer>
       {showPagination && (
         <Pagination
           sx={{ marginLeft: 'auto', marginRight: 'auto' }}
@@ -137,6 +150,7 @@ const CardsWrapper: FC<ICardsWrapperProps> = ({ learnedWordCount }) => {
           onChange={(_, page) => onPageChange(page)}
         />
       )}
+      <GameButtons learnedWordCount={learnedWordCount} />
     </StyledCardsWrapper>
   );
 };
