@@ -28,4 +28,8 @@ export const GameButton = styled.div<{ img: string }>`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+  }
 `;

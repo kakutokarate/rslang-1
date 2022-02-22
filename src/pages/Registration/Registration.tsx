@@ -40,9 +40,9 @@ const Registration: FC = () => {
       {!isUserCreated && (
         <div>
           <RegistrationForm />
-          <div>
+          <h3>
             Уже зарегистрировались? <span><Link to='/auth'>Войти в приложение</Link></span>
-          </div>
+          </h3>
         </div>
       )}
     </Wrapper>
