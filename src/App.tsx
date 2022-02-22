@@ -8,15 +8,17 @@ import Sprint from "pages/Sprint";
 import Statistics from "pages/Statistics";
 import Textbook from "pages/Textbook";
 import { FC, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { Wrapper } from "App.styled";
+import { setIsGameOver, setIsSprintRunning } from "redux/features/sprintSlice";
 
 const App: FC = () => {
   const dispatch = useTypedDispatch();
   const { authUserData } = useTypedSelector(state => state.auth);
   const { lastIntervalID } = useTypedSelector(state => state.sprint);
+  const location = useLocation();
 
   useEffect(() => {
     const authUserDataLS = localStorage.getItem('authUserData-zm');
@@ -28,6 +30,13 @@ const App: FC = () => {
       clearInterval(lastIntervalID);
     }
   }, [authUserData, lastIntervalID]);
+
+  useEffect(() => {
+    if (location.pathname !== '/sprint') {
+      dispatch(setIsSprintRunning(false));
+      dispatch(setIsGameOver(true));
+    }
+  }, [location]);
 
   return (
     <Wrapper>
