@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -15,4 +16,14 @@ export const Wrapper = styled.div`
   @media (max-width: 980px) {
     padding-top: 0;
   }
+`;
+
+export const StyledAlert = styled(Alert)`
+  width: 75%;
+  min-width: 300px;
+  text-transform: none;
+  color: #111827;
+  font-weight: 400;
+  font-size: 0.5rem;
+  border-radius: 10px;
 `;
