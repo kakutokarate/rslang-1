@@ -10,8 +10,9 @@ import { Wrapper } from "./Sprint.styled";
 const Sprint: FC = () => {
   const dispatch = useTypedDispatch();
   const { isStartedFromTextbook } = useTypedSelector(state => state.sprint);
-  const { pageNumber, groupNumber } = useTypedSelector(state => state.textbook);
   const { allWords } = useTypedSelector(state => state.words);
+  const pageNumber = localStorage.getItem('pageNumber-nsv') ? Number(localStorage.getItem('pageNumber-nsv')) - 1 : 0;
+  const groupNumber = localStorage.getItem('groupNumber-nsv') ? Number(localStorage.getItem('groupNumber-nsv')) - 1 : 0;
 
   useEffect(() => {
     dispatch(fetchAllWords());
