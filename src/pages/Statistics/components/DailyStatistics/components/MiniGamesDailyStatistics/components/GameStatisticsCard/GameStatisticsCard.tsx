@@ -1,3 +1,4 @@
+import { ArrowRight } from '@mui/icons-material';
 import { FC } from "react";
 import { AUDIOCHALLENGE } from 'shared/utils/constants';
 import { StyledGameStatisticsCard } from './GameStatisticsCard.styles';
@@ -10,9 +11,9 @@ const GameStatisticsCard: FC<IGameStatisticsCardProps> = ({ game, newWordsCount,
   return (
     <StyledGameStatisticsCard>
       <h3>{gameName}</h3>
-      <p>{`Изучено ${newWordsCount} слов`}</p>
-      <p>{`Правильных ответов: ${rightWordsPercent}%`}</p>
-      <p>{`Самая длинная серия правильных ответов: ${bestStreak}`}</p>
+      <p><ArrowRight /> <span>{`Изучено ${newWordsCount} слов`}</span></p>
+      <p><ArrowRight /> <span>{`Правильных ответов: ${rightWordsPercent}%`}</span></p>
+      <p><ArrowRight /> <span>{`Самая длинная серия правильных ответов: ${bestStreak}`}</span></p>
     </StyledGameStatisticsCard>
   );
 };

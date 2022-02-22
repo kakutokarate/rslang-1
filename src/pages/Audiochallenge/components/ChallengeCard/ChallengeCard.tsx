@@ -8,6 +8,7 @@ import {
   StyledChallengeCard,
   StyledButton,
   StyledRightAnswer,
+  StyledQuestionWrapper,
 } from './ChallengeCard.styles';
 import MemoizedAudio from '../Audio';
 import correctSound from 'assets/sounds/correct_answer.wav';
@@ -47,17 +48,22 @@ const ChallengeCard: FC = () => {
       if (correctAnswer != answerText) wrongAudio.play();
       dispatch(selectAnswer(answerText));
     }
-
   }
 
   const handleNextClick = () => {
     dispatch(submitAnswer());
   }
 
+  const handleDontKnowClick = () => {
+    dispatchSelectAnswer('false');
+  }
+
   return (
     <StyledChallengeCard>
-      <MemoizedAudio src={currentQuestionsSet[currentQuestionIndex].audio} />
-      {currentAnswer && <StyledRightAnswer>{question}</StyledRightAnswer>}
+      <StyledQuestionWrapper>
+        <MemoizedAudio src={currentQuestionsSet[currentQuestionIndex].audio} />
+        {currentAnswer && <StyledRightAnswer>{question}</StyledRightAnswer>}
+      </StyledQuestionWrapper>
       <StyledAnswersWrapper>
         {answers.map((answer, index) =>
           <Answer
@@ -70,7 +76,10 @@ const ChallengeCard: FC = () => {
           />)}
       </StyledAnswersWrapper>
       {currentAnswer && <StyledButton onClick={handleNextClick}>
-        NEXT
+        ВПЕРЕД
+      </StyledButton>}
+      {!currentAnswer && <StyledButton onClick={handleDontKnowClick}>
+        НЕ ЗНАЮ
       </StyledButton>}
     </StyledChallengeCard>
   );

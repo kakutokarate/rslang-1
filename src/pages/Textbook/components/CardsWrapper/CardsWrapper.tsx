@@ -6,8 +6,9 @@ import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { createUserWord, deleteUserWord, getUserWords, updateCurrentWord } from 'redux/thunks';
 import WordCard from '../WordCard';
 import { StyledCardsWrapper } from './CardsWrapper.styles';
+import { ICardsWrapperProps } from './types';
 
-const CardsWrapper: FC = () => {
+const CardsWrapper: FC<ICardsWrapperProps> = ({ learnedWordCount }) => {
   const { error, status, words, isWordDeleted, mode, difficultWords } = useTypedSelector((state) => state.textbook);
   const dispatch = useTypedDispatch();
 
@@ -121,17 +122,6 @@ const CardsWrapper: FC = () => {
 
   const showPagination =
     status === 'resolved' && Boolean(words.length) && mode === 'textbook';
-
-  // Если каждое слово сложное или изученное, то сумма будет 20 
-  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
-    if (w.userWord) {
-      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
-        return accum += 1;
-      }
-    }
-
-    return accum += 0;
-  }, 0);
 
   return (
     <StyledCardsWrapper learnedWordCount={learnedWordCount}>

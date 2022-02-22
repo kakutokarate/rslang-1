@@ -2,18 +2,22 @@ import { IStatistic } from 'model/IStatistic';
 import { IUserWord } from 'model/IUserWord';
 import { IWord } from 'model/IWord';
 import { FC, useEffect } from 'react';
-import { saveDailyResults } from 'redux/features/challengeSlice';
+import { saveDailyResults, setInitialChallengeState } from 'redux/features/challengeSlice';
 import { prepareNewStatistic } from 'redux/features/statisticSlice/utils';
 import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { postUserWord, sendStatistic, updateUserWord } from 'redux/thunks';
 import { updateUserWordData } from 'shared/utils';
 import { AUDIOCHALLENGE } from 'shared/utils/constants';
+import { StyledButton } from '../ChallengeCard/ChallengeCard.styles';
 import ResultsItem from '../ResultsItem';
 
-import { StyledResultsTable } from './ResultsTable.styles';
+import { StyledResultsTable, StyledRightAnswers, StyledWrongAnswers } from './ResultsTable.styles';
 
 const ResultsTable: FC = () => {
-  const { rightAnswers, wrongAnswers } = useTypedSelector(state => state.challenge);
+  const { rightAnswers, wrongAnswers, bestGameStreak } = useTypedSelector(state => state.challenge);
+  console.log(rightAnswers, wrongAnswers);
+  const rightAnswersPercent = (rightAnswers.length + wrongAnswers.length) > 0
+    ? Math.round((rightAnswers.length / (rightAnswers.length + wrongAnswers.length)) * 100) : 0;
   const prevStatistic = useTypedSelector(state => state.statistic.statisticData);
   const allWords = useTypedSelector(state => state.words.allWords);
   const rightWords: Array<IWord> = [];
@@ -51,14 +55,20 @@ const ResultsTable: FC = () => {
     } else dispatch(saveDailyResults());
   }, [dispatch]);
 
+  const handleNextGameClick = () => {
+    dispatch(setInitialChallengeState());
+  }
 
   return (
     <StyledResultsTable>
-      <h2>РЕЗУЛЬТАТЫ АУДИОВЫЗОВА</h2>
-      <div>Ошибок - <span>{wrongAnswers.length}</span></div>
+      <h2>РЕЗУЛЬТАТЫ ИГРЫ</h2>
+      <p>{`Вы ответили правильно на ${rightAnswersPercent}%`}</p>
+      {bestGameStreak > 0 && <p>{`Лучшая серия ответов - ${bestGameStreak}`}</p>}
+      <StyledWrongAnswers>Ошибок - <span>{wrongAnswers.length}</span></StyledWrongAnswers>
       {wrongAnswers.map(el => <ResultsItem key={el} index={el} />)}
-      <div>Знаю - <span>{rightAnswers.length}</span></div>
+      <StyledRightAnswers>Знаю - <span>{rightAnswers.length}</span></StyledRightAnswers>
       {rightAnswers.map(el => <ResultsItem key={el} index={el} />)}
+      <StyledButton onClick={(() => handleNextGameClick())}>Сыграть снова</StyledButton>
     </StyledResultsTable>
   )
 }

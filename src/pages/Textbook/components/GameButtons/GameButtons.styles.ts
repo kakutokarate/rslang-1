@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const StyledWrapper = styled.div`
+export const StyledWrapper = styled.div<{ learnedWordCount: number | false }>`
   width: 450px;
   display: flex;
   justify-content: space-between;
   align-self: center;
-  /* pointer-events: none; */
+  pointer-events: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'none' : 'auto'};
 
   @media (max-width: 475px) {
     width: 400px;

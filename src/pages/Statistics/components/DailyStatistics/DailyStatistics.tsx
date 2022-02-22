@@ -1,7 +1,8 @@
+import { Alert } from '@mui/material';
 import { FC } from "react";
 import AggregatedDailyStatistics from './components/AggregatedDailyStatistics';
 import MiniGamesDailyStatistics from './components/MiniGamesDailyStatistics';
-import { StyledDailyStatistics } from './DailyStatistics.styles';
+import { StyledAlert, StyledDailyStatistics } from './DailyStatistics.styles';
 
 const DailyStatistics: FC = () => {
   const user = localStorage.getItem('authUserData-zm');
@@ -16,7 +17,7 @@ const DailyStatistics: FC = () => {
   return (
     <StyledDailyStatistics>
       <h2>Статистика за сегодня</h2>
-      {isNoData && <p>Недостаточно данных для отображения статистики. Сыграйте в мини-игры!</p>}
+      {isNoData && <StyledAlert severity="info">Недостаточно данных. Сыграйте в мини-игру!</StyledAlert>}
       <AggregatedDailyStatistics />
       {!isNoData && <MiniGamesDailyStatistics statistics={statistics} />}
     </StyledDailyStatistics>

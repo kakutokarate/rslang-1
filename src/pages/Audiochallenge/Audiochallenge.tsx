@@ -5,17 +5,17 @@ import { NUM_OF_QUESTIONS, setAnswersSet, setInitialChallengeState, setWordsByLe
 import ChallengeCard from './components/ChallengeCard';
 import ResultsTable from './components/ResultsTable';
 
-import { Wrapper, StyledButtonsRow } from './Audiochallenge.styles';
+import { Wrapper } from './Audiochallenge.styles';
 import { getWordsByGroup, getWordsByPageAndGroup, getWordsFromTextbookForUser, shuffleArray } from 'shared/utils';
 import { CircularProgress } from '@mui/material';
+import LevelPicker from './components/LevelPicker';
 
 const Audiochallenge: FC = () => {
   const { isStartedFromTextbook, isChallengeStarted, showResult, currentQuestionsSet } = useTypedSelector(state => state.challenge);
-  const { fetchAllWordsFulfilled, fetchUserWordsFulfilled, allWords } = useTypedSelector(state => state.words);
+  const { fetchAllWordsFulfilled, allWords } = useTypedSelector(state => state.words);
   const group = Number(localStorage.getItem('groupNumber-nsv')) - 1 || 0;
   const page = Number(localStorage.getItem('pageNumber-nsv')) - 1 || 0;
   const dispatch = useTypedDispatch();
-  const challengeLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const user = localStorage.getItem('authUserData-zm');
   const isShowLevel = !isStartedFromTextbook && !isChallengeStarted && !showResult && fetchAllWordsFulfilled;
 
@@ -55,25 +55,10 @@ const Audiochallenge: FC = () => {
     };
   }, []);
 
-  const onSubmitLevel = (level: number) => {
-    const levelWords = getWordsByGroup(allWords, level);
-    const gameSet = shuffleArray(levelWords).slice(0, NUM_OF_QUESTIONS);
-    dispatch(setAnswersSet(levelWords));
-    dispatch(setWordsByLevel(gameSet));
-    dispatch(startChallengeByLevel(level.toString()));
-  }
-
   return (
     <Wrapper>
       {!fetchAllWordsFulfilled && <CircularProgress />}
-      {isShowLevel &&
-        <div>Выберите сложность</div>}
-      {isShowLevel && <StyledButtonsRow>
-        {challengeLevels.map(el =>
-          <div key={el} onClick={() => onSubmitLevel(challengeLevels.indexOf(el))}>{el}</div>
-        )}
-      </StyledButtonsRow>
-      }
+      {isShowLevel && <LevelPicker />}
       {fetchAllWordsFulfilled && isChallengeStarted && !showResult && currentQuestionsSet.length && <ChallengeCard />}
       {showResult && <ResultsTable />}
     </Wrapper>
