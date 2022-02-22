@@ -17,6 +17,7 @@ import Subtitle from "./components/Subtitle";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Link from '@mui/material/Link';
+import Footer from "components/Footer";
 
 const Home: FC = () => {
   return (
@@ -249,6 +250,7 @@ const Home: FC = () => {
           </CardContent>
         </Card>
       </Container>
+      <Footer />
     </Wrapper>
   );
 

@@ -3,13 +3,15 @@ import Charts from "./components/Charts";
 import DailyStatistics from './components/DailyStatistics';
 import { Wrapper } from "./Statistics.styles";
 import { Divider } from '@mui/material';
+import Footer from "components/Footer";
 
 const Statistics: FC = () => {
   return (
-    <Wrapper> 
+    <Wrapper>
       <DailyStatistics />
       <Divider />
       <Charts />
+      <Footer />
     </Wrapper>
   );
 };

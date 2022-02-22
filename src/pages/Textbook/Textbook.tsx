@@ -9,6 +9,7 @@ import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { fetchWords, getUserWords } from 'redux/thunks';
 import { combineAllWords } from 'redux/features/textbookSlice/textBookSlice';
 import GameButtons from './components/GameButtons';
+import Footer from 'components/Footer';
 
 const Textbook: FC = () => {
   const dispatch = useTypedDispatch();
@@ -48,7 +49,7 @@ const Textbook: FC = () => {
 
     return accum += 0;
   }, 0);
-  
+
   return (
     <Wrapper>
       <Container>
@@ -59,6 +60,7 @@ const Textbook: FC = () => {
         </ContentWrapper>
         <GameButtons learnedWordCount={learnedWordCount} />
       </Container>
+      <Footer />
     </Wrapper>
   );
 };
