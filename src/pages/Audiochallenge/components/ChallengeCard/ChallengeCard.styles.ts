@@ -6,6 +6,9 @@ export const StyledChallengeCard = styled.div`
   justify-content: space-between;
   & * {
     margin-bottom: 30px;
+    @media (max-width: 980px) {
+      margin-bottom: 0;
+    }
   }
 `;
 
@@ -13,11 +16,15 @@ export const StyledAnswersWrapper = styled.div`
   width: 100%;
   margin: 20px 0 70px;
   padding: 10px;
-  list-style-position: inside;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 980px) {
+    flex-direction: column;
+    margin-top: 0;
+    width: 320px;
+  }
 `;
 
 export const StyledButton = styled.button`
@@ -49,4 +56,7 @@ export const StyledQuestionWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media (max-width: 980px) {
+    height: 50px;
+  }
 `;

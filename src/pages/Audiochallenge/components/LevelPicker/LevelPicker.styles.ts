@@ -33,19 +33,25 @@ export const StyledButtonsRow = styled.div`
       border: 1px solid rgba(59, 130, 246);
     }
   }
+
   @media (max-width: 768px) {
-    & div {
-      padding: 0.3rem;
-      font-size: 1.6rem;
-    }
-  }
-  @media (max-width: 540px) {
     flex-direction: column;
-    flex: 1;
     & div {
       font-size: 2rem;
       text-align: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.7rem;
+      padding: 0.3rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    flex-direction: column;
+    width: 300px;
+    & div {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      padding: 0.3rem;
     }
   }
 `;

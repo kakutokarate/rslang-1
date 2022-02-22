@@ -28,4 +28,11 @@ export const StyledAnswer = styled.div`
     color: #fff;
     background-color: #111827;
   }
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+  @media (max-width: 980px) {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 `;

@@ -11,4 +11,7 @@ export const StyledAudioIcon = styled(VolumeUp)`
   &:hover {
     transform: scale(1.2);
   }
+  @media (max-width: 980px) {
+    margin-bottom: 0;
+  }
 `;
