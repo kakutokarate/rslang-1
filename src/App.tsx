@@ -13,6 +13,7 @@ import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { Wrapper } from "App.styled";
 import { setIsGameOver, setIsSprintRunning } from "redux/features/sprintSlice";
+import { fetchAllWords } from "redux/thunks";
 
 const App: FC = () => {
   const dispatch = useTypedDispatch();
@@ -23,6 +24,11 @@ const App: FC = () => {
   useEffect(() => {
     const authUserDataLS = localStorage.getItem('authUserData-zm');
     if (authUserDataLS) dispatch(setAuthUserData(JSON.parse(authUserDataLS)));
+    const group = localStorage.getItem('groupNumber-nsv');
+    const page = localStorage.getItem('pageNumber-nsv');
+    if (!group) localStorage.setItem('groupNumber-nsv', String(1));
+    if (!page) localStorage.setItem('pageNumber-nsv', String(1));
+    dispatch(fetchAllWords());
   }, []);
 
   useEffect(() => {
