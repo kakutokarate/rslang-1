@@ -22,234 +22,236 @@ import Footer from "components/Footer";
 const Home: FC = () => {
   return (
     <Wrapper>
-      <Title>RSLang</Title>
-      <Subtitle mt='10px'>Изучай английский язык. Открывай новые возможности</Subtitle>
-      <Subtitle mt='100px'>Возможности приложения</Subtitle>
-      <Container mt='50px'>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            maxWidth: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+      <section>
+        <Title>RSLang</Title>
+        <Subtitle mt='10px'>Изучай английский язык. Открывай новые возможности</Subtitle>
+        <Subtitle mt='100px'>Возможности приложения</Subtitle>
+        <Container mt='50px'>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              maxWidth: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={textbookImg}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Учебник
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Пополни свой словарный запас. У нас более 3500 слов из разных
-              категорий и разной сложности
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            maxWidth: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={textbookImg}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Учебник
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Пополни свой словарный запас. У нас более 3500 слов из разных
+                категорий и разной сложности
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              maxWidth: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={dictionaryImg}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Словарь трудных слов
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Не можешь выучить слово? Добавь его в словарь и оно никуда не
-              денется
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            maxWidth: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={dictionaryImg}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Словарь трудных слов
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Не можешь выучить слово? Добавь его в словарь и оно никуда не
+                денется
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              maxWidth: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={gamesImg}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Игры
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Проверь свои знания в играх. Развивай аудирование и скорость
-              мышления
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            maxWidth: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={gamesImg}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Игры
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Проверь свои знания в играх. Развивай аудирование и скорость
+                мышления
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              maxWidth: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={statisticsImg}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Статистика
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Статистика позволит тебе отслеживать уровень твоих знаний и
-              скорость их получения
-            </Typography>
-          </CardContent>
-        </Card>
-      </Container>
-      <Subtitle mt='100px'>Наша команда</Subtitle>
-      <Container mt='50px'>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            width: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={statisticsImg}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Статистика
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Статистика позволит тебе отслеживать уровень твоих знаний и
+                скорость их получения
+              </Typography>
+            </CardContent>
+          </Card>
+        </Container>
+        <Subtitle mt='100px'>Наша команда</Subtitle>
+        <Container mt='50px'>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              width: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={man1}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Виталий Кошелев
-            </Typography>
-            <Link
-              href="https://github.com/crzoukman"
-              underline="hover"
-              variant="body1"
-              target="_blank"
-              rel="noopener"
-            >
-              crzoukman
-            </Link>
-            <List>
-              <ListItem>Тимлид</ListItem>
-              <ListItem>Авторизация, регистрация</ListItem>
-              <ListItem>Мини-игра "Спринт"</ListItem>
-              <ListItem>Блок статистики</ListItem>
-            </List>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            width: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={man1}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Виталий Кошелев
+              </Typography>
+              <Link
+                href="https://github.com/crzoukman"
+                underline="hover"
+                variant="body1"
+                target="_blank"
+                rel="noopener"
+              >
+                crzoukman
+              </Link>
+              <List>
+                <ListItem>Тимлид</ListItem>
+                <ListItem>Авторизация, регистрация</ListItem>
+                <ListItem>Мини-игра "Спринт"</ListItem>
+                <ListItem>Блок статистики</ListItem>
+              </List>
+            </CardContent>
+          </Card>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              width: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={womanAva}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Нина Ситаева
-            </Typography>
-            <Link
-              href="https://github.com/nina-si"
-              underline="hover"
-              variant="body1"
-              target="_blank"
-              rel="noopener"
-            >
-              nina-si
-            </Link>
-            <List>
-              <ListItem>Мини-игра "Аудиовызов"</ListItem>
-              <ListItem>Методы для сохранения и обновления статистики</ListItem>
-              <ListItem>Блок ежедневной статистики</ListItem>
-            </List>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            paddingTop: "15px",
-            width: 275,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-          }}
-        >
-          <CardMedia
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={womanAva}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Нина Ситаева
+              </Typography>
+              <Link
+                href="https://github.com/nina-si"
+                underline="hover"
+                variant="body1"
+                target="_blank"
+                rel="noopener"
+              >
+                nina-si
+              </Link>
+              <List>
+                <ListItem>Мини-игра "Аудиовызов"</ListItem>
+                <ListItem>Методы для сохранения и обновления статистики</ListItem>
+                <ListItem>Блок ежедневной статистики</ListItem>
+              </List>
+            </CardContent>
+          </Card>
+          <Card
             sx={{
-              backgroundPosition: "center",
-              objectFit: "contain",
+              paddingTop: "15px",
+              width: 275,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             }}
-            component="img"
-            height="140"
-            image={man2}
-            alt="textbook"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Вячеслав Розов
-            </Typography>
-            <Link
-              href="https://github.com/fgriff"
-              underline="hover"
-              variant="body1"
-              target="_blank"
-              rel="noopener"
-            >
-              fgriff
-            </Link>
-            <List>
-              <ListItem>Главная страница</ListItem>
-              <ListItem>Электронный учебник</ListItem>
-              <ListItem>Список слов</ListItem>
-            </List>
-          </CardContent>
-        </Card>
-      </Container>
+          >
+            <CardMedia
+              sx={{
+                backgroundPosition: "center",
+                objectFit: "contain",
+              }}
+              component="img"
+              height="140"
+              image={man2}
+              alt="textbook"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Вячеслав Розов
+              </Typography>
+              <Link
+                href="https://github.com/fgriff"
+                underline="hover"
+                variant="body1"
+                target="_blank"
+                rel="noopener"
+              >
+                fgriff
+              </Link>
+              <List>
+                <ListItem>Главная страница</ListItem>
+                <ListItem>Электронный учебник</ListItem>
+                <ListItem>Список слов</ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        </Container>
+      </section>
       <Footer />
     </Wrapper>
   );

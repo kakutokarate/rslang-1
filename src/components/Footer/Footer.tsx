@@ -29,7 +29,7 @@ const Footer: FC = () => {
         <div>
           <Link to='/'>Главная</Link>
           <Link to='/textbook'>Учебник</Link>
-          <Link to='/statistic'>Статистика</Link>
+          <Link to='/statistics'>Статистика</Link>
         </div>
       </MenuWrapper>
 

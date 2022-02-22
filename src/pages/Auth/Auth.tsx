@@ -37,9 +37,9 @@ const Auth: FC = () => {
       {!isUserAuthorized && (
         <div>
           <AuthForm />
-          <div>
+          <h3>
             Еще не зарегистрировались? <span><Link to='/registration'>Зарегистрироваться сейчас!</Link></span>
-          </div>
+          </h3>
         </div>
       )}
     </Wrapper>
