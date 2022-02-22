@@ -41,7 +41,7 @@ const App: FC = () => {
         <Route path='/sprint' element={<Sprint />} />
         <Route path='/audiochallenge' element={<Audiochallenge />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Wrapper>
   );
 };
