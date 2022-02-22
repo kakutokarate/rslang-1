@@ -10,7 +10,7 @@ const AggregatedDailyStatistics: FC = () => {
     const statKey = `statistic-${(JSON.parse(user)).userId}-zm`;
     const statistics = JSON.parse(localStorage.getItem(statKey)!);
     wordsLearned = statistics ? statistics.allNewWordsCount : 0;
-    rightAnswersPercent = statistics ? Number(statistics.allGamesRight / (statistics.allGamesRight + statistics.allGamesWrong)) * 100 : 0;
+    rightAnswersPercent = statistics ? Math.round(statistics.allGamesRight / (statistics.allGamesRight + statistics.allGamesWrong) * 100) : 0;
   } else if (!user) {
     const statKey = 'statistic-guest-zm';
     const statistics = JSON.parse(localStorage.getItem(statKey)!);
