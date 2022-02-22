@@ -36,6 +36,7 @@ const Answer: FC<AnswerProps> = ({ value, answerText, currentAnswer, correctAnsw
     <StyledAnswer
       isCorrectAnswer={isCorrect}
       isWrongAnswer={isWrong}
+      isDisabled={isButtonsBlocked}
       onClick={() => onSelectAnswer(answerText)}
     >
       {`${value}. ${answerText}`}
