@@ -11,7 +11,8 @@ const SprintGame: FC = () => {
   const {
     isSprintRunning,
     isGameOver,
-    isStartedFromTextbook
+    isStartedFromTextbook,
+    currentPlayedCollection,
   } = useTypedSelector(state => state.sprint);
 
   if (isGameOver) {
@@ -25,7 +26,7 @@ const SprintGame: FC = () => {
       <Wrapper>
         {isSprintRunning && !isStartedFromTextbook && <Game />}
         {!isSprintRunning && !isStartedFromTextbook && <Intro />}
-        {isSprintRunning && isStartedFromTextbook && <Game />}
+        {isSprintRunning && isStartedFromTextbook && currentPlayedCollection.length > 0 && <Game />}
         {!isSprintRunning && isStartedFromTextbook && (
           <section>
             <Box sx={{ width: '80%' }}>

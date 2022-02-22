@@ -30,7 +30,7 @@ const Sprint: FC = () => {
       (async () => {
         if (isStartedFromTextbook) {
           await dispatch(getStatistic(JSON.parse(authData)));
-          await dispatch(fetchAllWords());
+          // await dispatch(fetchAllWords());
           await dispatch(fetchUserWords(JSON.parse(authData)));
           const wordsForTextBook = getWordsFromTextbookForUser(allWords, groupNumber, pageNumber, 20);
           const shuffled = shuffleArray(wordsForTextBook);
@@ -42,7 +42,7 @@ const Sprint: FC = () => {
     } else {
       (async () => {
         if (isStartedFromTextbook) {
-          await dispatch(fetchAllWords());
+          // await dispatch(fetchAllWords());
           const wordsForTextBook = getWordsFromTextbookForUser(allWords, groupNumber, pageNumber, 20);
           const shuffled = shuffleArray(wordsForTextBook);
           dispatch(setIsSprintRunning(true));
