@@ -10,18 +10,27 @@ import Textbook from "pages/Textbook";
 import { FC, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { setAuthUserData } from "redux/features/authSlice";
-import { useTypedDispatch } from "redux/hooks";
+import { useTypedDispatch, useTypedSelector } from "redux/hooks";
+import { Wrapper } from "App.styled";
 
 const App: FC = () => {
   const dispatch = useTypedDispatch();
+  const { authUserData } = useTypedSelector(state => state.auth);
+  const { lastIntervalID } = useTypedSelector(state => state.sprint);
 
   useEffect(() => {
     const authUserDataLS = localStorage.getItem('authUserData-zm');
     if (authUserDataLS) dispatch(setAuthUserData(JSON.parse(authUserDataLS)));
   }, []);
 
+  useEffect(() => {
+    if (!authUserData && lastIntervalID) {
+      clearInterval(lastIntervalID);
+    }
+  }, [authUserData, lastIntervalID]);
+
   return (
-    <div>
+    <Wrapper>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -33,7 +42,7 @@ const App: FC = () => {
         <Route path='/audiochallenge' element={<Audiochallenge />} />
       </Routes>
       <Footer />
-    </div>
+    </Wrapper>
   );
 };
 

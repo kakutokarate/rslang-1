@@ -17,6 +17,7 @@ import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { setAuthUserData } from "redux/features/authSlice";
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import { Icon } from "@mui/material";
+import { setIsGameOver, setIsSprintRunning } from "redux/features/sprintSlice";
 
 const pages = [['Главная', '/'], ['Учебник', '/textbook'], ['Спринт', '/sprint'], ['Аудиовызов', '/audiochallenge'], ['Статистика', '/statistics']];
 const settings = ['Выход'];
@@ -47,6 +48,8 @@ const ResponsiveHeader: FC = () => {
     dispatch(setAuthUserData(null));
     localStorage.removeItem('authUserData-zm');
     navigate('/auth');
+    dispatch(setIsSprintRunning(false));
+    dispatch(setIsGameOver(true));
   };
 
   const login = () => {

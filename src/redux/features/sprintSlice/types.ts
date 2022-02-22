@@ -6,6 +6,7 @@ export interface answeredWord {
   translation: string | null | undefined;
   currentWord: string | null | undefined;
   id: string | null | undefined;
+
 };
 
 export interface ISprintState {
@@ -15,6 +16,9 @@ export interface ISprintState {
   currentWordIndex: number;
   pickedGroup: null | number;
   answeredWords: answeredWord[];
-  lastBestSeries: number,
-  currentCorrectAnswersSeries: number,
+  lastBestSeries: number;
+  currentCorrectAnswersSeries: number;
+  isStartedFromTextbook: boolean;
+  isTextbookWordsFetching: boolean;
+  lastIntervalID: NodeJS.Timer | null;
 };

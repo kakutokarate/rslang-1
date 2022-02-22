@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { LevelBtn, Wrapper } from "./LevelBtns.styled";
+import { Wrapper } from "./LevelBtns.styled";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { setPickedGroup } from "redux/features/sprintSlice";
-
+import Button from '@mui/material/Button';
 
 const LevelBtns: FC = () => {
   const dispatch = useTypedDispatch();
@@ -18,14 +18,19 @@ const LevelBtns: FC = () => {
   return (
     <Wrapper>
       {names.map((name, idx) =>
-        <LevelBtn
+        <Button
+          variant="outlined"
           key={idx}
           onClick={() => clickHandler(idx)}
           disabled={!wereWordsReceived}
-          active={pickedGroup === idx}
+          style={{
+            background: pickedGroup === idx ? '#91bde9' : 'inherit',
+            color: pickedGroup === idx ? 'white' : 'inherit',
+            border: pickedGroup === idx ? 'unset' : '1px solid rgba(25, 118, 210, 0.5)',
+          }}
         >
           {name}
-        </LevelBtn>
+        </Button>
       )}
     </Wrapper>
   );

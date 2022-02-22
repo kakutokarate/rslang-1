@@ -11,6 +11,9 @@ const initialState: ISprintState = {
   answeredWords: [],
   lastBestSeries: 0,
   currentCorrectAnswersSeries: 0,
+  isStartedFromTextbook: false,
+  isTextbookWordsFetching: false,
+  lastIntervalID: null,
 };
 
 export const sprintSlice = createSlice({
@@ -44,6 +47,15 @@ export const sprintSlice = createSlice({
     setLastBestSeries(state, action: PayloadAction<number>) {
       state.lastBestSeries = action.payload;
     },
+    setIsStartedFromTextbook(state, action: PayloadAction<boolean>) {
+      state.isStartedFromTextbook = action.payload;
+    },
+    setIsTextbookWordsFetching(state, action: PayloadAction<boolean>) {
+      state.isTextbookWordsFetching = action.payload;
+    },
+    setLastIntervalID(state, action: PayloadAction<NodeJS.Timer | null>) {
+      state.lastIntervalID = action.payload;
+    },
   },
 });
 
@@ -57,6 +69,9 @@ export const {
   clearAnsweredWords,
   setCurrentCorrectAnswersSeries,
   setLastBestSeries,
+  setIsStartedFromTextbook,
+  setIsTextbookWordsFetching,
+  setLastIntervalID,
 } = sprintSlice.actions;
 
 export default sprintSlice.reducer;

@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import { setIsGameOver, setIsSprintRunning } from 'redux/features/sprintSlice';
-import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
+import { useTypedDispatch } from 'redux/hooks';
+import timerSVG from './assets/images/timer.svg';
+import { HR, TimerWrapper, Wrapper } from './Timer.styles';
 
 const Timer: FC = () => {
-  const [count, setCount] = useState(15);
+  const [count, setCount] = useState(30);
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
@@ -22,9 +24,13 @@ const Timer: FC = () => {
   }, [count]);
 
   return (
-    <div>
-      {count}
-    </div>
+    <Wrapper>
+      <TimerWrapper>
+        <img src={timerSVG} />
+        <div>{count}</div>
+      </TimerWrapper>
+      <HR />
+    </Wrapper>
   );
 };
 
