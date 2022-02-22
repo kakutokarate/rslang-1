@@ -8,18 +8,20 @@ import Sprint from "pages/Sprint";
 import Statistics from "pages/Statistics";
 import Textbook from "pages/Textbook";
 import { FC, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { setAuthUserData } from "redux/features/authSlice";
 import { useTypedDispatch, useTypedSelector } from "redux/hooks";
 import { Wrapper } from "App.styled";
 import { setIsGameOver, setIsSprintRunning } from "redux/features/sprintSlice";
-import { fetchAllWords } from "redux/thunks";
+import { BASE_URL, fetchAllWords } from "redux/thunks";
+import axios from "axios";
 
 const App: FC = () => {
   const dispatch = useTypedDispatch();
   const { authUserData } = useTypedSelector(state => state.auth);
   const { lastIntervalID } = useTypedSelector(state => state.sprint);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const authUserDataLS = localStorage.getItem('authUserData-zm');
@@ -29,6 +31,42 @@ const App: FC = () => {
     if (!group) localStorage.setItem('groupNumber-nsv', String(1));
     if (!page) localStorage.setItem('pageNumber-nsv', String(1));
     dispatch(fetchAllWords());
+
+    if (authUserDataLS) {
+      const parsedAuthData = JSON.parse(authUserDataLS);
+      const userID = parsedAuthData.userId;
+      const refreshToken = parsedAuthData.refreshToken;
+      (async () => {
+        try {
+          const response = await axios.get(
+            BASE_URL + `/users/${userID}/tokens`,
+            {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+            }
+          );
+          const newAuthData = {
+            ...parsedAuthData,
+            token: response.data.token,
+            refreshToken: response.data.refreshToken,
+          };
+          localStorage.removeItem('authUserData-zm');
+          localStorage.setItem('authUserData-zm', JSON.stringify(newAuthData));
+          dispatch(setAuthUserData(newAuthData));
+
+        } catch (e) {
+          if (e instanceof Error) {
+            // console.log(e);
+            dispatch(setAuthUserData(null));
+            localStorage.removeItem('authUserData-zm');
+            navigate('/auth');
+          }
+        }
+      })();
+    }
   }, []);
 
   useEffect(() => {

@@ -57,7 +57,7 @@ const Header: FC = () => {
           }
         })();
 
-      }, 5000);
+      }, 30000);
     }
 
     return () => clearInterval(intervalID);
