@@ -27,11 +27,14 @@ const Textbook: FC = () => {
   useEffect(() => {
     const updateWords = async () => {
       await dispatch(fetchWords({ savedGroupNumber, savedPageNumber }));
-      await dispatch(getUserWords({
-        userId: authUser.userId,
-        token: authUser.token,
-      }));
-      dispatch(combineAllWords());
+
+      if (authUser) {
+        await dispatch(getUserWords({
+          userId: authUser.userId,
+          token: authUser.token,
+        }));
+        dispatch(combineAllWords());
+      }
     }
 
     // Только в режиме учебника комбинируем слова
