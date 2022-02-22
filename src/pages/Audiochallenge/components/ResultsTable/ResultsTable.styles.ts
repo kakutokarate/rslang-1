@@ -4,10 +4,10 @@ export const StyledResultsTable = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 60%;
-  border: 1px solid #fff;
-  border-radius: 10px;
-  padding: 1.5rem;
+  align-items: flex-start;
+  min-width: 300px;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin-top: -35px;
   color: #111827;
   & h2 {
     font-size: 1.25rem;
@@ -17,7 +17,13 @@ export const StyledResultsTable = styled.div`
   }
   & p {
     text-transform: none;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+  @media (max-width: 980px) {
+    margin-top: 0;
   }
 `;
 
@@ -29,6 +35,9 @@ export const StyledWrongAnswers = styled.div`
     background-color: #cb2027;
     border-radius: 25%;
   }
+  @media (max-width: 420px) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const StyledRightAnswers = styled.div`
@@ -38,5 +47,30 @@ export const StyledRightAnswers = styled.div`
     padding: 3px 5px;
     background-color: #95d03a;
     border-radius: 25%;
+  }
+  @media (max-width: 420px) {
+    font-size: 1.4rem;
+  }
+`;
+
+export const StyledButton = styled.button`
+  margin: 0;
+  margin-top: 20px;
+  cursor: pointer;
+  color: rgba(255, 255, 255);
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  text-align: center;
+  border: 1px solid rgba(37, 99, 235);
+  background-color: rgba(37, 99, 235);
+  border-radius: 0.375rem;
+  padding: 0.5rem 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  &:hover {
+    background-color: rgba(59, 130, 246);
+    border: 2px solid rgba(59, 130, 246);
+  }
+  @media (max-width: 420px) {
+    font-size: 1.1rem;
   }
 `;

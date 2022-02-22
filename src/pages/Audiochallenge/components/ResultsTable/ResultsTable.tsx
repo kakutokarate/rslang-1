@@ -8,10 +8,9 @@ import { useTypedDispatch, useTypedSelector } from 'redux/hooks';
 import { postUserWord, sendStatistic, updateUserWord } from 'redux/thunks';
 import { updateUserWordData } from 'shared/utils';
 import { AUDIOCHALLENGE } from 'shared/utils/constants';
-import { StyledButton } from '../ChallengeCard/ChallengeCard.styles';
 import ResultsItem from '../ResultsItem';
 
-import { StyledResultsTable, StyledRightAnswers, StyledWrongAnswers } from './ResultsTable.styles';
+import { StyledButton, StyledResultsTable, StyledRightAnswers, StyledWrongAnswers } from './ResultsTable.styles';
 
 const ResultsTable: FC = () => {
   const { rightAnswers, wrongAnswers, bestGameStreak } = useTypedSelector(state => state.challenge);
@@ -60,7 +59,6 @@ const ResultsTable: FC = () => {
 
   return (
     <StyledResultsTable>
-      <h2>РЕЗУЛЬТАТЫ ИГРЫ</h2>
       <p>{`Вы ответили правильно на ${rightAnswersPercent}%`}</p>
       {bestGameStreak > 0 && <p>{`Лучшая серия ответов - ${bestGameStreak}`}</p>}
       <StyledWrongAnswers>Ошибок - <span>{wrongAnswers.length}</span></StyledWrongAnswers>
