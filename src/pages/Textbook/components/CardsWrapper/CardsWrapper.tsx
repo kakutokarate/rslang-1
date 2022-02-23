@@ -147,10 +147,10 @@ const CardsWrapper = () => {
   const learnedWordCount = mode === 'textbook' && countLearnedWords();
 
   return (
-    <StyledCardsWrapper learnedWordCount={learnedWordCount}>
+    <StyledCardsWrapper>
       {status === 'pending' && <CircularProgress color='info' />}
       {error && <h2>{error}</h2>}
-      <CardsContainer>
+      <CardsContainer learnedWordCount={learnedWordCount}>
         {status === 'resolved' && (wordCards.length ? wordCards : <span className='empty'>{'Слов нет'}</span>)}
       </CardsContainer>
       {showPagination && (
