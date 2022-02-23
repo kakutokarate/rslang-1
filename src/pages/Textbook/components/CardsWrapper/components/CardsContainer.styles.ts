@@ -1,8 +1,16 @@
 import styled from 'styled-components';
 
-export const StyledCardsContainer = styled.div`
+export const StyledCardsContainer = styled.div<{
+  learnedWordCount: { diffCount: number; agg: number } | false;
+}>`
   width: 100%;
   padding: 20px;
+  background: ${({ learnedWordCount }) =>
+    learnedWordCount &&
+    learnedWordCount.agg === 20 &&
+    learnedWordCount.diffCount < 20
+      ? '#dff7df'
+      : '#fff'};
   display: flex;
   gap: 15px;
   justify-content: space-around;

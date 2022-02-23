@@ -6,9 +6,9 @@ import audiochallengeImg from '../../../../assets/images/audiochallenge.png';
 import sprintImg from '../../../../assets/images/sprint.png';
 import { setIsStartedFromTextbook } from 'redux/features/sprintSlice';
 import { FC } from 'react';
-import { ICardsWrapperProps } from '../CardsWrapper/types';
+import { ICardsContainerProps } from '../CardsWrapper/components/types';
 
-const GameButtons: FC<ICardsWrapperProps> = ({ learnedWordCount }) => {
+const GameButtons: FC<ICardsContainerProps> = ({ learnedWordCount }) => {
   const dispatch = useTypedDispatch();
 
   const handleAudiochallengeClick = () => {
