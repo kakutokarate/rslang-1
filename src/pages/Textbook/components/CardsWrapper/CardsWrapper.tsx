@@ -124,15 +124,27 @@ const CardsWrapper = () => {
   const showPagination =
     status === 'resolved' && Boolean(words.length) && mode === 'textbook';
 
-  const learnedWordCount = mode === 'textbook' && words.reduce((accum, w) => {
-    if (w.userWord) {
-      if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
-        return accum += 1;
-      }
-    }
+  const countLearnedWords = () => {
+    const result = {diffCount: 0, agg: 0};
 
-    return accum += 0;
-  }, 0);
+    words.forEach((w) => {
+      if (w.userWord) {
+        if (w.userWord.difficulty === 'difficult' || w.userWord.optional.counter >= 3) {
+          if (w.userWord.difficulty === 'difficult') {
+            result.diffCount += 1;
+          }
+  
+          result.agg += 1;
+        }
+      }
+  
+      result.agg += 0;
+    });
+
+    return result;
+  };
+
+  const learnedWordCount = mode === 'textbook' && countLearnedWords();
 
   return (
     <StyledCardsWrapper learnedWordCount={learnedWordCount}>
@@ -144,7 +156,7 @@ const CardsWrapper = () => {
       {showPagination && (
         <Pagination
           sx={{ marginLeft: 'auto', marginRight: 'auto' }}
-          color={learnedWordCount === 20 ? 'secondary' : 'primary'}
+          color={learnedWordCount && (learnedWordCount.agg === 20 && learnedWordCount.diffCount < 20) ? 'secondary' : 'primary'}
           count={30}
           page={currentPageNumber}
           onChange={(_, page) => onPageChange(page)}
