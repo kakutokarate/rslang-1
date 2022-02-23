@@ -1,3 +1,3 @@
 export interface ICardsWrapperProps {
-  learnedWordCount: number | false;
+  learnedWordCount: { diffCount: number; agg: number } | false;
 }

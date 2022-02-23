@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const StyledWrapper = styled.div<{ learnedWordCount: number | false }>`
+export const StyledWrapper = styled.div<{ learnedWordCount: {diffCount: number, agg: number} | false }>`
   width: 450px;
   display: flex;
   justify-content: space-between;
   align-self: center;
-  pointer-events: ${({ learnedWordCount }) => learnedWordCount === 20 ? 'none' : 'auto'};
+  pointer-events: ${({ learnedWordCount }) => learnedWordCount && (learnedWordCount.agg === 20 && learnedWordCount.diffCount < 20) ? 'none' : 'auto'};
   margin-top: 20px;
 
   @media (max-width: 615px) {
